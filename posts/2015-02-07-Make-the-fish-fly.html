@@ -36,7 +36,7 @@
 <p>For installation guide, check <a href="http://fishshell.com">official site</a> or readme file on <a href="https://github.com/fish-shell/fish-shell">github</a>. After installation you might want to make <code>fish</code> your default shell, so you need to use <code>chsh</code>:</p>
 <pre class="sh"><code>$ chsh -s $(which fish)</code></pre>
 <p>On OS X (and some other systems) you might face an error saying <code>chsh: /path/to/fish: non-standard shell</code>. In this case you need to modify <code>/etc/shells</code> file by adding path to your fish.</p>
-<pre class="sh"><code>$ echo $(which fish) &gt; /etc/shells</code></pre>
+<pre class="sh"><code>$ sudo sh -c 'echo $(which fish) &gt;&gt; /etc/shells'</code></pre>
 <p>In case of any other problems - <a href="http://google.com">may the force be with you</a>. Otherwise - you are ready to dive in. I am not going to write tutorial to <code>fish</code> (mostly because it already has good written one <a href="http://fishshell.com/docs/current/tutorial.html">here</a>). It covers most important aspects of day-to-day <code>fish</code>, but you might also want to read full <a href="http://fishshell.com/docs/current/index.html">documentation</a>. Now I am going to describe some important things.</p>
 <h2 id="fish-first-impression">Fish: first impression</h2>
 <p>And the first thing to notice - <code>fish</code> offers really great auto suggestions that are based on completions and history. When I saw this for the first time - I was really impressed.</p>
