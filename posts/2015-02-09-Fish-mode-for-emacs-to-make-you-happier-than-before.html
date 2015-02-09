@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>d12frosted - Fish-mode for emacs to make you happier than before (or how to implement indentation function for major mode in emacs)</title>
+  <meta charset="UTF-8">
+  <link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+  <link href="http://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css">
+  <link href="../css/all.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+  <header>
+    <ul class="nav-list">
+      <li class="nav-elem nav-left nav-head">
+        <a href="../">d12frosted</a>
+      </li>
+      <li class="nav-elem nav-left ">
+        <a href="../archive.html">Archive</a>
+      </li>
+      <li class="nav-elem nav-right">
+        <a href="https://github.com/d12frosted">
+          <img src="../images/github-icon.png">
+          GitHub
+        </a>
+      </li>
+    </ul>
+  </header>
+
+  <main>
+    <h1>Fish-mode for emacs to make you happier than before (or how to implement indentation function for major mode in emacs)</h1>
+
+<h2 id="tldr">tl;dr</h2>
+<p>I just implemented <code>fish-mode</code> for emacs that is a bit better than existing one. You can grab it <a href="https://github.com/d12frosted/fish-mode">here</a>.</p>
+<h2 id="long-story">Long story</h2>
+<p>While I was working on my <code>fish</code> configurations, I felt acute shortage of <code>fish-mode</code> for emacs. My needs are modest - syntax highlighting and indentation. So I searched for existing modes and found one that is also available on MELPA. As usual I installed it from <a href="https://github.com/wwwjfy/emacs-fish">git</a> and found that it works not as I expected. Syntax highlighting worked not as I wanted and most importantly - indentation was buggy. Especially <code>end</code> term. So I checked the code to fix it. But you know, my emacs lisp fu is pretty weak, so I couldn’t understand where lies the problem (well, definitely the problem is with <code>fish-indent-line</code> function). So I thought that I could implement my own major mode in educational purposes.</p>
+<div class="figure">
+<img src="../images/1423468417-fish-mode.png" />
+
+</div>
+<p>My starting point was tutorial on <a href="http://ergoemacs.org/emacs/elisp_syntax_coloring.html">ergoemacs</a> that was describing how to implement major-mode for syntax highlighting. So pretty quickly I conquered this topic and started working on indentation functions. Fish language is really easy. In this language only blocks change indentation. Block begins with one of block-opening terms (<code>if</code>, <code>function</code>, <code>while</code>, <code>for</code>, <code>begin</code> and <code>switch</code>). Every block is close by <code>end</code>. There is only one construction that makes indentation implementation a bit harder - <code>switch-case</code>, because <code>case</code> opens block and closes previous <code>case</code> block if previous one exists. And there is also another special term <code>else</code> that closes <code>if</code> block, but begins new one. So I started pretty straightforward.</p>
+<pre class="sourceCode commonlisp"><code class="sourceCode commonlisp">(<span class="kw">defun</span><span class="fu"> fish-indent-line </span>()
+  <span class="st">&quot;Indent current line&quot;</span>
+  (interactive)
+
+  (<span class="kw">if</span> (bobp)
+      (indent-line-to <span class="dv">0</span>)
+    (<span class="kw">let</span> (cur-indent)
+      (save-excursion
+        (beginning-of-line)
+        (<span class="kw">cond</span>
+         <span class="co">;; already on line 1, so leave it alone</span>
+         ((<span class="kw">eq</span> (what-line-number) <span class="dv">1</span>)
+          (<span class="kw">setq</span> cur-indent (current-indentation)))
+
+         <span class="co">;; found 'end' - need to move back based on level of matching pair</span>
+         ((looking-at <span class="st">&quot;[ </span>\t<span class="st">]*</span>\\<span class="st">(end</span>\\<span class="st">)&quot;</span>)
+          (<span class="kw">setq</span> cur-indent (fish-get-end-indent)))
+
+         <span class="co">;; found 'case' - need to move forth based on matching switch</span>
+         ((looking-at <span class="st">&quot;[ </span>\t<span class="st">]*</span>\\<span class="st">(case</span>\\<span class="st">)&quot;</span>)
+          (<span class="kw">setq</span> cur-indent (fish-get-case-indent)))
+
+         <span class="co">;; found 'else' - like default condition, but also move left</span>
+         ((looking-at <span class="st">&quot;[ </span>\t<span class="st">]*</span>\\<span class="st">(else</span>\\<span class="st">)&quot;</span>)
+          (<span class="kw">setq</span> cur-indent (<span class="kw">-</span> (fish-get-normal-indent) tab-width)))
+
+         <span class="co">;; default case - indent based on previous non-empty line</span>
+         (<span class="kw">t</span>
+          (<span class="kw">setq</span> cur-indent (fish-get-normal-indent)))))
+      (<span class="kw">if</span> (<span class="kw">&lt;</span> cur-indent <span class="dv">0</span>) (<span class="kw">setq</span> cur-indent <span class="dv">0</span>))
+      (indent-line-to cur-indent))))</code></pre>
+<p>So as you can see, indentation function makes just what I described previously. But it also has some performance improvements. For example, <code>else</code> indentation. Ideally, it should search for matching <code>if</code> term and set indentation level of <code>else</code> to the same level as matching <code>if</code>. But <code>else</code> does make sense only if it is inside of matching <code>if</code> block, so we can use current block indentation level and subtract from it <code>tab-width</code>.</p>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">if</span> <span class="kw">test</span> <span class="ot">$VAR</span> <span class="co"># opens 'if' block</span>
+  <span class="kw">begin</span> <span class="co"># opens 'begin' block</span>
+    <span class="kw">do_something</span>
+  <span class="kw">else</span> <span class="co"># doesn't belong to if, because it's inside of 'begin' block</span>
+  <span class="kw">end</span> <span class="co"># closes 'begin' block - read more to find out why it closes 'begin' and not 'else'</span>
+<span class="kw">end</span> <span class="co"># closes 'if' block</span></code></pre>
+<p>I hope that previous example makes it clear, why we don’t need to search for matching <code>if</code>. First helper function we should read - <code>fish-get-normal-indent</code>.</p>
+<pre class="sourceCode commonlisp"><code class="sourceCode commonlisp">(<span class="kw">defun</span><span class="fu"> fish-get-normal-indent </span>()
+  (interactive)
+  (<span class="kw">let</span> ((not-indented <span class="kw">t</span>) cur-indent)
+    (while not-indented
+      <span class="co">;; move up</span>
+      (forward-line -<span class="dv">1</span>)
+      (<span class="kw">cond</span>
+       <span class="co">;; found block-opening term, so increase indentation level by tab-width</span>
+       ((looking-at <span class="st">&quot;[ </span>\t<span class="st">]*</span>\\<span class="st">(if</span>\\<span class="st">|else</span>\\<span class="st">|function</span>\\<span class="st">|while</span>\\<span class="st">|for</span>\\<span class="st">|begin</span>\\<span class="st">|switch</span>\\<span class="st">|case</span>\\<span class="st">)&quot;</span>)
+        (<span class="kw">setq</span> cur-indent (<span class="kw">+</span> (current-indentation) tab-width))
+        (<span class="kw">setq</span> not-indented <span class="kw">nil</span>))
+
+       <span class="co">;; found empty line, so just skip it</span>
+       ((looking-at <span class="st">&quot;[ </span>\t<span class="st">]*$&quot;</span>))
+
+       <span class="co">;; default case, so return indentation level of current line</span>
+       (<span class="kw">t</span>
+        (<span class="kw">setq</span> cur-indent (current-indentation))
+        (<span class="kw">setq</span> not-indented <span class="kw">nil</span>))))
+    cur-indent))</code></pre>
+<p>Nothing special here. This function returns indentation level based on current block. This function makes assumption that previous non-empty line is well-indented. So we move one line up (<code>(forward-line -1)</code>) and when we face block-opening term, return it’s indentation level, increased by <code>tab-width</code>. When we face empty line, skip it. In other cases - just return indentation level of current line (not starting, but current).</p>
+<p>Now let’s check <code>case</code> indentation rules.</p>
+<pre class="sourceCode commonlisp"><code class="sourceCode commonlisp">(<span class="kw">defun</span><span class="fu"> fish-get-case-indent </span>()
+  (interactive)
+  (<span class="kw">let</span> ((not-indented <span class="kw">t</span>) cur-indent)
+    (while not-indented
+      <span class="co">;; move up</span>
+      (forward-line -<span class="dv">1</span>)
+      (<span class="kw">cond</span>
+       <span class="co">;; found 'switch', so increase indentation level by tab-width</span>
+       ((looking-at <span class="st">&quot;[ </span>\t<span class="st">]*</span>\\<span class="st">(switch</span>\\<span class="st">)&quot;</span>)
+        (<span class="kw">setq</span> cur-indent (<span class="kw">+</span> (current-indentation) tab-width))
+        (<span class="kw">setq</span> not-indented <span class="kw">nil</span>))
+
+       <span class="co">;; found another 'case', so return it's indentation level</span>
+       ((looking-at <span class="st">&quot;[ </span>\t<span class="st">]*</span>\\<span class="st">(case</span>\\<span class="st">)&quot;</span>)
+        (<span class="kw">setq</span> cur-indent (current-indentation))
+        (<span class="kw">setq</span> not-indented <span class="kw">nil</span>))
+
+       <span class="co">;; found empty line, so just skip it</span>
+       ((looking-at <span class="st">&quot;[ </span>\t<span class="st">]*$&quot;</span>))
+
+       <span class="co">;; default case, so return indentation level of current line minus tab-width</span>
+       (<span class="kw">t</span>
+        (<span class="kw">setq</span> cur-indent (<span class="kw">-</span> (current-indentation) tab-width))
+        (<span class="kw">setq</span> not-indented <span class="kw">nil</span>))))
+    cur-indent))</code></pre>
+<p>This function has similar pattern as previous one. It also uses previous non-empty line to decide what indentation level to use for current <code>case</code> term and this function also makes an assumption that previous non-empty line is well-indented. As you can see, for <code>case</code> term <code>switch</code> term behaves like block-opening. Next rule says that every <code>case</code> should be in one block. The last rule says that when we face something that not <code>switch</code> and not another <code>case</code>, we should return it’s indentation level and subtract <code>tab-width</code> from it.</p>
+<p>The last and most important for me - <code>end</code> indentation function.</p>
+<pre class="sourceCode commonlisp"><code class="sourceCode commonlisp">(<span class="kw">defun</span><span class="fu"> fish-get-end-indent </span>()
+  (interactive)
+  (<span class="kw">let</span> (cur-indent (count-of-ends <span class="dv">1</span>))
+    (while (<span class="kw">not</span> (<span class="kw">eq</span> count-of-ends <span class="dv">0</span>))
+      <span class="co">;; move up</span>
+      (forward-line -<span class="dv">1</span>)
+      (<span class="kw">cond</span>
+       <span class="co">;; found block-opening term, so check if it matches to our end</span>
+       ((looking-at <span class="st">&quot;[ </span>\t<span class="st">]*</span>\\<span class="st">(if</span>\\<span class="st">|function</span>\\<span class="st">|while</span>\\<span class="st">|for</span>\\<span class="st">|begin</span>\\<span class="st">|switch</span>\\<span class="st">)&quot;</span>)
+        (<span class="kw">setq</span> count-of-ends (<span class="kw">-</span> count-of-ends <span class="dv">1</span>))
+        (<span class="kw">if</span> (<span class="kw">eq</span> count-of-ends <span class="dv">0</span>)
+            <span class="co">;; block-opening term matches, so return it's indentation level</span>
+            (<span class="kw">progn</span> (<span class="kw">setq</span> cur-indent (current-indentation))
+                   (<span class="kw">setq</span> pair-not-found <span class="kw">nil</span>))
+          <span class="co">;; block-opening term does not match, so seek further</span>
+          ))
+
+       <span class="co">;; found another 'end', so increase count of 'end' terms</span>
+       ((looking-at <span class="st">&quot;[ </span>\t<span class="st">]*</span>\\<span class="st">(end</span>\\<span class="st">)&quot;</span>)
+        (<span class="kw">setq</span> count-of-ends (<span class="kw">+</span> count-of-ends <span class="dv">1</span>)))
+
+       <span class="co">;; nothing interesting found, so seek further</span>
+       (<span class="kw">t</span>)))
+    cur-indent))</code></pre>
+<p>This function searches for matching block opening term and returns it’s indentation level. For this purpose we use <code>count-of-ends</code> variable that stores how much <code>end</code>s are looking for their match. And when this function finds any block opening term, it reduces value of <code>count-of-ends</code> by 1. And when this value is <code>0</code> - we found matching pair for <code>end</code> that we want to indent. Also be aware that we don’t count <code>else</code> as block opening term, because then we also need to count it as block closing term. Actually you can’t be sure if it will improve performance, so that’s why I leave <code>else</code> ignored.</p>
+<p>So <code>fish-get-end-indent</code> function is a bit complicated. Here is a good example that makes it clear.</p>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">if</span> <span class="kw">test</span> <span class="ot">$ARG</span> <span class="co"># open if block</span>
+  <span class="kw">do_something1</span>
+  <span class="kw">begin</span> <span class="co"># open begin block</span>
+    <span class="kw">do_something2</span>
+  <span class="kw">end</span> <span class="co"># close begin block</span>
+<span class="kw">end</span> <span class="co"># close if block</span></code></pre>
+<p>From this example it looks like we could implement <code>end</code> as <code>else</code> - just get current block indentation level and subtract from it <code>tab-width</code>. But here is example that counters this idea.</p>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">begin</span> <span class="co"># open begin block</span>
+  <span class="kw">switch</span> <span class="ot">$animal</span>
+    <span class="kw">case</span> cat
+      echo evil
+    case wolf dog human moose dolphin whale
+      echo mammal
+    case duck goose albatross
+      echo bird
+    case shark trout stingray
+      echo fish
+    case <span class="st">'*'</span>
+      echo I have no idea what a <span class="ot">$animal</span> is
+  end <span class="co"># it closes switch block, but we need to subtract tab-width twice</span>
+end <span class="co"># closes begin block</span></code></pre>
+<p>So as you can see, this <code>switch-case</code> makes a lot of trouble. That’s why we need to seek for matching pair when we want to indent <code>end</code> term.</p>
+<h2 id="shut-up-and-give-me-my-mode">Shut up and give me my mode</h2>
+<p>This package is not available on <code>MELPA</code> and currently I am not planning to make it available there. Not because I am miser person, but because I am thinking about merging my implementation to existing package.</p>
+<p>In any case - feel free to hack my implementation on <a href="https://github.com/d12frosted/fish-mode">github</a>.</p>
+
+<div class="info">
+    Posted on February  9, 2015
+    
+</div>
+
+  </main>
+</body>
+</html>
