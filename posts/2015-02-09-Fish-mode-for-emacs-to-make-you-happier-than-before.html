@@ -30,14 +30,15 @@
     <h1>Fish-mode for emacs to make you happier than before (or how to implement indentation function for major mode in emacs)</h1>
 
 <h2 id="tldr">tl;dr</h2>
-<p>I just implemented <code>fish-mode</code> for emacs that is a bit better than existing one. You can grab it <a href="https://github.com/d12frosted/fish-mode">here</a>.</p>
+<p>In educational purposes I implemented <code>fish-mode</code> for emacs. It is very simple and still has some problems with indenting complex stuff. But it works in most cases very well. You can grab it <a href="https://github.com/d12frosted/fish-mode">here</a>.</p>
+<p>In case you have nothing else to do, read further for some details.</p>
 <h2 id="long-story">Long story</h2>
-<p>While I was working on my <code>fish</code> configurations, I felt acute shortage of <code>fish-mode</code> for emacs. My needs are modest - syntax highlighting and indentation. So I searched for existing modes and found one that is also available on MELPA. As usual I installed it from <a href="https://github.com/wwwjfy/emacs-fish">git</a> and found that it works not as I expected. Syntax highlighting worked not as I wanted and most importantly - indentation was buggy. Especially <code>end</code> term. So I checked the code to fix it. But you know, my emacs lisp fu is pretty weak, so I couldn’t understand where lies the problem (well, definitely the problem is with <code>fish-indent-line</code> function). So I thought that I could implement my own major mode in educational purposes.</p>
+<p>While I was playing with <code>fish</code>, I felt acute shortage of <code>fish-mode</code> for emacs. My needs are modest - syntax highlighting and indentation. So I searched for existing modes and found one that is also available on MELPA. As usual I installed it from <a href="https://github.com/wwwjfy/emacs-fish">git</a> and found that it works not as I expected. Syntax highlighting worked not as I wanted and most importantly - indentation was buggy. Especially for <code>end</code> term. So I checked the code to fix it. But you know, my emacs lisp fu is pretty weak, so I couldn’t understand where lies the problem (well, definitely the problem is with <code>fish-indent-line</code> function). So I thought that I could implement my own major mode in educational purposes(yay!).</p>
 <div class="figure">
 <img src="../images/1423468417-fish-mode.png" />
 
 </div>
-<p>My starting point was tutorial on <a href="http://ergoemacs.org/emacs/elisp_syntax_coloring.html">ergoemacs</a> that was describing how to implement major-mode for syntax highlighting. So pretty quickly I conquered this topic and started working on indentation functions. Fish language is really easy. In this language only blocks change indentation. Block begins with one of block-opening terms (<code>if</code>, <code>function</code>, <code>while</code>, <code>for</code>, <code>begin</code> and <code>switch</code>). Every block is close by <code>end</code>. There is only one construction that makes indentation implementation a bit harder - <code>switch-case</code>, because <code>case</code> opens block and closes previous <code>case</code> block if previous one exists. And there is also another special term <code>else</code> that closes <code>if</code> block, but begins new one. So I started pretty straightforward.</p>
+<p>My starting point was tutorial on <a href="http://ergoemacs.org/emacs/elisp_syntax_coloring.html">ergoemacs</a> that was describing how to implement major-mode for syntax highlighting. So pretty quickly I conquered this topic and implemented some very simple highlighting rules. And then started working on indentation functions. Fish language is really easy. In this language only blocks change indentation. Block begins with one of block-opening terms (<code>if</code>, <code>function</code>, <code>while</code>, <code>for</code>, <code>begin</code> and <code>switch</code>). Every block is closed by <code>end</code>. There is only one construction that makes indentation implementation a bit harder - <code>switch-case</code>, because <code>case</code> opens block and closes previous <code>case</code> block if previous one exists. And there is also another special term <code>else</code> that closes <code>if</code> block, but begins new one. So I started pretty straightforward.</p>
 <pre class="sourceCode commonlisp"><code class="sourceCode commonlisp">(<span class="kw">defun</span><span class="fu"> fish-indent-line </span>()
   <span class="st">&quot;Indent current line&quot;</span>
   (interactive)
@@ -175,7 +176,7 @@
 end <span class="co"># closes begin block</span></code></pre>
 <p>So as you can see, this <code>switch-case</code> makes a lot of trouble. That’s why we need to seek for matching pair when we want to indent <code>end</code> term.</p>
 <h2 id="shut-up-and-give-me-my-mode">Shut up and give me my mode</h2>
-<p>This package is not available on <code>MELPA</code> and currently I am not planning to make it available there. Not because I am miser person, but because I am thinking about merging my implementation to existing package.</p>
+<p>This package is not available on <code>MELPA</code> and currently I am not planning to make it available there. Not because I am miser person, but because I have a lot of space for improvements!</p>
 <p>In any case - feel free to hack my implementation on <a href="https://github.com/d12frosted/fish-mode">github</a>.</p>
 
 <div class="info">
