@@ -38,123 +38,123 @@
 <p><code>Stackage</code> is great, but it doesn’t work for me very well, because sometimes I need to install ‘heavy’ packages that are not on <code>Stackage</code>. Also I work on reliably fast computer, so I don’t mind to waste thirty seconds more on compilation. Safety is more preferable. As for <code>nixos</code> – I haven’t tried it yet. But I know that it helps to find compilation problems very good. So actually, many thanks for the people that made <code>Stackage</code> and <code>nixos</code>.</p>
 <h2 id="sandboxes">Sandboxes</h2>
 <p>I think that sandboxes are really great. Usually I install globally only commonly used packages. Everything else comes via sandboxes. Sometimes the project I am working on has dependencies that can’t be installed from hackage. In such cases I use</p>
-<pre class="sh"><code>$ cabal sandbox add-source path/to/non-hackage/dependency</code></pre>
+<pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">cabal</span> sandbox add-source path/to/non-hackage/dependency</code></pre>
 <p>So I don’t need to install such dependencies globally. And if this dependency is very heavy and problem-bringing, then it can save my global packages database.</p>
 <p>But you use haskell not only for writing libraries (funny, isn’t it?). Sometimes you need to install some executables. So here comes the ‘executables’ part.</p>
 <p>Usually I install executables by using following sequence of commands:</p>
-<pre class="sh"><code>$ cd path/to/cabal/project
-$ cabal sandbox init
-$ cabal install --only-dependencies
-$ cabal install
-$ cp .cabal-sandbox/bin/executable ~/.bin/executable</code></pre>
+<pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">cd</span> path/to/cabal/project
+$ <span class="kw">cabal</span> sandbox init
+$ <span class="kw">cabal</span> install --only-dependencies
+$ <span class="kw">cabal</span> install
+$ <span class="kw">cp</span> .cabal-sandbox/bin/executable ~/.bin/executable</code></pre>
 <p>This works because, executables are usually completely stand-alone, so you can build them in a sandbox and then move them to any location of your choice. This approach helps to keep system (or user) wide packages database clean and free from conflicts. I move executable into <code>~/.bin</code> (but make sure that <code>~/.bin</code> is in <code>$PATH</code>), because when something breaks in my packages database I want to keep this executables (they made nothing bad!).</p>
 <p>But it’s very boring to call this commands every time I want to install any executables, so I wrote a simple <code>fish</code> function that installs executable from <code>.cabal</code> file in current directory for you.</p>
-<pre class="sh"><code>function cabal-install-bin -d &quot;Install executables from .cabal file in current directory&quot;
-  # set some color settings
-  set -l error_color red
-  set -l msg_color blue
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">function</span><span class="fu"> cabal-install-bin</span> <span class="kw">-d</span> <span class="st">&quot;Install executables from .cabal file in current directory&quot;</span>
+  <span class="co"># set some color settings</span>
+  <span class="kw">set</span> <span class="kw">-l</span> error_color red
+  <span class="kw">set</span> <span class="kw">-l</span> msg_color blue
 
-  # get cabal file in current directory
-  set -l cb *.cabal
+  <span class="co"># get cabal file in current directory</span>
+  <span class="kw">set</span> <span class="kw">-l</span> cb *.cabal
 
-  set -l c (count *.cabal)
-  # we expect only 1 cabal file to be existing
-  if test c -ne 1
-    set_color $error_color
-    if test c -eq 0
-      echo &quot;Couldn' find cabal file in (pwd)&quot;
-    else
-      echo &quot;Found $c cabal files. Think about it!&quot;
-    end
-    set_color normal
-    return 1
-  end
+  <span class="kw">set</span> <span class="kw">-l</span> c (count *.cabal)
+  <span class="co"># we expect only 1 cabal file to be existing</span>
+  <span class="kw">if</span> <span class="kw">test</span> c -ne 1
+    <span class="kw">set_color</span> <span class="ot">$error_color</span>
+    <span class="kw">if</span> <span class="kw">test</span> c -eq 0
+      <span class="kw">echo</span> <span class="st">&quot;Couldn' find cabal file in (pwd)&quot;</span>
+    <span class="kw">else</span>
+      <span class="kw">echo</span> <span class="st">&quot;Found </span><span class="ot">$c</span><span class="st"> cabal files. Think about it!&quot;</span>
+    <span class="kw">end</span>
+    <span class="kw">set_color</span> normal
+    <span class="kw">return</span> 1
+  <span class="kw">end</span>
 
-  set_color $msg_color
-  echo &quot;Using $cb&quot;
+  <span class="kw">set_color</span> <span class="ot">$msg_color</span>
+  <span class="kw">echo</span> <span class="st">&quot;Using </span><span class="ot">$cb</span><span class="st">&quot;</span>
 
-  # check if sandbox is not created yet
-  if test ! \( -e .cabal-sandbox \) -o ! \( -e cabal.sandbox.config \)
-    echo &quot;It looks like there is no sandbox, so creating one&quot;
-    set_color normal
-    # create sandbox
-    cabal sandbox init
-  end
+  <span class="co"># check if sandbox is not created yet</span>
+  <span class="kw">if</span> <span class="kw">test</span> ! <span class="dt">\(</span> -e .cabal-sandbox <span class="dt">\)</span> -o ! <span class="dt">\(</span> -e cabal.sandbox.config <span class="dt">\)</span>
+    <span class="kw">echo</span> <span class="st">&quot;It looks like there is no sandbox, so creating one&quot;</span>
+    <span class="kw">set_color</span> normal
+    <span class="co"># create sandbox</span>
+    <span class="kw">cabal</span> sandbox init
+  <span class="kw">end</span>
 
-  # todo add support of multiple executables
-  set -l name (cabal info *.cabal | sed -ne &quot;s/ *Executables: *\(.*\)/\1/p&quot;)
+  <span class="co"># todo add support of multiple executables</span>
+  <span class="kw">set</span> <span class="kw">-l</span> name (cabal info *.cabal <span class="kw">|</span> <span class="kw">sed</span> -ne <span class="st">&quot;s/ *Executables: *\(.*\)/\1/p&quot;</span>)
 
-  # check that the name is not empty
-  if test ! \( -n $name \)
-    set_color $error_color
-    echo &quot;Couldn't find any executable in cabal file&quot;
-    set_color normal
-    return 1
-  end
+  <span class="co"># check that the name is not empty</span>
+  <span class="kw">if</span> <span class="kw">test</span> ! <span class="dt">\(</span> -n <span class="ot">$name</span> <span class="dt">\)</span>
+    <span class="kw">set_color</span> <span class="ot">$error_color</span>
+    <span class="kw">echo</span> <span class="st">&quot;Couldn't find any executable in cabal file&quot;</span>
+    <span class="kw">set_color</span> normal
+    <span class="kw">return</span> 1
+  <span class="kw">end</span>
 
-  set_color $msg_color
-  echo &quot;Found executables: $name&quot;
-  echo &quot;Installing dependencies&quot;
-  set_color normal
+  <span class="kw">set_color</span> <span class="ot">$msg_color</span>
+  <span class="kw">echo</span> <span class="st">&quot;Found executables: </span><span class="ot">$name</span><span class="st">&quot;</span>
+  <span class="kw">echo</span> <span class="st">&quot;Installing dependencies&quot;</span>
+  <span class="kw">set_color</span> normal
 
-  # first we want to install dependencies
-  # we could just `cabal install`
-  # but I find separate installation
-  # more satisfying
-  cabal install --only-dependencies
+  <span class="co"># first we want to install dependencies</span>
+  <span class="co"># we could just `cabal install`</span>
+  <span class="co"># but I find separate installation</span>
+  <span class="co"># more satisfying</span>
+  <span class="kw">cabal</span> install --only-dependencies
 
-  if test $status -ne 0
-    return 1
-  end
+  <span class="kw">if</span> <span class="kw">test</span> <span class="ot">$status</span> -ne 0
+    <span class="kw">return</span> 1
+  <span class="kw">end</span>
 
-  set_color $msg_color
-  echo &quot;Building application&quot;
-  set_color normal
+  <span class="kw">set_color</span> <span class="ot">$msg_color</span>
+  <span class="kw">echo</span> <span class="st">&quot;Building application&quot;</span>
+  <span class="kw">set_color</span> normal
 
-  # install package
-  cabal install
+  <span class="co"># install package</span>
+  <span class="kw">cabal</span> install
 
-  if test $status -ne 0
-    return 1
-  end
+  <span class="kw">if</span> <span class="kw">test</span> <span class="ot">$status</span> -ne 0
+    <span class="kw">return</span> 1
+  <span class="kw">end</span>
 
-  set_color $msg_color
-  echo &quot;Copying $name to ~/.bin&quot;
-  set_color normal
-  # now copy executable to ~/.bing
-  cp &quot;.cabal-sandbox/bin/$name&quot; &quot;$HOME/.bin/$name&quot;
-end</code></pre>
+  <span class="kw">set_color</span> <span class="ot">$msg_color</span>
+  <span class="kw">echo</span> <span class="st">&quot;Copying </span><span class="ot">$name</span><span class="st"> to ~/.bin&quot;</span>
+  <span class="kw">set_color</span> normal
+  <span class="co"># now copy executable to ~/.bing</span>
+  <span class="kw">cp</span> <span class="st">&quot;.cabal-sandbox/bin/</span><span class="ot">$name</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="ot">$HOME</span><span class="st">/.bin/</span><span class="ot">$name</span><span class="st">&quot;</span>
+<span class="kw">end</span></code></pre>
 <p>But for situations when I don’t care about package sources and it’s available on hackage, I wrote another function (that reuses <code>cabal-install-bin</code>).</p>
-<pre class="sh"><code>function cabal-unpack-and-install-bin -a package -d &quot;Unpack and install specified executable package from cabal.&quot;
-  set -l current_dir (pwd)
-  cd $TMPDIR
-  set -l dir $package*
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">function</span><span class="fu"> cabal-unpack-and-install-bin</span> <span class="kw">-a</span> package -d <span class="st">&quot;Unpack and install specified executable package from cabal.&quot;</span>
+  <span class="kw">set</span> <span class="kw">-l</span> current_dir (pwd)
+  <span class="kw">cd</span> <span class="ot">$TMPDIR</span>
+  <span class="kw">set</span> <span class="kw">-l</span> dir <span class="ot">$package</span>*
 
-  if test (count $dir) -ne 0
-    echo &quot;Found $TMPDIR$dir&quot;
-    echo &quot;Looks like the package already unpacked in \$TMPDIR&quot;
-    cd $current_dir
-    return 1
-  end
+  <span class="kw">if</span> <span class="kw">test</span> (count <span class="ot">$dir</span>) <span class="kw">-ne</span> 0
+    <span class="kw">echo</span> <span class="st">&quot;Found </span><span class="ot">$TMPDIR$dir</span><span class="st">&quot;</span>
+    <span class="kw">echo</span> <span class="st">&quot;Looks like the package already unpacked in </span><span class="dt">\$</span><span class="st">TMPDIR&quot;</span>
+    <span class="kw">cd</span> <span class="ot">$current_dir</span>
+    <span class="kw">return</span> 1
+  <span class="kw">end</span>
 
-  cabal unpack $package
+  <span class="kw">cabal</span> unpack <span class="ot">$package</span>
 
-  if test $status -ne 0
-    cd $current_dir
-    return 1
-  end
+  <span class="kw">if</span> <span class="kw">test</span> <span class="ot">$status</span> -ne 0
+    <span class="kw">cd</span> <span class="ot">$current_dir</span>
+    <span class="kw">return</span> 1
+  <span class="kw">end</span>
 
-  set -l dir $package*
+  <span class="kw">set</span> <span class="kw">-l</span> dir <span class="ot">$package</span>*
 
-  cd $TMPDIR/$dir
+  <span class="kw">cd</span> <span class="ot">$TMPDIR</span>/<span class="ot">$dir</span>
 
-  cabal-install-bin
+  <span class="kw">cabal-install-bin</span>
 
-  cd $TMPDIR
-  rm -rf $dir
+  <span class="kw">cd</span> <span class="ot">$TMPDIR</span>
+  <span class="kw">rm</span> -rf <span class="ot">$dir</span>
 
-  cd $current_dir
-end</code></pre>
+  <span class="kw">cd</span> <span class="ot">$current_dir</span>
+<span class="kw">end</span></code></pre>
 <p>It just downloads sources of single package to the <code>$TMPDIR</code> (you might want to change this to something different, depending on your system), then installs executable (using <code>cabal-install-bin</code> function) and removes sources dir. Useful, isn’t it?</p>
 <p>You can grab the latest version of these function on <a href="https://github.com/d12frosted/environment/tree/master/fish/functions">github</a>.</p>
 <p>Happy Haskell coding!</p>
