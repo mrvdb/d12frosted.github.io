@@ -1,0 +1,38 @@
+body {
+    width: 80%;
+    display: block;
+    margin: auto;
+    left: 0px;
+    right: 0px;
+}
+
+body p {
+    text-align: justify;
+}
+
+div.figure {
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+}
+
+div.figure img {
+    display: block;
+    margin: auto;
+    left: 0px;
+    right: 0px;
+    max-width: 80%;
+}
+
+div.figure p {
+    text-align: center;
+    font-style: italic;
+}
+
+pre.src:hover:before      { display: inline;       }
+pre.src-sh:before         { content: 'sh';         }
+pre.src-bash:before       { content: 'sh';         }
+pre.src-fish:before       { content: 'fish';       }
+pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+pre.src-haskell:before    { content: 'Haskell';    }
+pre.src-html:before       { content: 'HTML';       }

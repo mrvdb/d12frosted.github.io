@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Make the fish fly</title>
+<!-- 2015-05-12 Tue 09:33 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="Boris Buliga &lt;d12frosted@icloud.com&gt;" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<link rel='stylesheet' type='text/css' href='../css/post.css' />
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Make the fish fly</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Preface</a></li>
+<li><a href="#sec-2">Fish: catch it before you cook</a></li>
+<li><a href="#sec-3">Fish: first impression</a></li>
+<li><a href="#sec-4">Fish: configurations</a></li>
+<li><a href="#sec-5">Fish: one language to script them all</a></li>
+<li><a href="#sec-6">Conclusion</a></li>
+<li><a href="#sec-7">Epilogue</a></li>
+<li><a href="#sec-8">My settings</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Preface</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+I have always been inspired by the people who use (or at least can use) terminal for any kind of activity that is associated with programming. Sure, every task has it's own set of instruments to be solved with. But there are instruments that you can count on in almost any situation. That's why I spend so much time in terminal.
+</p>
+
+<p>
+For a long time (like a year and a half) I was using <code>zsh</code> beefed with <code>oh-my-zsh</code>. It has so much functionality (I wasn't even using), so much colors and great auto completion. And everything comes out of box without the need of writing over 9000 lines of configuration code (because it is done for you by <code>oh-my-zsh</code>. So I was really happy until someone mentioned <code>fish</code> shell in comments to <a href="http://www.reddit.com/r/haskell/comments/2u6b8m/use_haskell_for_shell_scripting/">Use Haskell for shell scripting</a> thread on reddit. So after few minutes of reading how awesome <code>fish</code> is, I decided to give it a try.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Fish: catch it before you cook</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+For installation guide, check <a href="http://fishshell.com">official site</a> or readme file on <a href="https://github.com/fish-shell/fish-shell">github</a>. Currently I prefer installing from sources, because I like features from the 'bleeding edge'. After installation you might want to make <code>fish</code> your default shell, so you need to use <code>chsh</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash">$ chsh -s $(which fish)
+</pre>
+</div>
+
+<p>
+On OS X (and some other systems) you might face an error saying <code>chsh: /path/to/fish: non-standard shell</code>. In this case you need to modify <code>/etc/shells</code> file by adding path to your fish.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash">$ sudo sh -c 'echo $(which fish) &gt;&gt; /etc/shells'
+</pre>
+</div>
+
+<p>
+In case of any other problems - <a href="http://google.com">may the force be with you</a>. Otherwise - you are ready to dive in. I am not going to write tutorial to <code>fish</code> (mostly because it already has good written one <a href="http://fishshell.com/docs/current/tutorial.html">here</a>). It covers most important aspects of day-to-day <code>fish</code>, but you might also want to read full <a href="http://fishshell.com/docs/current/index.html">documentation</a>. So here are some very subjective thoughts.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Fish: first impression</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+And the first thing to notice - <code>fish</code> offers really great auto suggestions that are based on completions and history. When I saw this for the first time - I was really impressed.
+</p>
+
+<div class="figure">
+<img src="../images/1423317607-fish1.png" alt="Fish knows what you did last summer.">
+<p class="caption"><code>Fish</code> knows what you did last summer.</p>
+</div>
+
+<p>
+You can easily navigate through history. For example, you can navigate through <code>ghc</code> or <code>ghc --make</code> history. Or even <code>ghc --make -O2</code> history. It's just&#x2026; well, very convenient.
+</p>
+
+<p>
+The second thing about <code>fish</code> completions - they are based on <code>man</code> pages. In <code>bash</code> you have <code>bash-completion</code>, in <code>oh-my-zsh</code> you have plug-ins (and when you have a lot of them, your life becomes kind of laggy). But <code>fish</code> takes a lot of completions from <code>man</code> pages. And it works so fast, that it's just amazing. Now I don't need to remove everything I typed just to check <code>man</code> when I forget which key I need, <code>-N</code> or <code>-n</code>. All completions are paginated, and you can scroll them to find what you need. Super productive.
+</p>
+
+<div class="figure">
+<img src="../images/1423317617-fish2.png" alt="Fish generates them automatically by parsing your installed man pages.">
+<p class="caption"><code>Fish</code> generates them automatically by parsing your installed man pages.</p>
+</div>
+
+<p>
+So you better keep pressing <code>&lt;tab&gt;</code> in different situations to see what else it can complete for you.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash">λ git checkout &lt;tab&gt;
+features/fish  (Branch)  master  (Branch)  origin/master  (Branch)
+</pre>
+</div>
+
+<p>
+But yeah, sometimes you command you are using doesn't have it's own <code>man</code> page. For such cases you also have an option to write your own completions. For more information, check out <a href="http://fishshell.com/docs/current/index.html#completion-own">this guide</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">Fish: configurations</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+<code>Fish</code> comes with really great configurations out of box. For most users it might be enough to configure only their prompt and <code>PATH</code> variable. But before you start writing your own configurations I highly recommend to checkout <code>fish_config</code> command. This allows you configure <code>fish</code> from browser (I was amazed). I don't say that you must configure it from browser, but just take a look! Sometimes I use this thing just to check some custom functions and check bindings.
+</p>
+
+<p>
+On startup, <code>fish</code> evaluates files <code>/path/to/fish/config.fish</code>, <code>/etc/fish/config.fish</code> and <code>~/.config/fish/config.fish</code> in specified order. If you want to change <code>fish</code> configurations, you should modify only <code>/etc/fish/config.fish</code> file for system wide configurations and <code>~/.config/fish/config.fish</code> file for user only configurations.
+</p>
+
+<p>
+Actually, <code>fish</code> supports pretty cool <code>$XDG_CONFIG_HOME</code> variable for specifying path to user only configurations directory. You need to set this variable to path of directory that contains <code>fish</code> directory. I do use it because I like to have all dot files in one repository. You can change it's value by using <code>set</code> function:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash">$ set -U XDG_CONFIG_HOME ~/.environment
+</pre>
+</div>
+
+<p>
+We use <code>-U</code> flag here, because we need to give <code>XDG_CONFIG_HOME</code> universal scope (it will be shared between all the current users fish instances on the current computer, and will be preserved across restarts of the shell).
+</p>
+
+<p>
+If you want to configure your prompt, you need to define <code>fish_prompt</code> function in file <code>/path/to/configuration/fish/fish_prompt.fish</code>. A simple example from documentation:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-fish"><span style="color: #0000FF;">function</span> <span style="color: #006FE0;">fish_prompt</span> -d <span style="color: #008000;">"Write out the prompt"</span>
+        printf <span style="color: #008000;">'%s@%s%s%s%s&gt; '</span> <span style="color: #707183;">(</span>whoami<span style="color: #707183;">)</span> <span style="color: #707183;">(</span>hostname|cut -d . -f <span style="color: #D0372D;">1</span><span style="color: #707183;">)</span> <span style="color: #707183;">(</span><span style="color: #006FE0;">set_color</span> <span style="color: #008000;">$</span><span style="color: #BA36A5;">fish_color_cwd</span><span style="color: #707183;">)</span> <span style="color: #707183;">(</span>prompt_pwd<span style="color: #707183;">)</span> <span style="color: #707183;">(</span><span style="color: #006FE0;">set_color</span> normal<span style="color: #707183;">)</span>
+<span style="color: #0000FF;">end</span>
+</pre>
+</div>
+
+<p>
+Before rushing into creating your own prompt, I recommend to check some prompts that are available from box. Just <code>fish_config</code> and go to <code>Prompt</code> tab.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5">Fish: one language to script them all</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+As you might already know, <code>fish</code> has it's own scripting language that does not care about POSIX compatibility. And in my opinion this is most controversial point in discussions like 'zsh vs fish'. While it's less verbose and more obvious, I see <code>fish</code> language as unnecessary drag. Seriously, when I need to write any script that can't be described in one or two lines - I prefer to use <code>haskell</code> or <code>ruby</code>. And also there are tons of great <code>sh</code> one-liners that I can't call from <code>fish</code> shell.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6">Conclusion</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+<code>Fish</code> does not try to be everything but it does try to have a great out of the box experience. You definitely should try <code>fish</code> to make your own conclusion. Because everyone is unique case. As for myself - I am willing to give it few months to see if <code>fish</code> really suits my needs.
+</p>
+
+<p>
+<b>Cons:</b>
+</p>
+
+<ul class="org-ul">
+<li>Not POSIX compatible. While I do like some differences from <code>sh</code>, I prefer to use <code>sh</code> language for little scripts. When I need to write something non-trivial I better use <code>haskell</code> or <code>ruby</code>. Seriously, in my opinion - <code>fish</code> language is overhead. But actually, this is really minor drawback, which strikes only when you want to use great <code>sh</code> one-liners.
+</li>
+</ul>
+
+<p>
+<b>Pros:</b>
+</p>
+
+<ul class="org-ul">
+<li>Syntax highlighting.
+</li>
+<li>History de-duplication.
+</li>
+<li>Inline auto-suggestions.
+</li>
+<li>Tab completion using man page data.
+</li>
+<li>Paginated completion.
+</li>
+</ul>
+
+<p>
+I don't name <code>fish</code> dependency as drawback, because I don't work in environment that I can't change for my needs. And anyway <code>haskell</code> with all packages I need is far more heavy dependency then <code>fish</code>. So don't be angry.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7">Epilogue</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+I am really tired of <code>oh-my-zsh</code>. It's great project, but it's too big for me. It comes with functionality I am not aware of. I don't have time and desire to dig it. And sometimes it's hard to have fixes to it. When I checked it's repository I found 417 unresolved pull requests. Some of them are few years old. Most of them are not paid any attention. I understand why it's so. But I don't like this situation. Yes, you can use <code>zsh</code> with minimal configurations. And <a href="https://github.com/jleclanche/dotfiles/blob/master/.zshrc">here</a> is example of really great <code>zsh</code> minimal configurations.
+</p>
+
+<p>
+While I am using <code>fish</code> I experience pleasure of configuring everything step by step. I understand that you can do the same with any shell. But currently I am paying attention to <code>fish</code>. I really want to see it fly.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-8" class="outline-2">
+<h2 id="sec-8">My settings</h2>
+<div class="outline-text-2" id="text-8">
+<p>
+Currently I don't share my fish configurations, because they are far from ready to use version. But in few weeks I will definitely share them on github.
+</p>
+
+<p>
+<b>Have a nice shell-time!</b>
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-02-07&gt;</span></span></p>
+<p class="author">Author: Boris Buliga &lt;d12frosted@icloud.com&gt;</p>
+<p class="email">Email: <a href="mailto:d12frosted@icloud.com">d12frosted@icloud.com</a></p>
+<p class="date">Created: 2015-05-12 Tue 09:33</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.4.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="validation"></p>
+</div>
+</body>
+</html>
