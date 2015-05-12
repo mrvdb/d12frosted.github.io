@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Org mode to drive the blog</title>
-<!-- 2015-05-12 Tue 09:33 -->
+<!-- 2015-05-12 Tue 10:31 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Boris Buliga &lt;d12frosted@icloud.com&gt;" />
@@ -140,22 +140,26 @@ for the JavaScript code in this tag.
 <div id="content">
 <h1 class="title">Org mode to drive the blog</h1>
 <p>
-Over the last months I have totally switched to org-mode. For me all started with tracking tasks and todos within emacs. But then I realized that I create <code>.txt</code> and <code>.md</code> no more. And then I realized that I abandoned my lovely <code>KitsuneBook</code>. Can't say that I am totally happy with it (hey, I've lost a great fellow pet project), but <code>org-mode</code> gave me much more in turn. It solved my seemingly never-ending note organization problem, it allowed me to use some neat features right in these regular text files (like references, reminders, code sourcing and editing, tables with formulas, latex, tasks, planning etc). And most important - it suits ideally my emacs-overusing model (probably because org-mode is a mode for emacs, isn't it?).
+Over the last months I have totally switched to org-mode. For me it all started with tracking tasks and todos within emacs. But then I realized that I don't create <code>.txt</code> and <code>.md</code> files anymore, because I started to make my notes in <code>org</code> files. And then I realized that I abandoned my lovely <code>KitsuneBook</code>. Can't say that I am totally happy with it (hey, I've lost a great fellow pet project), but <code>org-mode</code> gave me much more in return. It solved my seemingly never-ending note organization problem, it allowed me to use some neat features right in these regular text files (like references, reminders, code sourcing and editing, tables with formulas, latex, tasks, planning etc). And most important - it suits ideally my emacs-overusing model. This model says - stay in emacs as much as possible. And now, I even generating my blog using <code>org-mode</code>.
 </p>
 
 <p>
-When I created my blog I was writing everything in <code>markdown</code>. Recently I found that <code>pandoc</code> (the tool that is used by <code>hakyll</code> to convert markdown files to <code>html</code>) can convert <code>org</code> files to <code>html</code> as well. Well, I am not surprised. So I started to write for this blog in <code>org</code>. But I wanted to tell that I actually had serious problem with duplicating files. You see, I usually create notes in my working directory (say, <code>org-home-path</code> or previously, in <code>kitsunebook</code> home). I write them, update them. And when I decide that I want to share this note - I just copy and paste parts that I want to share into new file in blog repository. And that looks fine until I need to change something in shared note. Then I need to make all modifications in my working directory then copy them to blog. And I can't just copy the whole file because
+When I was creating my blog I was looking for tool that could easily create static blog from bunch of files. I knew that github pages are jakyll-friendly, but I was like 'why so easy?'. So I installed <code>hakyll</code> (from the third time). It's really easy to use in simple cases like mine and easy to extend in more complicated cases. I mean, easy for those who can speak Haskell. So <code>hakyll</code> was a good friend of mine for some time. And I was happy. It was a bit too complicated for my very simple case, but it's written in Haskell, so who cares?
+</p>
+
+<p>
+When I was creating my blog I was writing everything in <code>markdown</code>. Recently I found that <code>pandoc</code> (the tool that is used by <code>hakyll</code> to convert markdown files to <code>html</code>) can convert <code>org</code> files to <code>html</code> as well. Well, I wasn't actually surprised, it's <code>pandoc</code> anyway. So I started to write for this blog in <code>org</code>. But what bothered me - is a serious problem with duplicating files. You see, I usually create notes in my working directory (say, in <code>org-home-path</code> or previously, in <code>kitsunebook</code> home). I write them, update them. And when I decide that I want to share this note - I just copy and paste parts that I want to share into new file in blog repository. And that looks fine until I need to change something in shared note. Then I need to make all modifications in my working directory then copy them to blog. And I can't just copy the whole file because
 </p>
 
 <ol class="org-ol">
-<li>It contains some information that is not public (like some references, todos, draft parts that I am still probably working on). And while it's part of my working directory - I can easily search, process and convert this note as I need from everywhere.
+<li>It contains some information that is not public (like some references, todos, draft parts that I am still probably working on). And while it's part of my working directory - it gains all bonuses from it.
 </li>
-<li>I need to add some meta information (like title, tags) that is used by <code>hakyll</code> right into the file. And I hate having this meta information in file that is in my working directory, because it needs to be at the very top of file and I have some useful functions that I am too lazy to make working with this meta info.
+<li>I need to add some meta information (like title, tags) that is used by <code>hakyll</code> right into the file. And I hate having this meta information in file that is in my working directory, because it breaks some of my functions that I am lazy to fix. Actually, this is a minor problem. But anyways.
 </li>
 </ol>
 
 <p>
-So honestly I was thinking about moving out from <code>hakyll</code> to any tool that would allows me to create static blog from org files. I found such tools (most interesting from them was <code>o-blog</code>), but I wasn't satisfied, because I felt like switching from one problematic thing to other. Plus it required to configure too much things. So I decided to give another try to built-in org publishing functions. And I was surprised by results.
+So honestly I started to think about moving out from <code>hakyll</code> to any tool that would allows me to create static blog from org files. I found few tools that looked promising (most interesting from them was <code>o-blog</code>), but it didn't worked for me. Mostly because of complicated configuration and being over complicated. So I looked back at <code>org-mode</code>. I knew that it has some publishing feature, but I never really tried it. And now I am surprised by how it suits my needs.
 </p>
 
 <div id="table-of-contents">
@@ -167,14 +171,15 @@ So honestly I was thinking about moving out from <code>hakyll</code> to any tool
 <li><a href="#sec-1-1">Few words before (don't read it)</a></li>
 <li><a href="#sec-1-2">Important notice before we start (sorry for delaying!)</a></li>
 <li><a href="#sec-1-3">Structure</a></li>
-<li><a href="#sec-1-4">What about images?</a></li>
-<li><a href="#sec-1-5">Combine it till it combines</a></li>
+<li><a href="#sec-1-4">How to&#x2026;</a></li>
+<li><a href="#sec-1-5">Back to the garden</a></li>
+<li><a href="#sec-1-6">What is so special about index?</a></li>
+<li><a href="#sec-1-7">What about static files?</a></li>
+<li><a href="#sec-1-8">Combine it till it combines</a></li>
 </ul>
 </li>
 <li><a href="#sec-2">In case you're stuck</a></li>
-<li><a href="#sec-3">Some words to defend myself (hello, hakyll)</a></li>
-<li><a href="#sec-4">So what?</a></li>
-<li><a href="#sec-5">Advertisement (because you don't poses a premium account)</a></li>
+<li><a href="#sec-3">So what?</a></li>
 </ul>
 </div>
 </div>
@@ -192,7 +197,7 @@ So honestly I was thinking about moving out from <code>hakyll</code> to any tool
 <h3 id="sec-1-1">Few words before (don't read it)</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
-Whenever I read about org-mode features in manual, I end up googling examples, trying and then returning to manual. With project publishing situation was pretty similar. I've read publishing section and then was like: 'So how do I configure it?'. Then I found some good examples (on org official site) and the understanding came to me. So delightful.
+Whenever I read about org-mode features in manual, I end up googling examples, trying them and then returning to manual. With project publishing situation was pretty similar. I've read publishing section and then was like: 'So how do I configure it?'. Then I found some good examples (on org official site) and I experienced delightful moment of understanding.
 </p>
 
 <p>
@@ -219,20 +224,30 @@ My blog (a bit simplified, avoiding all hakyll-related stuff) has following stru
 
 <pre class="example">
 .
-├── images
-└── posts
+├── Archive.org # auto-generated file
+├── css         # folder where I store my css files
+│   └── ...
+├── drafts      # folder where I store my drafts
+├── images      # folder where I store images used by site and posts
+│   └── ...
+├── index.org   # index file
+├── js          # folder where I store my js files
+│   └── ...
+└── posts       # folder where I store public posts
+    └── ...
 </pre>
 
 <p>
-Simple, isn't it? I bet you expected something far more complicated. Even in it's simplified version. But that's pretty all I need.
+It's pretty simple, isn't it?
 </p>
+</div>
+</div>
 
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">How to&#x2026;</h3>
+<div class="outline-text-3" id="text-1-4">
 <p>
-In order to publish projects in <code>org-mode</code> you need to specify your project. Usually (in real life) a project is a combinations of lesser projects. What is a project from <code>org-mode</code> point of view? Well, a bunch of files that matches search criteria with defined 'publishing' rules. So it's a pair of files and their compiler (<code>([FilePath], Compiler)</code>). My <code>posts</code> directory contains only <code>org</code> files, so in my case - there are two projects: one for org-files and one for images. OK, I am joking, there are three of them - the last one is a combination of first two.
-</p>
-
-<p>
-Let's define our first project! Project is configured by specifying property values.
+In order to publish a blog site from <code>org-mode</code> you need to declare it as your project. Project is defined by specifying it's name and property values.
 </p>
 
 <div class="org-src-container">
@@ -242,64 +257,131 @@ Let's define our first project! Project is configured by specifying property val
 </div>
 
 <p>
-For <code>org</code> files it would be something like:
+But it's also possible to define project as a composition of other projects.
 </p>
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #008000;">"d12-org-files"</span>
- <span style="color: #006FE0;">:base-directory</span> <span style="color: #008000;">"~/Dropbox/org/d12frosted/posts/"</span>               <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">directory where org files are stored</span>
- <span style="color: #006FE0;">:base-extension</span> <span style="color: #008000;">"org"</span>                                           <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">extensions of files you are going to publish</span>
- <span style="color: #006FE0;">:publishing-directory</span> <span style="color: #008000;">"~/Developer/d12frosted.github.io/posts/"</span> <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">directory where published files are stored</span>
- <span style="color: #006FE0;">:publishing-function</span> org-html-publish-to-html                   <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">function to use for publishing</span>
- <span style="color: #006FE0;">:html-extension</span> <span style="color: #008000;">"html"</span>                                          <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">extension of resulting files (org -&gt; html)</span>
- <span style="color: #006FE0;">:body-only</span> t                                                    <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">Only export section between &lt;body&gt; &lt;/body&gt;</span>
- <span style="color: #707183;">)</span>
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #008000;">"project-name"</span> <span style="color: #006FE0;">:components</span> <span style="color: #7388D6;">(</span><span style="color: #008000;">"project-1"</span> <span style="color: #008000;">"project-2"</span> ...<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
 <p>
-Pretty straightforward. However, few notes. First, you might noticed that for publishing I am using <code>org-html-publish-to-html</code> function. I also asked it to publish <code>body-only</code>. Actually, my first intention was to use <code>org-org-publish-to-org</code> function to generate <code>org</code> files, but I find built-in HTML exporter far more useful in terms of controlling export configurations on per-file bases. I find it much easier to setup some settings in this file than generating few different compilers in <code>hakyll</code>. For more info about publishing functions, read <a href="http://orgmode.org/manual/Publishing-action.html#Publishing-action">manual</a>.
-</p>
-
-<p>
-Also you might be interested in <code>recursive</code> property, which makes this function to search for <code>org</code> files recursively (surprise).
-</p>
-
-<p>
-So we configured our first project. To make things work we need to put this to <code>org-publish-project-alist</code>.
+So you define several projects and put them into <code>org-publish-project-alist</code>.
 </p>
 
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>setq org-publish-project-alist
-      '<span style="color: #7388D6;">(</span><span style="color: #909183;">(</span><span style="color: #008000;">"d12-org-files"</span>
-         <span style="color: #006FE0;">:base-directory</span> <span style="color: #008000;">"~/Dropbox/org/d12frosted/posts/"</span>               <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">directory where org files are stored</span>
-         <span style="color: #006FE0;">:base-extension</span> <span style="color: #008000;">"org"</span>                                           <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">extension of files you are going to publish</span>
-         <span style="color: #006FE0;">:publishing-directory</span> <span style="color: #008000;">"~/Developer/d12frosted.github.io/posts/"</span> <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">directory where published files are stored</span>
-         <span style="color: #006FE0;">:publishing-function</span> org-html-publish-to-html                   <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">function to use for publishing</span>
-         <span style="color: #006FE0;">:html-extension</span> <span style="color: #008000;">"html"</span>                                          <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">extension of resulting files (org -&gt; html)</span>
-         <span style="color: #006FE0;">:body-only</span> t                                                    <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">Only export section between &lt;body&gt; &lt;/body&gt;</span>
-         <span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+      '<span style="color: #7388D6;">(</span><span style="color: #909183;">(</span><span style="color: #008000;">"project-1"</span> <span style="color: #006FE0;">:property</span> value <span style="color: #006FE0;">:property</span> value ...<span style="color: #909183;">)</span>
+        <span style="color: #909183;">(</span><span style="color: #008000;">"project-2"</span> <span style="color: #006FE0;">:property</span> value <span style="color: #006FE0;">:property</span> value ...<span style="color: #909183;">)</span>
+        <span style="color: #909183;">(</span><span style="color: #008000;">"project-name"</span> <span style="color: #006FE0;">:components</span> <span style="color: #709870;">(</span><span style="color: #008000;">"project-1"</span> <span style="color: #008000;">"project-2"</span> ...<span style="color: #709870;">)</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-sec-1-4" class="outline-3">
-<h3 id="sec-1-4">What about images?</h3>
-<div class="outline-text-3" id="text-1-4">
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">Back to the garden</h3>
+<div class="outline-text-3" id="text-1-5">
 <p>
-As I told, in my case there are two (three) projects. The second is about images. And here is a truth - <code>base-extension</code> is actually regexp. So you don't need to create separate projects for every time of images you want to share. For static files (the files that don't require any conversion / compiling) there is a separate function - <code>org-publish-attachment</code>. Let's see how I configured this project.
+So my blog-project has 3 sub-projects:
+</p>
+
+<ol class="org-ol">
+<li>posts (org files in posts directory)
+</li>
+<li>static files (images, css and js files)
+</li>
+<li>index page
+</li>
+</ol>
+
+<p>
+Probably you've noticed that <code>Archive.org</code> file. I didn't mentioned it because it's auto-generated in first project. So let's define it.
 </p>
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #008000;">"d12-images"</span>
- <span style="color: #006FE0;">:base-directory</span> <span style="color: #008000;">"~/Dropbox/org/d12frosted/images/"</span>               <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">directory where org files are stored</span>
- <span style="color: #006FE0;">:base-extension</span> <span style="color: #008000;">"png</span><span style="color: #008000; font-weight: bold;">\\</span><span style="color: #008000; font-weight: bold;">|</span><span style="color: #008000;">jpg</span><span style="color: #008000; font-weight: bold;">\\</span><span style="color: #008000; font-weight: bold;">|</span><span style="color: #008000;">gif"</span>                                <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">extensions of images</span>
- <span style="color: #006FE0;">:publishing-directory</span> <span style="color: #008000;">"~/Developer/d12frosted.github.io/images/"</span> <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">directory where to move (publish) images</span>
- <span style="color: #006FE0;">:publishing-function</span> org-publish-attachment                      <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">function to use for publishing</span>
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #008000;">"d12-posts"</span>
+ <span style="color: #006FE0;">:base-directory</span> <span style="color: #008000;">"~/Dropbox/org/d12frosted/"</span>               <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">directory where org files are stored</span>
+ <span style="color: #006FE0;">:base-extension</span> <span style="color: #008000;">"org"</span>                                     <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">extensions of files you are going to publish</span>
+ <span style="color: #006FE0;">:exclude</span> <span style="color: #008000;">"index.org</span><span style="color: #008000; font-weight: bold;">\\</span><span style="color: #008000; font-weight: bold;">|</span><span style="color: #008000;">archive.org"</span>                        <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">files to exclude</span>
+ <span style="color: #006FE0;">:publishing-directory</span> <span style="color: #008000;">"~/Developer/d12frosted.github.io/"</span> <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">directory where to publish</span>
+ <span style="color: #006FE0;">:publishing-function</span> org-html-publish-to-html             <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">function used to publish matched files</span>
+ <span style="color: #006FE0;">:html-extension</span> <span style="color: #008000;">"html"</span>                                    <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">extension of resulting files</span>
+ <span style="color: #006FE0;">:recursive</span> t                                              <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">recursive search</span>
+ <span style="color: #006FE0;">:auto-sitemap</span> t                                           <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">auto-generate sitemap (archive)</span>
+ <span style="color: #006FE0;">:sitemap-filename</span> <span style="color: #008000;">"archive.org"</span>                           <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">the name of generated file</span>
+ <span style="color: #006FE0;">:sitemap-title</span> <span style="color: #008000;">""</span>                                         <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">title of generated file (read further for more info)</span>
+ <span style="color: #006FE0;">:sitemap-style</span> list                                       <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">default is tree, but we don't want to see directories tree</span>
+ <span style="color: #006FE0;">:sitemap-sort-files</span> anti-chronologically                  <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">newer at the top</span>
+ <span style="color: #006FE0;">:sitemap-file-entry-format</span> <span style="color: #008000;">"%d - %t"</span>                      <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">date - titile</span>
+ <span style="color: #707183;">)</span>
+</pre>
+</div>
+
+<p>
+Pretty straightforward, isn't it?
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6">What is so special about index?</h3>
+<div class="outline-text-3" id="text-1-6">
+<p>
+We want it to be published, but we don't want it to be in archive list. I couldn't find a better way for achieving this rather than creating separate project just for index file.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-org">&lt;Some intro goes here&gt;
+
+<span style="color: #000000; font-weight: bold;">*ARCHIVE*</span>
+
+\#+INCLUDE: "archive.org"
+</pre>
+</div>
+
+<p>
+<code>Archive.org</code> file is auto-generated. And it's OK. So we need a separate file where we can add additional information (e. g. about ourselves) and also show the list of all posts. Previously I've set <code>sitemap-title</code> to ~""~ because of this including. I don't want to this it's title on index page.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #008000;">"d12-index"</span>
+ <span style="color: #006FE0;">:base-directory</span> <span style="color: #008000;">"~/Dropbox/org/d12frosted/"</span>               <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">directory where index.org is stored</span>
+ <span style="color: #006FE0;">:base-extension</span> <span style="color: #008000;">"org"</span>                                     <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">the default value</span>
+ <span style="color: #006FE0;">:exclude</span> <span style="color: #008000;">"Archive\.org"</span>                                   <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">we don't want any special treatment for</span>
+ <span style="color: #006FE0;">:publishing-directory</span> <span style="color: #008000;">"~/Developer/d12frosted.github.io/"</span> <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">directory where to publish</span>
+ <span style="color: #006FE0;">:publishing-function</span> org-html-publish-to-html             <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">function used to publish matched files</span>
+ <span style="color: #006FE0;">:html-extension</span> <span style="color: #008000;">"html"</span>                                    <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">extension of resulting files</span>
+<span style="color: #707183;">)</span>
+</pre>
+</div>
+
+<p>
+The good thing about this project - you can add <code>About.org</code> file and it will be published as well. Just don't forget to ignore in first project.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-7" class="outline-3">
+<h3 id="sec-1-7">What about static files?</h3>
+<div class="outline-text-3" id="text-1-7">
+<p>
+As I told, in my case there are three (actually, four) projects. The third one is about static files. And here is a truth - <code>base-extension</code> is actually regexp. So you don't need to create separate projects for every type of static files you want to share. For static files (the files that don't require any conversion / compiling) there is a separate function - <code>org-publish-attachment</code>. Let's see how I configured this project.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #008000;">"d12-static"</span>
+ <span style="color: #006FE0;">:base-directory</span> <span style="color: #008000;">"~/Dropbox/org/d12frosted/"</span>               <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">directory where static files are stored</span>
+ <span style="color: #006FE0;">:base-extension</span> <span style="color: #008000;">"png</span><span style="color: #008000; font-weight: bold;">\\</span><span style="color: #008000; font-weight: bold;">|</span><span style="color: #008000;">jpg</span><span style="color: #008000; font-weight: bold;">\\</span><span style="color: #008000; font-weight: bold;">|</span><span style="color: #008000;">gif</span><span style="color: #008000; font-weight: bold;">\\</span><span style="color: #008000; font-weight: bold;">|</span><span style="color: #008000;">css</span><span style="color: #008000; font-weight: bold;">\\</span><span style="color: #008000; font-weight: bold;">|</span><span style="color: #008000;">js"</span>              <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">extensions of static files</span>
+ <span style="color: #006FE0;">:publishing-directory</span> <span style="color: #008000;">"~/Developer/d12frosted.github.io/"</span> <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">directory where to move (publish) static files</span>
+ <span style="color: #006FE0;">:publishing-function</span> org-publish-attachment               <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">function to use for publishing</span>
+ <span style="color: #006FE0;">:recursive</span> t                                              <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">recursive search</span>
 <span style="color: #707183;">)</span>
 </pre>
 </div>
@@ -310,9 +392,9 @@ Nothing interesting here.
 </div>
 </div>
 
-<div id="outline-container-sec-1-5" class="outline-3">
-<h3 id="sec-1-5">Combine it till it combines</h3>
-<div class="outline-text-3" id="text-1-5">
+<div id="outline-container-sec-1-8" class="outline-3">
+<h3 id="sec-1-8">Combine it till it combines</h3>
+<div class="outline-text-3" id="text-1-8">
 <p>
 And the most easiest part. Now we are going to configure a project that combines two previously configured.
 </p>
@@ -320,8 +402,9 @@ And the most easiest part. Now we are going to configure a project that combines
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #008000;">"d12"</span>
- <span style="color: #006FE0;">:components</span> <span style="color: #7388D6;">(</span><span style="color: #008000;">"d12-org-files"</span>
-              <span style="color: #008000;">"d12-images"</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+ <span style="color: #006FE0;">:components</span> <span style="color: #7388D6;">(</span><span style="color: #008000;">"d12-static"</span>
+              <span style="color: #008000;">"d12-posts"</span>
+              <span style="color: #008000;">"d12-index"</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -342,49 +425,10 @@ To publish current file use <code>C-c C-e P f</code>. To publish current project
 </div>
 
 <div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3">Some words to defend myself (hello, hakyll)</h2>
+<h2 id="sec-3">So what?</h2>
 <div class="outline-text-2" id="text-3">
-<p>
-As you see, there is nothing complicated in publishing configurations. Actually you can do much more. When publishing you can also create sitemap (so publishing result looks more like a SITE rather than bunch of unrelated pages). I recommend you to checkout this <a href="http://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html">tutorial</a> to see what else you can do with publishing in <code>org-mode</code>. For me - these pity configurations is everything I need, because it is passed to <code>hakyll</code>. The only problem you might face - syntax highlighting. The problem is with <code>org-html-src-block</code> function an how <code>pandoc</code> converts <code>code</code> blocks. To make use of <code>pandoc</code> syntax highlighting your code blocks should have a language <code>class</code>. I mean something like:
-</p>
-
-<div class="org-src-container">
-
-<pre class="src src-html"><span style="color: #707183;">&lt;</span><span style="color: #006699;">code</span> <span style="color: #BA36A5;">class</span>=<span style="color: #008000;">"haskell"</span><span style="color: #707183;">&gt;</span>applyEvery f n = zipWith <span style="color: #707183;">(</span>$<span style="color: #707183;">)</span> <span style="color: #707183;">(</span>cycle <span style="color: #7388D6;">(</span>f : replicate <span style="color: #909183;">(</span>n-1<span style="color: #909183;">)</span> id<span style="color: #7388D6;">)</span><span style="color: #707183;">)&lt;</span>/<span style="color: #006699;">code</span><span style="color: #707183;">&gt;</span>
-</pre>
-</div>
-
-<p>
-But <code>org-mode</code> publishes it as
-</p>
-
-<div class="org-src-container">
-
-<pre class="src src-html"><span style="color: #707183;">&lt;</span><span style="color: #006699;">code</span> <span style="color: #BA36A5;">class</span>=<span style="color: #008000;">"src src-haskell"</span><span style="color: #707183;">&gt;</span>applyEvery f n = zipWith <span style="color: #707183;">(</span>$<span style="color: #707183;">)</span> <span style="color: #707183;">(</span>cycle <span style="color: #7388D6;">(</span>f : replicate <span style="color: #909183;">(</span>n-1<span style="color: #909183;">)</span> id<span style="color: #7388D6;">)</span><span style="color: #707183;">)&lt;</span>/<span style="color: #006699;">code</span><span style="color: #707183;">&gt;</span>
-</pre>
-</div>
-
-<p>
-I thought that it's possible to configure it via some variables, but then I checked the definition of function that is responsible for converting src blocks and found that this behaviour is hard-coded. Probably no one ever required more control on it. So I just redefined it by changing the last <code>format</code> sexp into
-</p>
-
-<div class="org-src-container">
-
-<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>format <span style="color: #008000;">"\n&lt;pre class=\"src src-%s %s\"%s&gt;%s&lt;/pre&gt;"</span> lang lang label code<span style="color: #707183;">)</span>
-</pre>
-</div>
-
-<p>
-A bit noisy. But I still need to update my <code>css</code> files in order to remove <code>src-haskell</code> and <code>src</code>.
-</p>
-</div>
-</div>
-
-<div id="outline-container-sec-4" class="outline-2">
-<h2 id="sec-4">So what?</h2>
-<div class="outline-text-2" id="text-4">
 <ol class="org-ol">
-<li>All my notes / posts are in one place. So I get all bonuses from org-mode and my configurations for it (like agenda, search etc) - I am tired of repeating them.
+<li>All my notes / posts are in one place. So I get all bonuses from org-mode and my configurations for it (like agenda, search etc).
 </li>
 <li>I can easily add custom configurations to certain posts (like toc, visibility of different parts, either export todos or not etc).
 </li>
@@ -395,16 +439,11 @@ A bit noisy. But I still need to update my <code>css</code> files in order to re
 </ol>
 
 <p>
-I am still thinking about automating publishing process even more. <code>org-mode</code> allows you to call custom function on pre-publishing and post-publishing. So I actually can rebuild my site using <code>hakyll</code>, commit changes and push automatically. But I still want to do it manually. Who knows what awaits me.
+I am still thinking about automating publishing process even more. <code>org-mode</code> allows you to call custom function on pre-publishing and post-publishing. So it's even possible to auto commit and push on successful site generation (with new content).
 </p>
-</div>
-</div>
 
-<div id="outline-container-sec-5" class="outline-2">
-<h2 id="sec-5">Advertisement (because you don't poses a premium account)</h2>
-<div class="outline-text-2" id="text-5">
 <p>
-Hey, checkout my latest <a href="https://github.com/d12frosted/environment/blob/master/emacs/configs/org-configs.el">org-configs.el</a>!
+<b>NB!</b> My configurations are changing very often. In case you are interested in latest changes, checkout <a href="https://github.com/d12frosted/environment/blob/master/emacs/configs/org-configs.el">org-configs.el</a>!
 </p>
 </div>
 </div>
@@ -413,7 +452,7 @@ Hey, checkout my latest <a href="https://github.com/d12frosted/environment/blob/
 <p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-05-11&gt;</span></span></p>
 <p class="author">Author: Boris Buliga &lt;d12frosted@icloud.com&gt;</p>
 <p class="email">Email: <a href="mailto:d12frosted@icloud.com">d12frosted@icloud.com</a></p>
-<p class="date">Created: 2015-05-12 Tue 09:33</p>
+<p class="date">Created: 2015-05-12 Tue 10:31</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.4.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"></p>
 </div>
