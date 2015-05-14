@@ -1,0 +1,104 @@
+/* GLOBAL */
+
+body {
+    width: 80%;
+    display: block;
+    margin: auto;
+    left: 0px;
+    right: 0px;
+}
+
+body p {
+    text-align: justify;
+}
+
+/* IMAGES */
+
+div.figure {
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+}
+
+div.figure img {
+    display: block;
+    margin: auto;
+    left: 0px;
+    right: 0px;
+    max-width: 80%;
+}
+
+div.figure p {
+    text-align: center;
+    font-style: italic;
+}
+
+/* SOURCES */
+
+pre.src:hover:before      { display: inline;       }
+pre.src-sh:before         { content: 'sh';         }
+pre.src-bash:before       { content: 'sh';         }
+pre.src-fish:before       { content: 'fish';       }
+pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+pre.src-haskell:before    { content: 'Haskell';    }
+pre.src-html:before       { content: 'HTML';       }
+
+/* NAVIGATION */
+
+ul.nav-list {
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.nav-elem a {
+  display: block;
+  padding: 10px;
+  margin: 0px;
+  /* color: @navText; */
+  /* font-family: @headFont; */
+  /* font-weight: 500; */
+  font-size: 120%;
+  text-align: center;
+  text-decoration: none;
+}
+
+.nav-elem img {
+  position: relative;
+  top: 2px;
+  right: 2px;
+  height: 24px;
+  width: 24px;
+}
+
+.nav-head a {
+  padding-left: 0px;
+  padding-right: 30px;
+  /* color: @navHead; */
+}
+
+.nav-elem a:active,
+.nav-elem a:hover,
+.nav-elem a:focus {
+  /* background-color: @navHi; */
+}
+
+.nav-head a:active,
+.nav-head a:hover,
+.nav-head a:focus {
+  /* background-color: @navBG; */
+}
+
+.nav-active a {
+  /* background-color: @navAct; */
+}
+
+li.nav-left {
+  float: left;
+}
+
+li.nav-right {
+  float: right;
+}
