@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Org mode to drive the blog</title>
-<!-- 2015-05-17 Sun 10:51 -->
+<!-- 2015-05-17 Sun 21:18 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Boris Buliga &lt;d12frosted@icloud.com&gt;" />
@@ -264,7 +264,7 @@ So I checked some tutorials and now I publish my blog from <code>org-mode</code>
 </div>
 
 <p>
-In <code>org-mode</code> you can export a single file. I bet you have already tried it. But in case you haven't - just press <code>C-c C-e</code> to run <code>org-export-dispatch</code>. In case you're confused by what you saw - press <code>h o</code>. It will export current <code>org</code> file as <code>html</code> file and open it in your default browser. <code>org-mode</code> also allows you to export several files at the same time. In order to do so you need to configure a project. A project is a pair of files and their exporting configurations. So actually, your blog is also a project. We just need to specify it's files and some rules.
+In <code>org-mode</code> you can export a single file. I bet you have already tried it. But in case you haven't - just press <code>C-c C-e</code> to run <code>org-export-dispatch</code>. In case you're confused by what you saw - press <code>h o</code>. It will export current <code>org</code> file as <code>html</code> file and open it in your default browser. <code>org-mode</code> also allows you to export several files at the same time. In order to do so you need to configure a project. A project is a pair of files and their exporting configurations. So actually, your blog is also a project. We just need to specify it's files and some exporting rules.
 </p>
 </div>
 
@@ -310,7 +310,7 @@ Project is defined by specifying it's name and property values.
 </div>
 
 <p>
-But it's also possible to define project as a composition of other projects.
+It's also possible to define project as a composition of other projects.
 </p>
 
 <div class="org-src-container">
@@ -320,7 +320,7 @@ But it's also possible to define project as a composition of other projects.
 </div>
 
 <p>
-So you define several projects and put them into <code>org-publish-project-alist</code>.
+In order to do so - you need to define some regular projects first. For example.
 </p>
 
 <div class="org-src-container">
@@ -382,7 +382,7 @@ So let's define a project for posts.
 </div>
 
 <p>
-It's pretty straightforward. <code>org-mode</code> will search for files with <code>:base-extension</code> in a <code>:base-directory</code> and will use <code>:publishing-function</code> to publish them in <code>:publishing-directory</code>. You can try just now, by calling <code>org-publish</code> and picking up <code>blog-posts</code> project. <code>org-html-publish-to-html</code> is a function you use to convert <code>org</code> files into <code>html</code> files.
+It's pretty straightforward. <code>org-mode</code> will search for files with <code>:base-extension</code> in a <code>:base-directory</code> and will use <code>:publishing-function</code> to publish them in <code>:publishing-directory</code>. You can try it right now, by calling <code>org-publish</code> and picking up <code>blog-posts</code> project. <code>org-html-publish-to-html</code> is a function you use to convert <code>org</code> files into <code>html</code> files.
 </p>
 </div>
 </div>
@@ -391,13 +391,13 @@ It's pretty straightforward. <code>org-mode</code> will search for files with <c
 <h4 id="sec-2-3-2">Static files</h4>
 <div class="outline-text-4" id="text-2-3-2">
 <p>
-Probably you have some images in your posts. So let's publish them as well. Just remember that you should link to them from posts by using relative links like <code>../images/img-name.png</code> links or absolute links. My point is - beware of broken links!
+Probably you have some images in your posts. So let's publish them as well. Just remember that you should link them from posts by using relative links like <code>../images/img-name.png</code> or absolute links. My point is - beware of broken links!
 </p>
 
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>setq org-publish-project-alist
-      '<span style="color: #7388D6;">(</span><span style="color: #909183;">(</span><span style="color: #008000;">"blog-posts"</span> ... <span style="color: #909183;">)</span>
+      '<span style="color: #7388D6;">(</span><span style="color: #909183;">(</span><span style="color: #008000;">"blog-posts"</span> ... <span style="color: #909183;">)</span>                          <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">configurations for `</span><span style="color: #D0372D; font-style: italic;">blog-posts</span><span style="color: #8D8D84; font-style: italic;">' project</span>
         <span style="color: #909183;">(</span><span style="color: #008000;">"blog-static-files"</span>
          <span style="color: #006FE0;">:base-directory</span> <span style="color: #008000;">"~/blog-sources/images/"</span>    <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">directory where images are stored</span>
          <span style="color: #006FE0;">:base-extension</span> <span style="color: #008000;">"png</span><span style="color: #008000; font-weight: bold;">\\</span><span style="color: #008000; font-weight: bold;">|</span><span style="color: #008000;">jpg</span><span style="color: #008000; font-weight: bold;">\\</span><span style="color: #008000; font-weight: bold;">|</span><span style="color: #008000;">gif"</span>           <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">images extensions</span>
@@ -412,7 +412,7 @@ So we see few differences. Firstly, <code>:base-extension</code> is actually reg
 </p>
 
 <p>
-So now you can publish this project as well. What about css and js files? Let's delay until we start using them. Then we'll just update configurations.
+So now you can publish this project as well. What about css and js files? Let's delay until we start using them. Then we'll just update these configurations.
 </p>
 </div>
 </div>
@@ -421,15 +421,11 @@ So now you can publish this project as well. What about css and js files? Let's 
 <h4 id="sec-2-3-3">Index page</h4>
 <div class="outline-text-4" id="text-2-3-3">
 <p>
-Every blog needs an index page. At least for listing all posts, right?
+Every blog needs an index page. At least for the list of all posts, right? <code>Org-mode</code> can generate this list for you automatically, but let's start with something very simple.  Just create an <code>index.org</code> file in <code>\~/blog-sources</code>. You can use whatever content you want. If you wish, add some links to your posts (<code>org</code> files) and they will be converted into right links to <code>html</code> files automatically.
 </p>
 
 <p>
-But let's start with something very basic. Just create an <code>index.org</code> file in <code>\~/blog-sources</code>. You can use whatever content you want. You might add some links to your posts, they will be converted as well.
-</p>
-
-<p>
-Then create a project for this sole file.
+So let's create a project for this one simple file.
 </p>
 
 <div class="org-src-container">
@@ -444,6 +440,10 @@ Then create a project for this sole file.
         <span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
+
+<p>
+As you can see, at this point is pretty similar to <code>blog-posts</code> project. Just other directories and omitted extension (because <code>org</code> is the default value for <code>:basic-extension</code>).
+</p>
 </div>
 </div>
 
@@ -451,7 +451,7 @@ Then create a project for this sole file.
 <h4 id="sec-2-3-4">The Blog</h4>
 <div class="outline-text-4" id="text-2-3-4">
 <p>
-So now we just need to combine all those projects we defined into one - your blog.
+And the last project is our blog itself.
 </p>
 
 <div class="org-src-container">
@@ -468,7 +468,7 @@ So now we just need to combine all those projects we defined into one - your blo
 </div>
 
 <p>
-Yes, now you can publish all your blog by selecting "blog" project. To be honest with you, the last defined project is not necessary, because you can publish all projects by pressing <code>C-c C-e P a</code>. But you need to know how to define a project from components.
+Now you can <code>M-x &lt;return&gt; org-publish</code> and chose <code>blog</code> to publish all projects. Actually, you don't need to define the last project if you are going to publish it via <code>C-c C-e P a</code> because it will publish all your projects. But knowing this way of defining projects will not hurt.
 </p>
 </div>
 </div>
@@ -477,11 +477,11 @@ Yes, now you can publish all your blog by selecting "blog" project. To be honest
 <h4 id="sec-2-3-5">Next steps</h4>
 <div class="outline-text-4" id="text-2-3-5">
 <p>
-At this point you are familiar with some basics and you now free to sail. The good link to follow up from this point is the <a href="http://orgmode.org/manual/Publishing.html">official manual on publishing</a>. Also a good thing to do is to read the documentation for <code>org-publish-project-alist</code> to find more properties to setup.
+At this point you are familiar with some publishing basics and you are free to sail. The good link to follow up from this point is the <a href="http://orgmode.org/manual/Publishing.html">official manual on publishing</a>. Also a good thing to do is to read the documentation for <code>org-publish-project-alist</code> to find more properties to setup.
 </p>
 
 <p>
-But in case you are interested in more complicated examples, keep reading!
+But in case you are interested in more complicated (and real-life) examples, keep reading!
 </p>
 </div>
 </div>
