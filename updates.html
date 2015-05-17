@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>CanonicalPath v0.3.0.0</title>
+<title>Latest Updates</title>
 <!-- 2015-05-16 Sat 21:51 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
@@ -161,52 +161,41 @@ for the JavaScript code in this tag.
 </header>
 </div>
 <div id="content">
-<h1 class="title">CanonicalPath v0.3.0.0</h1>
-<p>
-<a href="https://github.com/d12frosted/CanonicalPath">Github</a> | <a href="https://hackage.haskell.org/package/system-canonicalpath">Hackage</a> | <a href="https://www.stackage.org/package/system-canonicalpath">Stackage</a>
-</p>
-
-<p>
-You wouldn't expect that, but in this post I announce third major release of <code>CanonicalPath</code> library. It should help you to canonicalize paths on your computer. And here is a funny fact about myself: I like to surround version numbers with zeros (one zero goes to the very left and another one to the very right).
-</p>
-
-<p>
-I am making major release instead of minor because I have broken API (just a little bit). But I hope that you will like it. OK, so what's new?
-</p>
-
+<h1 class="title">Latest Updates</h1>
 <ul class="org-ul">
-<li>Remove <code>UnsafePath</code> data type. It was synonym to <code>FilePath</code> and was confusing me sometimes, so I decided to cut it off.
+<li>16.04.2015 - add links to archive and updates to navigation bar
 </li>
-<li>Rename <code>cpathToText</code> to <code>toText</code>'.
+<li>16.04.2015 - show only last 10 updates on index page
 </li>
-<li>Remove <code>pathToText</code> and <code>textToPath</code>.
+<li>16.04.2015 - move latest updates to separate file
 </li>
-<li>Export <code>toText</code> and <code>fromText</code> from <code>Filesystem.Path.CurrentOS</code>.
+<li>16.04.2015 - show only last 5 posts on index page
 </li>
-<li>Export <code>fromPrelude</code> and <code>toPrelude</code> functions.
+<li>16.04.2015 - update index page
 </li>
-<li>Improve performance (path canonicalization now is performed 1.6x faster than before).
+<li>16.04.2015 - rewrote <a href="posts/Org-mode-to-drive-the-blog.html">Org-mode to drive this blog</a>
 </li>
-<li>Improve <code>canonicalPath</code> error messages. Most important - now it respects errors from <code>System.Directory.canonicalizePath</code>.
+<li>16.04.2015 - remove postamble from index page
 </li>
-<li>Add tests.
+<li>16.04.2015 - update postamble format for post pages
 </li>
-<li>Add travis support.
+<li>16.04.2015 - update postamble design
 </li>
-<li>Update documentation.
+<li>16.04.2015 - remove horizontal lines before and after navigation bar
+</li>
+<li>16.04.2015 - update quotes css
+</li>
+<li>15.04.2015 - update <a href="posts/Org-mode-to-drive-the-blog.html">Org-mode to drive this blog</a>
+</li>
+<li>15.04.2015 - place navigation bar before first header
+</li>
+<li>14.05.2015 – add navigation bar
+</li>
+<li>13.05.2015 - create list of latest updates
+</li>
+<li>12.05.2015 - abandon <code>hakyll</code> and use <code>org-mode</code> to generate this site
 </li>
 </ul>
-
-<p>
-I tried to implement some new good features, but failed miserably.
-</p>
-
-<p>
-And as always - suggestions and pull requests are welcome!
-</p>
-</div>
-<div id="postamble" class="status">
-<p>By Boris Buliga &lt;d12frosted@icloud.com&gt;<p><p>Created: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-02-04&gt;</span></span><p>
 </div>
 </body>
 </html>

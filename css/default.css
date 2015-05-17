@@ -49,6 +49,7 @@ ul.nav-list {
   list-style-type: none;
   margin: 0px;
   padding: 0px;
+  padding-top: 16px;
   overflow: hidden;
   width: 100%;
 }
@@ -101,4 +102,66 @@ li.nav-left {
 
 li.nav-right {
   float: right;
+}
+
+/* POSTAMBLE */
+
+div#postamble {
+    top: 16px;
+}
+
+div#postamble.status p {
+    text-align: right;
+    font-size: 105%;
+}
+
+.timestamp {
+    color: black;
+}
+
+/* BLOCKQUOTES */
+
+blockquote {
+  display:block;
+  background: #fff;
+  padding: 15px 20px 15px 45px;
+  margin: 0 0 20px;
+  position: relative;
+  quotes: "\201C""\201D""\2018""\2019";
+
+  line-height: 1.1;
+  text-align: justify;
+
+  border-left: 15px solid #ccc;
+  border-right: 2px solid #ccc;
+
+  -moz-box-shadow: 2px 2px 15px #ccc;
+  -webkit-box-shadow: 2px 2px 15px #ccc;
+  box-shadow: 2px 2px 15px #ccc;
+}
+
+blockquote:before {
+  position: absolute;
+  left: 10px;
+  top:5px;
+}
+
+blockquote:after {
+  /*Reset to make sure*/
+  content: "";
+}
+
+blockquote a {
+  text-decoration: none;
+  background: #eee;
+  cursor: pointer;
+  padding: 0 3px;
+}
+
+blockquote a:hover {
+ color: #666;
+}
+
+blockquote em {
+  font-style: italic;
 }
