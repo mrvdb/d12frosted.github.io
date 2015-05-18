@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Org mode to drive the blog</title>
-<!-- 2015-05-17 Sun 21:18 -->
+<!-- 2015-05-17 Sun 21:31 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Boris Buliga &lt;d12frosted@icloud.com&gt;" />
@@ -188,14 +188,13 @@ Over the last months I have totally switched to <code>org-mode</code>. I am usin
 <li><a href="#sec-2-3-5">Next steps</a></li>
 </ul>
 </li>
-<li><a href="#sec-2-4">More features <code>[0/6]</code></a>
+<li><a href="#sec-2-4">More features <code>[0/4]</code></a>
 <ul>
-<li><a href="#sec-2-4-1"><span class="todo TODO">TODO</span> Recursive property</a></li>
-<li><a href="#sec-2-4-2"><span class="todo TODO">TODO</span> More static files</a></li>
-<li><a href="#sec-2-4-3"><span class="todo TODO">TODO</span> Custom head</a></li>
-<li><a href="#sec-2-4-4"><span class="todo TODO">TODO</span> Preamble and Postamble</a></li>
-<li><a href="#sec-2-4-5"><span class="todo TODO">TODO</span> Site map</a></li>
-<li><a href="#sec-2-4-6"><span class="todo TODO">TODO</span> Shrink <code>org-publish-project-alist</code></a></li>
+<li><a href="#sec-2-4-1">Recursive property and more static files</a></li>
+<li><a href="#sec-2-4-2"><span class="todo TODO">TODO</span> Custom head</a></li>
+<li><a href="#sec-2-4-3"><span class="todo TODO">TODO</span> Preamble and Postamble</a></li>
+<li><a href="#sec-2-4-4"><span class="todo TODO">TODO</span> Site map</a></li>
+<li><a href="#sec-2-4-5"><span class="todo TODO">TODO</span> Shrink <code>org-publish-project-alist</code></a></li>
 </ul>
 </li>
 </ul>
@@ -431,8 +430,8 @@ So let's create a project for this one simple file.
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>setq org-publish-project-alist
-      '<span style="color: #7388D6;">(</span><span style="color: #909183;">(</span><span style="color: #008000;">"blog-posts"</span> ... <span style="color: #909183;">)</span>
-        <span style="color: #909183;">(</span><span style="color: #008000;">"blog-static-files"</span> ... <span style="color: #909183;">)</span>
+      '<span style="color: #7388D6;">(</span><span style="color: #909183;">(</span><span style="color: #008000;">"blog-posts"</span> ... <span style="color: #909183;">)</span>        <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">configurations for `</span><span style="color: #D0372D; font-style: italic;">blog-posts</span><span style="color: #8D8D84; font-style: italic;">' project</span>
+        <span style="color: #909183;">(</span><span style="color: #008000;">"blog-static-files"</span> ... <span style="color: #909183;">)</span> <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">configurations for `</span><span style="color: #D0372D; font-style: italic;">blog-static-files</span><span style="color: #8D8D84; font-style: italic;">' project</span>
         <span style="color: #909183;">(</span><span style="color: #008000;">"blog-pages"</span>
          <span style="color: #006FE0;">:base-directory</span> <span style="color: #008000;">"~/blog-sources/"</span>
          <span style="color: #006FE0;">:publishing-function</span> org-html-publish-to-html
@@ -442,7 +441,7 @@ So let's create a project for this one simple file.
 </div>
 
 <p>
-As you can see, at this point is pretty similar to <code>blog-posts</code> project. Just other directories and omitted extension (because <code>org</code> is the default value for <code>:basic-extension</code>).
+As you can see, at this point is pretty similar to <code>blog-posts</code> project. Just other directories and omitted extension (because <code>org</code> is the default value for <code>:base-extension</code>).
 </p>
 </div>
 </div>
@@ -457,9 +456,9 @@ And the last project is our blog itself.
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>setq org-publish-project-alist
-      '<span style="color: #7388D6;">(</span><span style="color: #909183;">(</span><span style="color: #008000;">"blog-posts"</span> ... <span style="color: #909183;">)</span>
-        <span style="color: #909183;">(</span><span style="color: #008000;">"blog-static-files"</span> ... <span style="color: #909183;">)</span>
-        <span style="color: #909183;">(</span><span style="color: #008000;">"blog-pages"</span> ... <span style="color: #909183;">)</span>
+      '<span style="color: #7388D6;">(</span><span style="color: #909183;">(</span><span style="color: #008000;">"blog-posts"</span> ... <span style="color: #909183;">)</span>        <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">configurations for `</span><span style="color: #D0372D; font-style: italic;">blog-posts</span><span style="color: #8D8D84; font-style: italic;">' project</span>
+        <span style="color: #909183;">(</span><span style="color: #008000;">"blog-static-files"</span> ... <span style="color: #909183;">)</span> <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">configurations for `</span><span style="color: #D0372D; font-style: italic;">blog-static-files</span><span style="color: #8D8D84; font-style: italic;">' project</span>
+        <span style="color: #909183;">(</span><span style="color: #008000;">"blog-pages"</span> ... <span style="color: #909183;">)</span>        <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">configurations for `</span><span style="color: #D0372D; font-style: italic;">blog-pages</span><span style="color: #8D8D84; font-style: italic;">' project</span>
         <span style="color: #909183;">(</span><span style="color: #008000;">"blog"</span>
          <span style="color: #006FE0;">:components</span> <span style="color: #709870;">(</span><span style="color: #008000;">"blog-posts"</span>
                       <span style="color: #008000;">"blog-static-files"</span>
@@ -488,30 +487,51 @@ But in case you are interested in more complicated (and real-life) examples, kee
 </div>
 
 <div id="outline-container-sec-2-4" class="outline-3">
-<h3 id="sec-2-4">More features <code>[0/6]</code></h3>
+<h3 id="sec-2-4">More features <code>[0/4]</code></h3>
 <div class="outline-text-3" id="text-2-4">
 </div><div id="outline-container-sec-2-4-1" class="outline-4">
-<h4 id="sec-2-4-1"><span class="todo TODO">TODO</span> Recursive property</h4>
+<h4 id="sec-2-4-1">Recursive property and more static files</h4>
+<div class="outline-text-4" id="text-2-4-1">
+<p>
+As we discussed before - your site might contain different static files (like images, css and js files). Previously we already defined a project for static files, but it was publishing only images from <code>images</code> folder. So you might thought that you need to define several projects for different kind of static files even despite the fact that <code>:base-extensions</code> is actually a regexp. I mean, in case you want to store different kind of static files in different directories. But a good thing - you can use <code>:recursive</code> property. So let's update our <code>blog-static-files</code> project configurations.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>setq org-publish-project-alist
+      '<span style="color: #7388D6;">(</span><span style="color: #909183;">(</span><span style="color: #008000;">"blog-posts"</span> ... <span style="color: #909183;">)</span>                           <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">configurations for `</span><span style="color: #D0372D; font-style: italic;">blog-posts</span><span style="color: #8D8D84; font-style: italic;">' project</span>
+        <span style="color: #909183;">(</span><span style="color: #008000;">"blog-static-files"</span>
+         <span style="color: #006FE0;">:base-directory</span> <span style="color: #008000;">"~/blog-sources/"</span>            <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">directory where images are stored</span>
+         <span style="color: #006FE0;">:base-extension</span> <span style="color: #008000;">"png</span><span style="color: #008000; font-weight: bold;">\\</span><span style="color: #008000; font-weight: bold;">|</span><span style="color: #008000;">jpg</span><span style="color: #008000; font-weight: bold;">\\</span><span style="color: #008000; font-weight: bold;">|</span><span style="color: #008000;">gif</span><span style="color: #008000; font-weight: bold;">\\</span><span style="color: #008000; font-weight: bold;">|</span><span style="color: #008000;">css</span><span style="color: #008000; font-weight: bold;">\\</span><span style="color: #008000; font-weight: bold;">|</span><span style="color: #008000;">js"</span> <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">images extensions</span>
+         <span style="color: #006FE0;">:publishing-directory</span> <span style="color: #008000;">"~/blog/"</span>              <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">directory where to move (publish) images</span>
+         <span style="color: #006FE0;">:publishing-function</span> org-publish-attachment  <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">function to publish with</span>
+         <span style="color: #006FE0;">:recursive</span> t                                 <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">search for files recursively</span>
+        <span style="color: #909183;">)</span>
+        <span style="color: #909183;">(</span><span style="color: #008000;">"blog-pages"</span> ... <span style="color: #909183;">)</span>                           <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">configurations for `</span><span style="color: #D0372D; font-style: italic;">blog-pages</span><span style="color: #8D8D84; font-style: italic;">' project</span>
+        <span style="color: #909183;">(</span><span style="color: #008000;">"blog"</span> ... <span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>                               <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">configurations for `</span><span style="color: #D0372D; font-style: italic;">blog</span><span style="color: #8D8D84; font-style: italic;">' project</span>
+</pre>
+</div>
+
+<p>
+So now we ask to search for files with <code>:base-extension</code> in blog sources root directory (<code>:base-directory</code>) instead of images directory, we add <code>css</code> and <code>js</code> extensions to <code>:base-extension</code> regexp, change <code>:publishing-directory</code> to blog root. And it all should be done recursively. So basically it will move all matched files to the blog root preserving their relative path. I mean, <code>\~/blog-sources/css/default.css</code> will be moved to <code>\~/blog/css/default.css</code>.
+</p>
+</div>
 </div>
 
 <div id="outline-container-sec-2-4-2" class="outline-4">
-<h4 id="sec-2-4-2"><span class="todo TODO">TODO</span> More static files</h4>
+<h4 id="sec-2-4-2"><span class="todo TODO">TODO</span> Custom head</h4>
 </div>
 
 <div id="outline-container-sec-2-4-3" class="outline-4">
-<h4 id="sec-2-4-3"><span class="todo TODO">TODO</span> Custom head</h4>
+<h4 id="sec-2-4-3"><span class="todo TODO">TODO</span> Preamble and Postamble</h4>
 </div>
 
 <div id="outline-container-sec-2-4-4" class="outline-4">
-<h4 id="sec-2-4-4"><span class="todo TODO">TODO</span> Preamble and Postamble</h4>
+<h4 id="sec-2-4-4"><span class="todo TODO">TODO</span> Site map</h4>
 </div>
 
 <div id="outline-container-sec-2-4-5" class="outline-4">
-<h4 id="sec-2-4-5"><span class="todo TODO">TODO</span> Site map</h4>
-</div>
-
-<div id="outline-container-sec-2-4-6" class="outline-4">
-<h4 id="sec-2-4-6"><span class="todo TODO">TODO</span> Shrink <code>org-publish-project-alist</code></h4>
+<h4 id="sec-2-4-5"><span class="todo TODO">TODO</span> Shrink <code>org-publish-project-alist</code></h4>
 </div>
 </div>
 </div>
