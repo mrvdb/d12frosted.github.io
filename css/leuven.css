@@ -49,3 +49,15 @@ h8 {
     font-weight: bold;
     font-style: italic;
 }
+
+code {
+    color: #006400;
+    background: #FDFFF7;
+}
+
+/*
+pre.src {
+    color: #000088;
+    background: #FFFFE0;
+}
+*/
