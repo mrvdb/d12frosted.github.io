@@ -42,6 +42,7 @@ pre.src-fish:before       { content: 'fish';       }
 pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
 pre.src-haskell:before    { content: 'Haskell';    }
 pre.src-html:before       { content: 'HTML';       }
+pre.src-org:before        { content: 'org-mode';   }
 
 /* NAVIGATION */
 

@@ -1,0 +1,51 @@
+h1 {
+    background: #F0F0F0;
+    color: #3C3C3C;
+    font-weight: bold;
+    border-top: 1px solid #A7A7A7;
+}
+
+h2 {
+    /* display: table-cell; */
+    background: #E5F4FB;
+    color: #123555;
+    font-weight: bold;
+    border-top: 1px solid #123555;
+}
+
+h3 {
+    /* display: table-cell; */
+    background: #EFFFEF;
+    color: #005522;
+    font-weight: bold;
+}
+
+h4 {
+    color: #EA6300;
+    font-weight: bold;
+    font-style: normal;
+}
+
+h5 {
+    color: #E3258D;
+    font-weight: bold;
+    font-style: normal;
+}
+
+h6 {
+    color: #0077CC;
+    font-weight: bold;
+    font-style: italic;
+}
+
+h7 {
+    color: #2EAE2C;
+    font-weight: bold;
+    font-style: italic;
+}
+
+h8 {
+    color: #FD8008;
+    font-weight: bold;
+    font-style: italic;
+}

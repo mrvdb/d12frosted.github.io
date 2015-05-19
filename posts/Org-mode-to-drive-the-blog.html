@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Org mode to drive the blog</title>
-<!-- 2015-05-18 Mon 09:00 -->
+<!-- 2015-05-18 Mon 22:53 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Boris Buliga &lt;d12frosted@icloud.com&gt;" />
@@ -89,6 +89,7 @@
   /*]]>*/-->
 </style>
 <link rel='stylesheet' type='text/css' href='/css/default.css' />
+<link rel="stylesheet" type='text/css' href='/css/leuven.css' />
 <link rel='stylesheet' href='/font-awesome/css/font-awesome.min.css'>
 <script type="text/javascript">
 /*
@@ -139,7 +140,6 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="preamble" class="status">
-
 <header>
   <ul class='nav-list'>
     <li class='nav-elem nav-left nav-head'>
@@ -191,10 +191,11 @@ Over the last months I have totally switched to <code>org-mode</code>. I am usin
 <li><a href="#sec-2-4">More features <code>[0/4]</code></a>
 <ul>
 <li><a href="#sec-2-4-1">Recursive property and more static files</a></li>
-<li><a href="#sec-2-4-2"><span class="todo TODO">TODO</span> Custom head</a></li>
-<li><a href="#sec-2-4-3"><span class="todo TODO">TODO</span> Preamble and Postamble</a></li>
-<li><a href="#sec-2-4-4"><span class="todo TODO">TODO</span> Site map</a></li>
-<li><a href="#sec-2-4-5"><span class="todo TODO">TODO</span> Shrink <code>org-publish-project-alist</code></a></li>
+<li><a href="#sec-2-4-2">Custom head</a></li>
+<li><a href="#sec-2-4-3"><span class="todo TODO">TODO</span> Get rid off default css</a></li>
+<li><a href="#sec-2-4-4"><span class="todo TODO">TODO</span> Preamble and Postamble</a></li>
+<li><a href="#sec-2-4-5"><span class="todo TODO">TODO</span> Site map</a></li>
+<li><a href="#sec-2-4-6"><span class="todo TODO">TODO</span> Shrink <code>org-publish-project-alist</code></a></li>
 </ul>
 </li>
 </ul>
@@ -519,19 +520,129 @@ So now we ask to search for files with <code>:base-extension</code> in blog sour
 </div>
 
 <div id="outline-container-sec-2-4-2" class="outline-4">
-<h4 id="sec-2-4-2"><span class="todo TODO">TODO</span> Custom head</h4>
+<h4 id="sec-2-4-2">Custom head</h4>
+<div class="outline-text-4" id="text-2-4-2">
+<p>
+OK, we know how to publish css files. But how can one attach them? Suppose you have a file <code>default.css</code> in <code>css</code> directory. And you want it to be loaded for all post pages. You have two options. First is to add html head property to all org files.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-org"><span style="color: #008ED1; background-color: #EAEAFF;">#+HTML_HEAD: &lt;link rel="stylesheet" type="text/css" href="/css/default.css" /&gt;</span>
+</pre>
+</div>
+
+<p>
+But it's really bad solution. We want it to be attached automatically. So you have a second solution - setting <code>:html_head</code> property in project settings.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>setq org-publish-project-alist
+      '<span style="color: #7388D6;">(</span><span style="color: #909183;">(</span><span style="color: #008000;">"blog-posts"</span>
+         <span style="color: #006FE0;">:base-directory</span> <span style="color: #008000;">"~/blog-sources/posts/"</span>       <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">directory where posts are stored</span>
+         <span style="color: #006FE0;">:base-extension</span> <span style="color: #008000;">"org"</span>                         <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">extension of files you are going to publish</span>
+                                                       <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">"org" is a default value, so you can omit it</span>
+         <span style="color: #006FE0;">:publishing-directory</span> <span style="color: #008000;">"~/blog/posts/"</span>         <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">directory where to publish your posts</span>
+         <span style="color: #006FE0;">:publishing-function</span> org-html-publish-to-html <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">function to publish with</span>
+         <span style="color: #006FE0;">:html_head</span> <span style="color: #008000;">"&lt;link rel='stylesheet' type='text/css' href='/css/default.css' /&gt;"</span>
+        <span style="color: #909183;">)</span>
+        <span style="color: #909183;">(</span><span style="color: #008000;">"blog-static-files"</span> ... <span style="color: #909183;">)</span>                     <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">configurations for `</span><span style="color: #D0372D; font-style: italic;">blog-static-files</span><span style="color: #8D8D84; font-style: italic;">' project</span>
+        <span style="color: #909183;">(</span><span style="color: #008000;">"blog-pages"</span> ... <span style="color: #909183;">)</span>                            <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">configurations for `</span><span style="color: #D0372D; font-style: italic;">blog-pages</span><span style="color: #8D8D84; font-style: italic;">' project</span>
+        <span style="color: #909183;">(</span><span style="color: #008000;">"blog"</span> ... <span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>                                <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">configurations for `</span><span style="color: #D0372D; font-style: italic;">blog</span><span style="color: #8D8D84; font-style: italic;">' project</span>
+</pre>
+</div>
+
+<p>
+But remember that <code>:html_head</code> is just a string. So you can also add some js files there along with css files:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>setq org-publish-project-alist
+      '<span style="color: #7388D6;">(</span><span style="color: #909183;">(</span><span style="color: #008000;">"blog-posts"</span>
+         <span style="color: #006FE0;">:base-directory</span> <span style="color: #008000;">"~/blog-sources/posts/"</span>       <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">directory where posts are stored</span>
+         <span style="color: #006FE0;">:base-extension</span> <span style="color: #008000;">"org"</span>                         <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">extension of files you are going to publish</span>
+                                                       <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">"org" is a default value, so you can omit it</span>
+         <span style="color: #006FE0;">:publishing-directory</span> <span style="color: #008000;">"~/blog/posts/"</span>         <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">directory where to publish your posts</span>
+         <span style="color: #006FE0;">:publishing-function</span> org-html-publish-to-html <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">function to publish with</span>
+         <span style="color: #006FE0;">:html_head</span> <span style="color: #008000;">"</span>
+<span style="color: #008000;">&lt;link rel='stylesheet' type='text/js' href='/css/default.css' /&gt;</span>
+<span style="color: #008000;">&lt;script src='/js/script.js'&gt;&lt;/script&gt;</span>
+<span style="color: #008000;">"</span>
+        <span style="color: #909183;">)</span>
+        <span style="color: #909183;">(</span><span style="color: #008000;">"blog-static-files"</span> ... <span style="color: #909183;">)</span>                     <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">configurations for `</span><span style="color: #D0372D; font-style: italic;">blog-static-files</span><span style="color: #8D8D84; font-style: italic;">' project</span>
+        <span style="color: #909183;">(</span><span style="color: #008000;">"blog-pages"</span> ... <span style="color: #909183;">)</span>                            <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">configurations for `</span><span style="color: #D0372D; font-style: italic;">blog-pages</span><span style="color: #8D8D84; font-style: italic;">' project</span>
+        <span style="color: #909183;">(</span><span style="color: #008000;">"blog"</span> ... <span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>                                <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">configurations for `</span><span style="color: #D0372D; font-style: italic;">blog</span><span style="color: #8D8D84; font-style: italic;">' project</span>
+</pre>
+</div>
+
+<p>
+You also might want to add this <code>:html_head</code> to <code>blog-pages</code> project as well.
+</p>
+
+<p>
+First thing to notice - it's getting a bit ugly and we are starting to copying and pasting. We will improve things soon.
+</p>
+
+<p>
+Second thing to notice - all links I am using are absolute to site root. I mean, link like <code>/css/default.css</code>. It's static site, yes, but with such links you can't run it without a server, because links will be broken. I am using <code>wai</code> and <code>warp</code> to test my site locally.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-haskell"><span style="color: #808080;">{-# LANGUAGE NoImplicitPrelude #-}</span>
+<span style="color: #808080;">{-# LANGUAGE OverloadedStrings #-}</span>
+
+<span style="color: #0000FF;">module</span> <span style="color: #6434A3;">Main</span> <span style="color: #0000FF;">where</span>
+
+<span style="color: #0000FF;">import</span> <span style="color: #6434A3;">BasicPrelude</span>
+<span style="color: #0000FF;">import</span> <span style="color: #6434A3;">Network.Wai</span>
+<span style="color: #0000FF;">import</span> <span style="color: #6434A3;">Network.Wai.Application.Static</span>
+<span style="color: #0000FF;">import</span> <span style="color: #6434A3;">Network.Wai.Handler.Warp</span>
+
+<span style="color: #006699;">main</span> <span style="color: #006699;">::</span> <span style="color: #6434A3;">IO</span> <span style="color: #707183;">()</span>
+<span style="color: #006699;">main</span> <span style="color: #006699;">=</span> run <span style="color: #D0372D;">8000</span> app
+
+<span style="color: #006699;">app</span> <span style="color: #006699;">::</span> <span style="color: #6434A3;">Application</span>
+<span style="color: #006699;">app</span> <span style="color: #006699;">=</span> staticApp <span style="color: #BA36A5;">$</span> defaultFileServerSettings <span style="color: #008000;">"/Users/d12frosted/Developer/d12frosted.github.io/"</span>
+</pre>
+</div>
+
+<p>
+It looks a bit noisy, but actually it's very simple. Also I am using this because I usually have installed <code>wai</code> and <code>warp</code> so it doesn't require any additional work from me. You can use <code>node</code> or whatever else you like. It's just testing the result.
+</p>
+
+<p>
+And the last thing I wanted to notice. Actually, you have two properties for header: <code>HTML_HEAD</code> and <code>HTML_HEAD_EXTRA</code>. I recommend you to use one of them in project configurations and leave the other for any additional head stuff that you would like to add for specific files. For example, you would like to add <code>MathJax</code> to only one specific post. You can do it by adding following line to the top of your org file.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-org"><span style="color: #008ED1; background-color: #EAEAFF;">#+HTML_HEAD_EXTRA: &lt;script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'&gt;&lt;/script&gt;</span>
+</pre>
+</div>
+
+<p>
+Use the same property when you want to override the default one!.
+</p>
+</div>
 </div>
 
 <div id="outline-container-sec-2-4-3" class="outline-4">
-<h4 id="sec-2-4-3"><span class="todo TODO">TODO</span> Preamble and Postamble</h4>
+<h4 id="sec-2-4-3"><span class="todo TODO">TODO</span> Get rid off default css</h4>
 </div>
 
 <div id="outline-container-sec-2-4-4" class="outline-4">
-<h4 id="sec-2-4-4"><span class="todo TODO">TODO</span> Site map</h4>
+<h4 id="sec-2-4-4"><span class="todo TODO">TODO</span> Preamble and Postamble</h4>
 </div>
 
 <div id="outline-container-sec-2-4-5" class="outline-4">
-<h4 id="sec-2-4-5"><span class="todo TODO">TODO</span> Shrink <code>org-publish-project-alist</code></h4>
+<h4 id="sec-2-4-5"><span class="todo TODO">TODO</span> Site map</h4>
+</div>
+
+<div id="outline-container-sec-2-4-6" class="outline-4">
+<h4 id="sec-2-4-6"><span class="todo TODO">TODO</span> Shrink <code>org-publish-project-alist</code></h4>
 </div>
 </div>
 </div>
