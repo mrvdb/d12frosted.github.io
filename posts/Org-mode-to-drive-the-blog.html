@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Org mode to drive the blog</title>
-<!-- 2015-05-18 Mon 22:53 -->
+<!-- 2015-05-21 Thu 21:15 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Boris Buliga &lt;d12frosted@icloud.com&gt;" />
@@ -89,7 +89,6 @@
   /*]]>*/-->
 </style>
 <link rel='stylesheet' type='text/css' href='/css/default.css' />
-<link rel="stylesheet" type='text/css' href='/css/leuven.css' />
 <link rel='stylesheet' href='/font-awesome/css/font-awesome.min.css'>
 <script type="text/javascript">
 /*
@@ -188,14 +187,16 @@ Over the last months I have totally switched to <code>org-mode</code>. I am usin
 <li><a href="#sec-2-3-5">Next steps</a></li>
 </ul>
 </li>
-<li><a href="#sec-2-4">More features <code>[0/4]</code></a>
+<li><a href="#sec-2-4">More features</a>
 <ul>
 <li><a href="#sec-2-4-1">Recursive property and more static files</a></li>
 <li><a href="#sec-2-4-2">Custom head</a></li>
-<li><a href="#sec-2-4-3"><span class="todo TODO">TODO</span> Get rid off default css</a></li>
-<li><a href="#sec-2-4-4"><span class="todo TODO">TODO</span> Preamble and Postamble</a></li>
-<li><a href="#sec-2-4-5"><span class="todo TODO">TODO</span> Site map</a></li>
-<li><a href="#sec-2-4-6"><span class="todo TODO">TODO</span> Shrink <code>org-publish-project-alist</code></a></li>
+<li><a href="#sec-2-4-3">Some default <code>css</code></a></li>
+<li><a href="#sec-2-4-4">Code highlighting</a></li>
+<li><a href="#sec-2-4-5">Preamble and Postamble</a></li>
+<li><a href="#sec-2-4-6">Validation link</a></li>
+<li><a href="#sec-2-4-7">Site map</a></li>
+<li><a href="#sec-2-4-8">Shrink <code>org-publish-project-alist</code></a></li>
 </ul>
 </li>
 </ul>
@@ -488,7 +489,7 @@ But in case you are interested in more complicated (and real-life) examples, kee
 </div>
 
 <div id="outline-container-sec-2-4" class="outline-3">
-<h3 id="sec-2-4">More features <code>[0/4]</code></h3>
+<h3 id="sec-2-4">More features</h3>
 <div class="outline-text-3" id="text-2-4">
 </div><div id="outline-container-sec-2-4-1" class="outline-4">
 <h4 id="sec-2-4-1">Recursive property and more static files</h4>
@@ -630,19 +631,122 @@ Use the same property when you want to override the default one!.
 </div>
 
 <div id="outline-container-sec-2-4-3" class="outline-4">
-<h4 id="sec-2-4-3"><span class="todo TODO">TODO</span> Get rid off default css</h4>
+<h4 id="sec-2-4-3">Some default <code>css</code></h4>
+<div class="outline-text-4" id="text-2-4-3">
+<p>
+Probably you already have noticed that <code>org-mode</code> attaches some <code>css</code> to published files. But for some of you it might be undesirable. To get rid off those <code>css</code> you need to configure <code>org-html-head-include-default-style</code> variable, or set <code>:html-head-include-default-style</code> property for projects you wish to come clean. The default value is <code>t</code>, so just change that to <code>nil</code>.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>setq org-publish-project-alist
+      '<span style="color: #7388D6;">(</span><span style="color: #909183;">(</span><span style="color: #008000;">"blog-posts"</span>
+         <span style="color: #006FE0;">:base-directory</span> <span style="color: #008000;">"~/blog-sources/posts/"</span>       <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">directory where posts are stored</span>
+         <span style="color: #006FE0;">:base-extension</span> <span style="color: #008000;">"org"</span>                         <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">extension of files you are going to publish</span>
+                                                       <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">"org" is a default value, so you can omit it</span>
+         <span style="color: #006FE0;">:publishing-directory</span> <span style="color: #008000;">"~/blog/posts/"</span>         <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">directory where to publish your posts</span>
+         <span style="color: #006FE0;">:publishing-function</span> org-html-publish-to-html <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">function to publish with</span>
+         <span style="color: #006FE0;">:html_head</span> <span style="color: #008000;">"</span>
+<span style="color: #008000;">&lt;link rel='stylesheet' type='text/js' href='/css/default.css' /&gt;</span>
+<span style="color: #008000;">&lt;script src='/js/script.js'&gt;&lt;/script&gt;</span>
+<span style="color: #008000;">"</span>
+         <span style="color: #006FE0;">:html-head-include-default-style</span> nil
+        <span style="color: #909183;">)</span>
+        <span style="color: #909183;">(</span><span style="color: #008000;">"blog-static-files"</span> ... <span style="color: #909183;">)</span>                     <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">configurations for `</span><span style="color: #D0372D; font-style: italic;">blog-static-files</span><span style="color: #8D8D84; font-style: italic;">' project</span>
+        <span style="color: #909183;">(</span><span style="color: #008000;">"blog-pages"</span> ... <span style="color: #909183;">)</span>                            <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">configurations for `</span><span style="color: #D0372D; font-style: italic;">blog-pages</span><span style="color: #8D8D84; font-style: italic;">' project</span>
+        <span style="color: #909183;">(</span><span style="color: #008000;">"blog"</span> ... <span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>                                <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">configurations for `</span><span style="color: #D0372D; font-style: italic;">blog</span><span style="color: #8D8D84; font-style: italic;">' project</span>
+</pre>
+</div>
+</div>
 </div>
 
 <div id="outline-container-sec-2-4-4" class="outline-4">
-<h4 id="sec-2-4-4"><span class="todo TODO">TODO</span> Preamble and Postamble</h4>
+<h4 id="sec-2-4-4">Code highlighting</h4>
+<div class="outline-text-4" id="text-2-4-4">
+<p>
+When your file is published (exported), by default all code code snippets are exported with some syntax highlighting. It might be handy, but you might want more control over the colors. By default <code>org-mode</code> inlines <code>css</code> for code. It uses your font settings, so basically your theme affects generated <code>css</code>. You can make it more generic by setting <code>org-html-htmlize-output-type</code> to <code>css</code> (the default is <code>inline-css</code>). It asks <code>org-mode</code> to export <code>css</code> selectors only. As far as I know, you can't set it on per-project basis.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>setq org-html-htmlize-output-type 'inline-css<span style="color: #707183;">)</span> <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">default</span>
+<span style="color: #707183;">(</span>setq org-html-htmlize-output-type 'css<span style="color: #707183;">)</span>        <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">default</span>
+</pre>
+</div>
+</div>
 </div>
 
 <div id="outline-container-sec-2-4-5" class="outline-4">
-<h4 id="sec-2-4-5"><span class="todo TODO">TODO</span> Site map</h4>
+<h4 id="sec-2-4-5">Preamble and Postamble</h4>
+<div class="outline-text-4" id="text-2-4-5">
+<p>
+Just a common thing - you want to put some html block before and after generated body in every file in project. For example, you want to see navigation bar and footer with some links on every post page. You really could just insert some <code>#+BEGIN_HTML</code> in every file, but it will be hell to update something. You also could move it to separate files and just <code>#+INCLUDE</code> them in every file, but hey. Isn't it bad anyway? And here comes a good thing - you can set configure preamble and postamble globally or on per-project basis. First, make sure that <code>org-html-preamble</code> and <code>org-html-postamble</code> are set to <code>t</code> (this default). Sure, you can set any of them to nil if you don't want it to be included to generated <code>html</code> files.
+</p>
+
+<p>
+Variables you are interested in are <code>org-html-preamble-format</code> (<code>:html-preamble</code> property) and <code>org-html-postamble-format</code> (<code>:html-postamble</code> property). This format string can contain these elements:
+</p>
+
+<ul class="org-ul">
+<li><code>%t</code> – title.
+</li>
+<li><code>%a</code> – author's name
+</li>
+<li><code>%e</code> – author's email
+</li>
+<li><code>%d</code> – date
+</li>
+<li><code>%c</code> – <code>org-html-creator-string</code>
+</li>
+<li><code>%v</code> – <code>org-html-validation-link</code>
+</li>
+<li><code>%T</code> – export time
+</li>
+<li><code>%C</code> – last modification time
+</li>
+</ul>
+
+<p>
+For example, as a postamble I use following string.
+</p>
+
+<pre class="example">
+"&lt;p&gt;By %a&lt;\p&gt;&lt;p&gt;Created on %d&lt;\p&gt;"
+</pre>
+</div>
 </div>
 
 <div id="outline-container-sec-2-4-6" class="outline-4">
-<h4 id="sec-2-4-6"><span class="todo TODO">TODO</span> Shrink <code>org-publish-project-alist</code></h4>
+<h4 id="sec-2-4-6">Validation link</h4>
+<div class="outline-text-4" id="text-2-4-6">
+<p>
+Probably you already seen that 'validation' link after postamble. And I believe that you really don't need it. Just set <code>org-html-validation-link</code> to <code>nil</code> and become happy.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>setq org-html-validation-link nil<span style="color: #707183;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-4-7" class="outline-4">
+<h4 id="sec-2-4-7">Site map</h4>
+<div class="outline-text-4" id="text-2-4-7">
+<p>
+<i>Under construction. Come back in few days.</i>
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-4-8" class="outline-4">
+<h4 id="sec-2-4-8">Shrink <code>org-publish-project-alist</code></h4>
+<div class="outline-text-4" id="text-2-4-8">
+<p>
+<i>Under construction. Come back in few days.</i>
+</p>
+</div>
 </div>
 </div>
 </div>
@@ -657,7 +761,7 @@ I hope that you liked this post and found something useful for yourself. In case
 </div>
 </div>
 <div id="postamble" class="status">
-<p>By Boris Buliga &lt;d12frosted@icloud.com&gt;<p><p>Created: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-05-11&gt;</span></span><p>
+<p>By Boris Buliga &lt;d12frosted@icloud.com&gt;<p><p>Created on <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-05-11&gt;</span></span><p>
 </div>
 </body>
 </html>

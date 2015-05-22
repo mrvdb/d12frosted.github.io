@@ -78,8 +78,6 @@ h8 {
 blockquote {
   display: block;
   background: #fff;
-  /* padding: 15px 20px 15px 45px; */
-  /* margin: 0 0 20px 20px; */
   position: relative;
   quotes: "\201C""\201D""\2018""\2019";
 }
