@@ -71,7 +71,7 @@ indexR =
   do route (setExtension "html")
      compile $
        do posts <- recentFirst =<< loadAll "posts/*"
-          title <- getOrgMetadataField "title" =<< getResourceBody
+          title <- getOrgMetaField' "title" =<< getResourceBody
           let indexCtx' = indexCtx title posts
           pandocCompiler >>=
             applyAsTemplate indexCtx' >>=
@@ -117,9 +117,17 @@ splitBy delimiter = foldr f [[]]
           | c == delimiter = [] : l
           | otherwise = (c : x) : xs
 
-getOrgMetadataField :: MonadMetadata m => String -> Item String -> m (Maybe String)
-getOrgMetadataField key item = return $ either (const Nothing) (Just . stringify) value
-  where content = readOrg def $ itemBody item
-        meta = getMeta <$> content
-        value = lookupMeta key <$> meta
-        getMeta (Pandoc meta _) = meta
+getOrgMetaField' :: MonadMetadata m => String -> Item String -> m (Maybe String)
+getOrgMetaField' key = return . getOrgMetaField key . itemBody
+
+getOrgMetaField :: String -> String -> Maybe String
+getOrgMetaField key body = fromRight content >>= getPandocMetaField key
+  where content = readOrg def body
+
+getPandocMetaField :: String -> Pandoc -> Maybe String
+getPandocMetaField key = fmap stringify . lookupMeta key . getMeta
+  where getMeta (Pandoc meta _) = meta
+
+fromRight :: Either a b -> Maybe b
+fromRight (Left _) = Nothing
+fromRight (Right v) = Just v
