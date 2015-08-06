@@ -1,0 +1,18 @@
+#+TITLE:        The monkey among us
+#+AUTHOR:       Boris Buliga <d12frosted@icloud.com>
+#+EMAIL:        d12frosted@icloud.com
+#+DATE:         <2015-05-12>
+#+STARTUP:      showeverything
+#+OPTIONS:      toc:nil
+
+As far as I know, it is a good practice to introduce yourself at the very first page of your personal site. First of all, it is a good way to get rid of all this empty space. And second, in most cases people don't bother themselves with reading this stuff, so I can write here wherever I wish (even claim that I hate dwarfs). I know, I could just use well-known lorem ipsum generator and fill the whole page with it's output. But you know, I don't believe in lorem ipsum anymore.
+
+So few words about myself. Ehem... Most likely you have heard about typing monkeys thought experiment. Why? Well, I like to think about myself as one of those monkeys. I like hitting random keys, I like being happy. Sometimes I produce programs, but I prefer bananas for lunch and cacao for dinner.
+
+My interests include coding in Haskell, extending Emacs, solving day to day problems like a programmer, learning math, drinking wine and eating good food, traveling, playing video games and watching anime. To make it all possible, I am working as C# / Unity3d / Objective-C software engineer that doesn't mind to write supporting scripts in bash, ruby, python, perl or haskell. And in this blog I am trying to share some possibly interesting parts of my coding life. Feel free to skip them.
+
+** Recent posts
+
+#+BEGIN_HTML
+$partial("templates/post-list.html")$
+#+END_HTML

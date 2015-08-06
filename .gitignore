@@ -1,0 +1,23 @@
+# Ignore swap files and cabal output.
+*.hi
+*.o
+*.swo
+*.swp
+*~
+.DS_Store
+TAGS
+dist
+tags
+cabal.sandbox.config
+.cabal-sandbox/
+
+# Ignore stack files
+.stack-work/
+
+# Ignore test builds.
+tests/Main
+
+# Ignore Hakyll directories
+_cache
+_store
+_site
