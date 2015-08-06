@@ -1,5 +1,7 @@
 flags: {}
 packages:
 - '.'
-extra-deps: []
+- ../hakyll
+extra-deps:
+- fsnotify-0.2.1
 resolver: nightly-2015-07-30
