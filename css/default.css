@@ -1,35 +1,179 @@
+/* GLOBAL */
+
 body {
-    color: black;
-    font-size: 16px;
-    margin: 0px auto 0px auto;
-    width: 600px;
+    width: 61%;
+    display: block;
+    margin: auto;
+    left: 0px;
+    right: 0px;
+    font-size: 0.8em;
+    font-family: "Source Code Pro";
 }
 
-div#header {
-    border-bottom: 2px solid black;
-    margin-bottom: 30px;
-    padding: 12px 0px 12px 0px;
+@font-face {
+  font-family: "Source Code Pro";
+  /* src: url('../fonts/fontawesome-webfont.eot?v=4.3.0'); */
+  /* src: url('../fonts/fontawesome-webfont.eot?#iefix&v=4.3.0') format('embedded-opentype'), url('../fonts/fontawesome-webfont.woff2?v=4.3.0') format('woff2'), url('../fonts/fontawesome-webfont.woff?v=4.3.0') format('woff'), url('../fonts/fontawesome-webfont.ttf?v=4.3.0') format('truetype'), url('../fonts/fontawesome-webfont.svg?v=4.3.0#fontawesomeregular') format('svg'); */
+  /* font-weight: normal; */
+  /* font-style: normal; */
 }
 
-div#logo a {
-    color: black;
-    float: left;
-    font-size: 18px;
-    font-weight: bold;
+body p {
+    text-align: justify;
+}
+
+body a {
+    color: #006DAF;
+    text-decoration: underline;
+}
+
+body a:hover {
+    color: #000;
+    background: #FFF876;
     text-decoration: none;
 }
 
-div#header #navigation {
+h1 {
+    text-align: center;
+    background: #F0F0F0;
+    color: #3C3C3C;
+    font-weight: bold;
+    border-top: 1px solid #A7A7A7;
+}
+
+h2 {
+    /* display: table-cell; */
+    background: #E5F4FB;
+    color: #123555;
+    font-weight: bold;
+    border-top: 1px solid #123555;
+}
+
+h3 {
+    /* display: table-cell; */
+    background: #EFFFEF;
+    color: #005522;
+    font-weight: bold;
+}
+
+h4 {
+    color: #EA6300;
+    font-weight: bold;
+    font-style: normal;
+}
+
+h5 {
+    color: #E3258D;
+    font-weight: bold;
+    font-style: normal;
+}
+
+h6 {
+    color: #0077CC;
+    font-weight: bold;
+    font-style: italic;
+}
+
+h7 {
+    color: #2EAE2C;
+    font-weight: bold;
+    font-style: italic;
+}
+
+h8 {
+    color: #FD8008;
+    font-weight: bold;
+    font-style: italic;
+}
+
+blockquote {
+  display: block;
+  background: #fff;
+  position: relative;
+  quotes: "\201C""\201D""\2018""\2019";
+}
+
+/* IMAGES */
+
+div.figure {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+div.figure img {
+    display: block;
+    margin: auto;
+    left: 0px;
+    right: 0px;
+    max-width: 100%;
+}
+
+div.figure p {
+    text-align: center;
+    font-style: italic;
+}
+
+/* NAVIGATION */
+
+ul.nav-list {
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
+  padding-top: 16px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.nav-elem a {
+  display: block;
+  padding: 10px;
+  margin: 0px;
+  font-size: 120%;
+  text-align: center;
+  text-decoration: none;
+}
+
+.nav-elem img {
+  position: relative;
+  top: 2px;
+  right: 2px;
+  height: 24px;
+  width: 24px;
+}
+
+.nav-head li {
+  padding-left: 0px;
+  padding-right: 30px;
+}
+
+li.nav-left {
+  float: left;
+}
+
+li.nav-right {
+  float: right;
+}
+
+/* POSTAMBLE */
+
+div#info {
+    border-top: 1px solid #A7A7A7;
+    top: 16px;
+    padding-top: 4px;
+    padding-bottom: 32px;
+    color: #555;
+    font-size: 14px;
+    font-style: italic;
+}
+
+div#info p {
     text-align: right;
+    font-size: 90%;
 }
 
-div#header #navigation a {
+.timestamp {
     color: black;
-    font-size: 18px;
-    font-weight: bold;
-    margin-left: 12px;
-    text-decoration: none;
-    text-transform: uppercase;
 }
 
 div#footer {
@@ -41,16 +185,47 @@ div#footer {
     text-align: right;
 }
 
-h1 {
-    font-size: 24px;
+/* SOURCES */
+
+code {
+    font-size: 1.2em;
+    background: #FDFFF7;
+    color: #006400;
 }
 
-h2 {
-    font-size: 20px;
+pre {
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+    background: #FDFFF7;
+    border-top: 1px solid #A7A7A7; 
+    border-bottom: 1px solid #A7A7A7;
+    padding-top: 8px;
+    padding-bottom: 8px;
 }
 
-div.info {
-    color: #555;
-    font-size: 14px;
-    font-style: italic;
+code.sourceCode {
+    color: #000000;
 }
+
+/* Based on kate's own default colors for Haskell */
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode, table.sourceCode pre
+   { margin: 0; padding: 0; border: 0; vertical-align: baseline; border: none; }
+td.lineNumbers { text-align: right; background-color: #EBEBEB; color: black; padding-right: 5px; padding-left: 5px; }
+td.sourceCode { padding-left: 5px; }
+/* pre.sourceCode { } */
+code.sourceCode span.kw { font-weight: bold; }
+code.sourceCode span.dt { color: #800000; }
+code.sourceCode span.dv { color: #0000FF; }
+code.sourceCode span.bn { color: #0000FF; }
+code.sourceCode span.fl { color: #800080; }
+code.sourceCode span.ch { color: #FF00FF; }
+code.sourceCode span.st { color: #DD0000; }
+code.sourceCode span.co { color: #808080; font-style: italic; }
+code.sourceCode span.ot { }
+code.sourceCode span.al { color: green; font-weight: bold; }
+code.sourceCode span.fu { color: #000080; }
+code.sourceCode span.re { }
+code.sourceCode span.er { color: red; font-weight: bold; }
