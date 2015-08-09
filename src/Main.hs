@@ -13,6 +13,7 @@ main =
   hakyll $
   do imagesR
      cssR
+     fontsR
      staticPagesR
      postsR
      archiveR
@@ -32,6 +33,12 @@ cssR =
   match "css/*" $
   do route idRoute
      compile compressCssCompiler
+
+fontsR :: Rules ()
+fontsR =
+  match "fonts/*" $
+  do route idRoute
+     compile copyFileCompiler
 
 staticPagesR :: Rules ()
 staticPagesR =
