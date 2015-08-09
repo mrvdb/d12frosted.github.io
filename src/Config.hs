@@ -5,10 +5,10 @@ module Config where
 
 import BasicPrelude
 
--- Index page
+blogTitle :: String
+blogTitle = "d12frosted"
 
-indexPageDefaultTitle :: String
-indexPageDefaultTitle = "The monkey among us"
+-- Index page
 
 indexPagePosts :: Int
 indexPagePosts = 2

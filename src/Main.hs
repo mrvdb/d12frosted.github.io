@@ -3,11 +3,10 @@
 
 module Main (main) where
 
-import Hakyll
 import BasicPrelude
 import Config
-import Text.Pandoc
-import Text.Pandoc.Shared (stringify)
+import Hakyll
+import Pandoc
 
 main :: IO ()
 main =
@@ -40,7 +39,7 @@ staticPagesR =
   do route $ setExtension "html"
      compile $
        pandocCompiler >>=
-       loadAndApplyTemplate "templates/default.html" defaultContext >>=
+       defaultTemplate defaultContext >>=
        relativizeUrls
 
 postsR :: Rules ()
@@ -48,10 +47,10 @@ postsR =
   match "posts/*" $
   do route $ setExtension "html"
      compile $
-       pandocCompiler >>=
-       loadAndApplyTemplate "templates/post.html" postCtx >>=
-       loadAndApplyTemplate "templates/default.html" postCtx >>=
-       relativizeUrls
+       pandocCompilerWithMetadata >>=
+         loadAndApplyTemplate "templates/post.html" postCtx >>=
+         defaultTemplate postCtx >>=
+         relativizeUrls
 
 archiveR :: Rules ()
 archiveR =
@@ -62,7 +61,7 @@ archiveR =
           let archiveCtx' = archiveCtx posts
           makeItem "" >>=
             loadAndApplyTemplate "templates/archive.html" archiveCtx' >>=
-            loadAndApplyTemplate "templates/default.html" archiveCtx' >>=
+            defaultTemplate archiveCtx' >>=
             relativizeUrls
 
 indexR :: Rules ()
@@ -71,17 +70,22 @@ indexR =
   do route (setExtension "html")
      compile $
        do posts <- recentFirst =<< loadAll "posts/*"
-          title <- getOrgMetaField' "title" =<< getResourceBody
-          let indexCtx' = indexCtx title posts
-          pandocCompiler >>=
+          let indexCtx' = indexCtx posts
+          pandocCompilerWithMetadata >>=
             applyAsTemplate indexCtx' >>=
-            loadAndApplyTemplate "templates/default.html" indexCtx' >>=
+            defaultTemplate indexCtx' >>=
             relativizeUrls
 
 templatesR :: Rules ()
 templatesR =
   match "templates/*" $
   compile templateCompiler
+
+---------------- Templates
+
+defaultTemplate :: Context String -> Item String -> Compiler (Item String)
+defaultTemplate = loadAndApplyTemplate "templates/default.html" . (titleCtx <>)
+  where titleCtx = constField "blogTitle" blogTitle
 
 ---------------- Contexts
 
@@ -96,38 +100,7 @@ archiveCtx posts =
   constField "title" archivePageTitle <>
   defaultContext
 
-indexCtx :: Maybe String -> [Item String] -> Context String
-indexCtx title posts =
+indexCtx :: [Item String] -> Context String
+indexCtx posts =
   listField "posts" postCtx (return $ take indexPagePosts posts) <>
-  constField "title" (fromMaybe indexPageDefaultTitle title) <>
   defaultContext
-
----------------- Helper functions
-
-dropFirstDir :: FilePath -> FilePath
-dropFirstDir = dropFirstDir' . splitBy '/'
-  where dropFirstDir' :: [FilePath] -> FilePath
-        dropFirstDir' [] = []
-        dropFirstDir' [x] = x
-        dropFirstDir' (_:xs) = intercalate "/" xs
-
-splitBy :: (Eq a, Foldable f) => a -> f a -> [[a]]
-splitBy delimiter = foldr f [[]]
-  where f c l@(x:xs)
-          | c == delimiter = [] : l
-          | otherwise = (c : x) : xs
-
-getOrgMetaField' :: MonadMetadata m => String -> Item String -> m (Maybe String)
-getOrgMetaField' key = return . getOrgMetaField key . itemBody
-
-getOrgMetaField :: String -> String -> Maybe String
-getOrgMetaField key body = fromRight content >>= getPandocMetaField key
-  where content = readOrg def body
-
-getPandocMetaField :: String -> Pandoc -> Maybe String
-getPandocMetaField key = fmap stringify . lookupMeta key . getMeta
-  where getMeta (Pandoc meta _) = meta
-
-fromRight :: Either a b -> Maybe b
-fromRight (Left _) = Nothing
-fromRight (Right v) = Just v
