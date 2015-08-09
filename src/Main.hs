@@ -57,7 +57,7 @@ archiveR =
   create ["archive.html"] $
   do route idRoute
      compile $
-       do posts <- recentFirst =<< loadAll "posts/*"
+       do posts <- loadPosts
           let archiveCtx' = archiveCtx posts
           makeItem "" >>=
             loadAndApplyTemplate "templates/archive.html" archiveCtx' >>=
@@ -69,7 +69,7 @@ indexR =
   match "index.org" $
   do route (setExtension "html")
      compile $
-       do posts <- recentFirst =<< loadAll "posts/*"
+       do posts <- loadPosts
           let indexCtx' = indexCtx posts
           pandocCompilerWithMetadata >>=
             applyAsTemplate indexCtx' >>=
@@ -104,3 +104,6 @@ indexCtx :: [Item String] -> Context String
 indexCtx posts =
   listField "posts" postCtx (return $ take indexPagePosts posts) <>
   defaultContext
+
+loadPosts :: Compiler ([Item String])
+loadPosts = loadAll "posts/*" >>= recentFirst
