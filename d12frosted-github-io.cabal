@@ -12,5 +12,7 @@ executable d12frosted-github-io
                   , hakyll == 4.7.*
                   , pandoc >= 1.15.0.6
                   , pandoc-types >= 1.12.4.5
+                  , time >= 1.5
+                  , time-locale-compat >= 0.1.1
   ghc-options:      -threaded
   default-language: Haskell2010
