@@ -1,0 +1,202 @@
+#+TITLE:        Fish mode for emacs (v2)
+#+AUTHOR:       Boris Buliga
+#+EMAIL:        d12frosted@icloud.com
+#+DATE:         <2015-02-09>
+#+STARTUP:      showeverything
+
+** Update on 20 May 2015, Wednesday
+
+Good news everyone, we merged my changes to main package, so go and install latest version from [[http://melpa.org/#/fish-mode][MELPA]].
+
+** Update on 01 May 2015, Friday
+
+Indentation rules were improved. So now it works even in most esoteric cases. Also I have stolen syntax highlighting rules from the package that is available on MELPA. Currently working om merging my changes with the default package.
+
+** tl;dr
+
+In educational purposes I implemented ~fish-mode~ for emacs. It is very simple and still has some problems with indenting complex stuff. But it works in most cases very well. You can grab it [[https://github.com/d12frosted/fish-mode][here]].
+
+In case you have nothing else to do, read further for some details.
+
+** Long story
+
+While I was playing with ~fish~, I felt acute shortage of ~fish-mode~ for emacs. My needs are modest - syntax highlighting and indentation. So I searched for existing modes and found one that is also available on MELPA. As usual I installed it from [[https://github.com/wwwjfy/emacs-fish][git]] and found that it works not as I expected. Syntax highlighting worked not as I wanted and most importantly - indentation was buggy. Especially for ~end~ term. So I checked the code to fix it. But you know, my emacs lisp fu is pretty weak, so I couldn't understand where lies the problem (well, definitely the problem is with ~fish-indent-line~ function). So I thought that I could implement my own major mode in educational purposes(yay!).
+
+#+BEGIN_HTML
+<div class="figure">
+<img src="../images/1423468417-fish-mode.png">
+</div>
+#+END_HTML
+
+My starting point was tutorial on [[http://ergoemacs.org/emacs/elisp_syntax_coloring.html][ergoemacs]] that was describing how to implement major-mode for syntax highlighting. So pretty quickly I conquered this topic and implemented some very simple highlighting rules. And then started working on indentation functions. Fish language is really easy. In this language only blocks change indentation. Block begins with one of block-opening terms (~if~, ~function~, ~while~, ~for~, ~begin~ and ~switch~). Every block is closed by ~end~. There is only one construction that makes indentation implementation a bit harder - ~switch-case~, because ~case~ opens block and closes previous ~case~ block if previous one exists. And there is also another special term ~else~ that closes ~if~ block, but begins new one. So I started pretty straightforward.
+
+#+BEGIN_SRC emacs-lisp
+(defun fish-indent-line ()
+  "Indent current line"
+  (interactive)
+
+  (if (bobp)
+      (indent-line-to 0)
+    (let (cur-indent)
+      (save-excursion
+        (beginning-of-line)
+        (cond
+         ;; already on line 1, so leave it alone
+         ((eq (what-line-number) 1)
+          (setq cur-indent (current-indentation)))
+
+         ;; found 'end' - need to move back based on level of matching pair
+         ((looking-at "[ \t]*\\(end\\)")
+          (setq cur-indent (fish-get-end-indent)))
+
+         ;; found 'case' - need to move forth based on matching switch
+         ((looking-at "[ \t]*\\(case\\)")
+          (setq cur-indent (fish-get-case-indent)))
+
+         ;; found 'else' - like default condition, but also move left
+         ((looking-at "[ \t]*\\(else\\)")
+          (setq cur-indent (- (fish-get-normal-indent) tab-width)))
+
+         ;; default case - indent based on previous non-empty line
+         (t
+          (setq cur-indent (fish-get-normal-indent)))))
+      (if (< cur-indent 0) (setq cur-indent 0))
+      (indent-line-to cur-indent))))
+#+END_SRC
+
+So as you can see, indentation function makes just what I described previously. But it also has some performance improvements. For example, ~else~ indentation. Ideally, it should search for matching ~if~ term and set indentation level of ~else~ to the same level as matching ~if~. But ~else~ does make sense only if it is inside of matching ~if~ block, so we can use current block indentation level and subtract from it ~tab-width~.
+
+#+BEGIN_SRC fish
+if test $VAR # opens 'if' block
+  begin # opens 'begin' block
+    do_something
+  else # doesn't belong to if, because it's inside of 'begin' block
+  end # closes 'begin' block - read more to find out why it closes 'begin' and not 'else'
+end # closes 'if' block
+#+END_SRC
+
+I hope that previous example makes it clear, why we don't need to search for matching ~if~. First helper function we should read - ~fish-get-normal-indent~.
+
+#+BEGIN_SRC emacs-lisp
+(defun fish-get-normal-indent ()
+  (interactive)
+  (let ((not-indented t) cur-indent)
+    (while not-indented
+      ;; move up
+      (forward-line -1)
+      (cond
+       ;; found block-opening term, so increase indentation level by tab-width
+       ((looking-at "[ \t]*\\(if\\|else\\|function\\|while\\|for\\|begin\\|switch\\|case\\)")
+        (setq cur-indent (+ (current-indentation) tab-width))
+        (setq not-indented nil))
+
+       ;; found empty line, so just skip it
+       ((looking-at "[ \t]*$"))
+
+       ;; default case, so return indentation level of current line
+       (t
+        (setq cur-indent (current-indentation))
+        (setq not-indented nil))))
+    cur-indent))
+#+END_SRC
+
+Nothing special here. This function returns indentation level based on current block. This function makes assumption that previous non-empty line is well-indented. So we move one line up (~(forward-line -1)~) and when we face block-opening term, return it's indentation level, increased by ~tab-width~. When we face empty line, skip it. In other cases - just return indentation level of current line (not starting, but current).
+
+Now let's check ~case~ indentation rules.
+
+#+BEGIN_SRC emacs-lisp
+(defun fish-get-case-indent ()
+  (interactive)
+  (let ((not-indented t) cur-indent)
+    (while not-indented
+      ;; move up
+      (forward-line -1)
+      (cond
+       ;; found 'switch', so increase indentation level by tab-width
+       ((looking-at "[ \t]*\\(switch\\)")
+        (setq cur-indent (+ (current-indentation) tab-width))
+        (setq not-indented nil))
+
+       ;; found another 'case', so return it's indentation level
+       ((looking-at "[ \t]*\\(case\\)")
+        (setq cur-indent (current-indentation))
+        (setq not-indented nil))
+
+       ;; found empty line, so just skip it
+       ((looking-at "[ \t]*$"))
+
+       ;; default case, so return indentation level of current line minus tab-width
+       (t
+        (setq cur-indent (- (current-indentation) tab-width))
+        (setq not-indented nil))))
+    cur-indent))
+#+END_SRC
+
+This function has similar pattern as previous one. It also uses previous non-empty line to decide what indentation level to use for current ~case~ term and this function also makes an assumption that previous non-empty line is well-indented. As you can see, for ~case~ term ~switch~ term behaves like block-opening. Next rule says that every ~case~ should be in one block. The last rule says that when we face something that not ~switch~ and not another ~case~, we should return it's indentation level and subtract ~tab-width~ from it.
+
+The last and most important for me - ~end~ indentation function.
+
+#+BEGIN_SRC emacs-lisp
+(defun fish-get-end-indent ()
+  (interactive)
+  (let (cur-indent (count-of-ends 1))
+    (while (not (eq count-of-ends 0))
+      ;; move up
+      (forward-line -1)
+      (cond
+       ;; found block-opening term, so check if it matches to our end
+       ((looking-at "[ \t]*\\(if\\|function\\|while\\|for\\|begin\\|switch\\)")
+        (setq count-of-ends (- count-of-ends 1))
+        (if (eq count-of-ends 0)
+            ;; block-opening term matches, so return it's indentation level
+            (progn (setq cur-indent (current-indentation))
+                   (setq pair-not-found nil))
+          ;; block-opening term does not match, so seek further
+          ))
+
+       ;; found another 'end', so increase count of 'end' terms
+       ((looking-at "[ \t]*\\(end\\)")
+        (setq count-of-ends (+ count-of-ends 1)))
+
+       ;; nothing interesting found, so seek further
+       (t)))
+    cur-indent))
+#+END_SRC
+
+This function searches for matching block opening term and returns it's indentation level. For this purpose we use ~count-of-ends~ variable that stores how much ~end~s are looking for their match. And when this function finds any block opening term, it reduces value of ~count-of-ends~ by 1. And when this value is ~0~ - we found matching pair for ~end~ that we want to indent. Also be aware that we don't count ~else~ as block opening term, because then we also need to count it as block closing term. Actually you can't be sure if it will improve performance, so that's why I leave ~else~ ignored.
+
+So ~fish-get-end-indent~ function is a bit complicated. Here is a good example that makes it clear.
+
+#+BEGIN_SRC fish
+if test $ARG # open if block
+  do_something1
+  begin # open begin block
+    do_something2
+  end # close begin block
+end # close if block
+#+END_SRC
+
+From this example it looks like we could implement ~end~ as ~else~ - just get current block indentation level and subtract from it ~tab-width~. But here is example that counters this idea.
+
+#+BEGIN_SRC fish
+begin # open begin block
+  switch $animal
+    case cat
+      echo evil
+    case wolf dog human moose dolphin whale
+      echo mammal
+    case duck goose albatross
+      echo bird
+    case shark trout stingray
+      echo fish
+    case '*'
+      echo I have no idea what a $animal is
+  end # it closes switch block, but we need to subtract tab-width twice
+end # closes begin block
+#+END_SRC
+
+So as you can see, this ~switch-case~ makes a lot of trouble. That's why we need to seek for matching pair when we want to indent ~end~ term.
+
+** Shut up and give me my mode
+
+Feel free to hack my implementation on [[https://github.com/d12frosted/fish-mode][github]].

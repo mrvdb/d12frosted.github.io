@@ -1,0 +1,18 @@
+#+TITLE:        Hello World
+#+AUTHOR:       Boris Buliga
+#+EMAIL:        d12frosted@icloud.com
+#+DATE:         <2015-01-10>
+#+STARTUP:      showeverything
+
+Well. I am pretty sure that I wanted to write about ~GHC.Generics~ and how you can simplify your life by using them. Yeah, that was a great idea for the very first blog post. It's kinda advanced and not about monads, cause every one already knows, that monads are burritos (oops, have I said that out loud?).
+
+But you know, someone already solved my problem that was forcing me to that genero-sutra. So I am just posting pretty cool "Hello World" example.
+
+#+BEGIN_SRC haskell
+main :: IO ()
+main = putStrLn "Hello World!"
+#+END_SRC
+
+Fascinating, isn't it? No? Oh then you should know, that while I was playing with travis configurations my github password accidentally leaked out to the open world. Funny, but that was another "Hello World" example. A good one, for sure.
+
+Have a nice morning and don't forget to make your life happier.

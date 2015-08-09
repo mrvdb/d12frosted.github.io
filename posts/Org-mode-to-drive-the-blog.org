@@ -1,0 +1,354 @@
+#+TITLE:        Org mode to drive the blog
+#+AUTHOR:       Boris Buliga
+#+EMAIL:        d12frosted@icloud.com
+#+DATE:         <2015-05-11>
+#+STARTUP:      showeverything
+#+OPTIONS:      toc:nil
+
+Over the last months I have totally switched to ~org-mode~. I am using it to track things I need to do, to keep a diary and write different kind of notes. I like a lot of things about ~org-mode~, but I am going to tell you only about one nice feature I started to use recently - ~org-mode~ as a static blog generator.
+
+#+TOC: headlines 3
+
+** Preface
+
+/You can skip this section without any impact on your understanding of the topic./
+
+I am hosting my blog at [[https://pages.github.com][GitHub Pages]] service. It has support of [[http://jekyllrb.com][Jakyll]], but instead of it I wanted to use [[http://jaspervdj.be/hakyll/][Hakyll]] - a [[https://www.haskell.org][Haskell]] library for generating static sites. And for a long time (like 5 posts) I was a happy ~Hakyll~ user. I was until I realized that it's easy to generate my blog using [[http://orgmode.org][Org mode]] - emacs mode for keeping notes, maintaining TODO lists, planning projects and other cool things. It also has great exporting options.
+
+*** Why ~org-mode~?
+
+Mostly because of it's features. I mean, features that work like a charm. And even if something doesn't work - you have a lisp for that +(to break everything)+. But for me it never was so simple.
+
+For a long time (even hard to be accurate, but I am sure that for more than 2 years) I was storing all my notes in ~markdown~ files. At the beginning my flow was very stubborn. After some time of learning programming I thought that I could simplify my flow by creating a tool to manage my notes. So I created a really useful tool for my needs that was solving only one thing - note organization. My idea was very simple - all tools I was using before were trying to combine three different tasks in one tool: organization, editing and viewing. And usually at least one of those aspects suffered very much. For me it's usually an editing part. But I also hated that such tools are forcing me to use their understanding of what note is. I don't want to say that I have a special meaning for note, no. Just can't say that it's always the same. So I created ~KitsuneBook~. While I was designing it, I always kept in mind the vision of a big box where I store old letters, notes, photos and some other strange stuff. The primal idea of ~KitsuneBook~ is that the note is an abstract thing.. So for ~KitsuneBook~ a note is just a black box with attached configuration file that is used to decide how to read and how to edit it. Simple.
+
+I was experimenting with ~KitsuneBook~ very much. I even was planning to integrate Evernote (mostly because of it's syncing features) and git for versioning. But at one point I just moved to ~org-mode~. Mostly because ~markdown~ wasn't enough for me. And also because ~org-mode~ offered so much great features that I couldn't resist. At the first month I was trying to use ~KitsuneBook~ but then I realized that despite all the good things it gave me I just don't need it anymore. Damn you emacs. But don't get me wrong. I am not even mad. I am amazed on how good emacs at combining and fusing different tools. And making the result available from few key presses.
+
+So I started to take all my notes in ~org~ files. ~Hakyll~ uses [[http://pandoc.org][pandoc]] to convert different files to ~html~. And ~pandoc~ is capable of converting ~org~ files as well. So the story might end up here. But I wasn't satisfied by three things.
+
+The first one is pretty simple. ~Hakyll~ doesn't know a thing about ~org~ properties. So you need to duplicate some information in a special header (~YAML~ front matter?). It actually don't bother me very much, because I don't use it heavily, but duplicating tittle was pissing me off.
+
+The second one is much more serious. I don't like duplicating content on my computer. For all my notes I have a working directory. Blog posts are nothing more than regular notes. I am just sharing them. So I like having blog posts in my working directory as well. But for ~hakyll~ (and it's not ~hakyll~'s fault) I was copying specific parts of note into the blog post (because almost every note has some reference parts, todos etc - and I don't want to share this data with anyone). But I often update my notes after some time, so every time I update something, I need to remove old blog post and create new one or just move all changes. Just annoying.
+
+So the third thing. When you convert ~org~ file using ~pandoc~ you actually don't have much control over export process. Well, honestly you do, but you need to hack ~pandoc~ sources for this. And why would you do this, when you have ~org-mode~ that offers you a lot of control over this process without much effort? After all, if you want (and you should) checkout ~pandoc~ sources, you don't need to mess with ~org~ files for it, right?
+
+So I checked some tutorials and now I publish my blog from ~org-mode~ without any of mentioned problems. Just keep in mind that this solution worked for, but it doesn't mean that it will work for you. In case something is not clear in my explanations - feel free to ask me!
+
+** Configurations
+
+#+BEGIN_HTML
+<div class="figure">
+<img src="../images/1431793228-org1.png" alt="Leuven theme is making you jealous">
+<p class="caption">Leuven theme is making you jealous</p>
+</div>
+#+END_HTML
+
+In ~org-mode~ you can export a single file. I bet you have already tried it. But in case you haven't - just press ~C-c C-e~ to run ~org-export-dispatch~. In case you're confused by what you saw - press ~h o~. It will export current ~org~ file as ~html~ file and open it in your default browser. ~org-mode~ also allows you to export several files at the same time. In order to do so you need to configure a project. A project is a pair of files and their exporting configurations. So actually, your blog is also a project. We just need to specify it's files and some exporting rules.
+
+*** Structure
+
+My blog has following structure. It's a bit simplified, but anyway.
+
+#+BEGIN_SRC
+.
+├── css
+│   └── ...
+├── drafts
+    └── ...
+├── images
+│   └── ...
+├── index.org
+├── js
+│   └── ...
+└── posts
+    └── ...
+#+END_SRC
+
+Pretty simple, isn't it? Looks just like an usual site.
+
+*** Project definition
+
+Project is defined by specifying it's name and property values.
+
+#+BEGIN_SRC emacs-lisp
+("project-name" :property value :property value ...)
+#+END_SRC
+
+It's also possible to define project as a composition of other projects.
+
+#+BEGIN_SRC emacs-lisp
+("project-name" :components ("project-1" "project-2" ...))
+#+END_SRC
+
+In order to do so - you need to define some regular projects first. For example.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-publish-project-alist
+      '(("project-1" :property value :property value ...)
+        ("project-2" :property value :property value ...)
+        ("project-name" :components ("project-1" "project-2" ...))))
+#+END_SRC
+
+In my case I have four projects:
+
+1. project for posts
+2. project for other pages (like archive and index)
+3. project for static files (like images, css and js files)
+4. blog - a combination of all previous projects
+
+If you think about - it makes sense. Static files have different exporting options comparing to posts. As for distinguishing posts and some other pages - it's not necessary, but you might want to do it as well. Read further to see why.
+
+*** Simple implementation
+
+Let's start by making things simple. In case you're interested in full solution - skip this part totally or just checkout my latest [[https://github.com/d12frosted/environment/blob/master/emacs/configs/org-configs.el][configurations]].
+
+**** Posts project
+
+So let's define a project for posts.
+
+#+begin_SRC emacs-lisp
+(setq org-publish-project-alist
+      '(("blog-posts"
+         :base-directory "~/blog-sources/posts/"       ; directory where posts are stored
+         :base-extension "org"                         ; extension of files you are going to publish
+                                                       ; "org" is a default value, so you can omit it
+         :publishing-directory "~/blog/posts/"         ; directory where to publish your posts
+         :publishing-function org-html-publish-to-html ; function to publish with
+       )))
+#+END_SRC
+
+It's pretty straightforward. ~org-mode~ will search for files with ~:base-extension~ in a ~:base-directory~ and will use ~:publishing-function~ to publish them in ~:publishing-directory~. You can try it right now, by calling ~org-publish~ and picking up ~blog-posts~ project. ~org-html-publish-to-html~ is a function you use to convert ~org~ files into ~html~ files.
+
+**** Static files
+
+Probably you have some images in your posts. So let's publish them as well. Just remember that you should link them from posts by using relative links like ~../images/img-name.png~ or absolute links. My point is - beware of broken links!
+
+#+BEGIN_SRC emacs-lisp
+(setq org-publish-project-alist
+      '(("blog-posts" ... )                          ; configurations for `blog-posts' project
+        ("blog-static-files"
+         :base-directory "~/blog-sources/images/"    ; directory where images are stored
+         :base-extension "png\\|jpg\\|gif"           ; images extensions
+         :publishing-directory "~/blog/images/"      ; directory where to move (publish) images
+         :publishing-function org-publish-attachment ; function to publish with
+        )))
+#+END_SRC
+
+So we see few differences. Firstly, ~:base-extension~ is actually regular expression, so you can specify a lot of different extensions. Just don't forget to omit the dot! Secondly, we are using ~org-publish-attachment~ to publish matched files. This function just moves matched files to ~:publishing-directory~.
+
+So now you can publish this project as well. What about css and js files? Let's delay until we start using them. Then we'll just update these configurations.
+
+**** Index page
+
+Every blog needs an index page. At least for the list of all posts, right? ~Org-mode~ can generate this list for you automatically, but let's start with something very simple.  Just create an ~index.org~ file in ~\~/blog-sources~. You can use whatever content you want. If you wish, add some links to your posts (~org~ files) and they will be converted into right links to ~html~ files automatically.
+
+So let's create a project for this one simple file.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-publish-project-alist
+      '(("blog-posts" ... )        ; configurations for `blog-posts' project
+        ("blog-static-files" ... ) ; configurations for `blog-static-files' project
+        ("blog-pages"
+         :base-directory "~/blog-sources/"
+         :publishing-function org-html-publish-to-html
+         :publishing-directory "~/blog/"
+        )))
+#+END_SRC
+
+As you can see, at this point is pretty similar to ~blog-posts~ project. Just other directories and omitted extension (because ~org~ is the default value for ~:base-extension~).
+
+**** The Blog
+
+And the last project is our blog itself.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-publish-project-alist
+      '(("blog-posts" ... )        ; configurations for `blog-posts' project
+        ("blog-static-files" ... ) ; configurations for `blog-static-files' project
+        ("blog-pages" ... )        ; configurations for `blog-pages' project
+        ("blog"
+         :components ("blog-posts"
+                      "blog-static-files"
+                      "blog-pages"))))
+#+END_SRC
+
+Now you can ~M-x <return> org-publish~ and chose ~blog~ to publish all projects. Actually, you don't need to define the last project if you are going to publish it via ~C-c C-e P a~ because it will publish all your projects. But knowing this way of defining projects will not hurt.
+
+**** Next steps
+
+At this point you are familiar with some publishing basics and you are free to sail. The good link to follow up from this point is the [[http://orgmode.org/manual/Publishing.html][official manual on publishing]]. Also a good thing to do is to read the documentation for ~org-publish-project-alist~ to find more properties to setup.
+
+But in case you are interested in more complicated (and real-life) examples, keep reading!
+
+*** More features
+
+**** Recursive property and more static files
+
+As we discussed before - your site might contain different static files (like images, css and js files). Previously we already defined a project for static files, but it was publishing only images from ~images~ folder. So you might thought that you need to define several projects for different kind of static files even despite the fact that ~:base-extensions~ is actually a regexp. I mean, in case you want to store different kind of static files in different directories. But a good thing - you can use ~:recursive~ property. So let's update our ~blog-static-files~ project configurations.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-publish-project-alist
+      '(("blog-posts" ... )                           ; configurations for `blog-posts' project
+        ("blog-static-files"
+         :base-directory "~/blog-sources/"            ; directory where images are stored
+         :base-extension "png\\|jpg\\|gif\\|css\\|js" ; images extensions
+         :publishing-directory "~/blog/"              ; directory where to move (publish) images
+         :publishing-function org-publish-attachment  ; function to publish with
+         :recursive t                                 ; search for files recursively
+        )
+        ("blog-pages" ... )                           ; configurations for `blog-pages' project
+        ("blog" ... )))                               ; configurations for `blog' project
+#+END_SRC
+
+So now we ask to search for files with ~:base-extension~ in blog sources root directory (~:base-directory~) instead of images directory, we add ~css~ and ~js~ extensions to ~:base-extension~ regexp, change ~:publishing-directory~ to blog root. And it all should be done recursively. So basically it will move all matched files to the blog root preserving their relative path. I mean, =~/blog-sources/css/default.css= will be moved to =~/blog/css/default.css=.
+
+**** Custom head
+
+OK, we know how to publish css files. But how can one attach them? Suppose you have a file ~default.css~ in ~css~ directory. And you want it to be loaded for all post pages. You have two options. First is to add html head property to all org files.
+
+#+BEGIN_SRC org
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="/css/default.css" />
+#+END_SRC
+
+But it's really bad solution. We want it to be attached automatically. So you have a second solution - setting ~:html_head~ property in project settings.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-publish-project-alist
+      '(("blog-posts"
+         :base-directory "~/blog-sources/posts/"       ; directory where posts are stored
+         :base-extension "org"                         ; extension of files you are going to publish
+                                                       ; "org" is a default value, so you can omit it
+         :publishing-directory "~/blog/posts/"         ; directory where to publish your posts
+         :publishing-function org-html-publish-to-html ; function to publish with
+         :html_head "<link rel='stylesheet' type='text/css' href='/css/default.css' />"
+        )
+        ("blog-static-files" ... )                     ; configurations for `blog-static-files' project
+        ("blog-pages" ... )                            ; configurations for `blog-pages' project
+        ("blog" ... )))                                ; configurations for `blog' project
+#+END_SRC
+
+But remember that ~:html_head~ is just a string. So you can also add some js files there along with css files:
+
+#+BEGIN_SRC emacs-lisp
+(setq org-publish-project-alist
+      '(("blog-posts"
+         :base-directory "~/blog-sources/posts/"       ; directory where posts are stored
+         :base-extension "org"                         ; extension of files you are going to publish
+                                                       ; "org" is a default value, so you can omit it
+         :publishing-directory "~/blog/posts/"         ; directory where to publish your posts
+         :publishing-function org-html-publish-to-html ; function to publish with
+         :html_head "
+<link rel='stylesheet' type='text/js' href='/css/default.css' />
+<script src='/js/script.js'></script>
+"
+        )
+        ("blog-static-files" ... )                     ; configurations for `blog-static-files' project
+        ("blog-pages" ... )                            ; configurations for `blog-pages' project
+        ("blog" ... )))                                ; configurations for `blog' project
+#+END_SRC
+
+You also might want to add this ~:html_head~ to ~blog-pages~ project as well.
+
+First thing to notice - it's getting a bit ugly and we are starting to copying and pasting. We will improve things soon.
+
+Second thing to notice - all links I am using are absolute to site root. I mean, link like ~/css/default.css~. It's static site, yes, but with such links you can't run it without a server, because links will be broken. I am using ~wai~ and ~warp~ to test my site locally.
+
+#+BEGIN_SRC haskell
+{-# LANGUAGE NoImplicitPrelude #-}
+{-# LANGUAGE OverloadedStrings #-}
+
+module Main where
+
+import BasicPrelude
+import Network.Wai
+import Network.Wai.Application.Static
+import Network.Wai.Handler.Warp
+
+main :: IO ()
+main = run 8000 app
+
+app :: Application
+app = staticApp $ defaultFileServerSettings "/Users/d12frosted/Developer/d12frosted.github.io/"
+#+END_SRC
+
+It looks a bit noisy, but actually it's very simple. Also I am using this because I usually have installed ~wai~ and ~warp~ so it doesn't require any additional work from me. You can use ~node~ or whatever else you like. It's just testing the result.
+
+And the last thing I wanted to notice. Actually, you have two properties for header: ~HTML_HEAD~ and ~HTML_HEAD_EXTRA~. I recommend you to use one of them in project configurations and leave the other for any additional head stuff that you would like to add for specific files. For example, you would like to add ~MathJax~ to only one specific post. You can do it by adding following line to the top of your org file.
+
+#+BEGIN_SRC org
+#+HTML_HEAD_EXTRA: <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+#+END_SRC
+
+Use the same property when you want to override the default one!.
+
+**** Some default ~css~
+
+Probably you already have noticed that ~org-mode~ attaches some ~css~ to published files. But for some of you it might be undesirable. To get rid off those ~css~ you need to configure ~org-html-head-include-default-style~ variable, or set ~:html-head-include-default-style~ property for projects you wish to come clean. The default value is ~t~, so just change that to ~nil~.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-publish-project-alist
+      '(("blog-posts"
+         :base-directory "~/blog-sources/posts/"       ; directory where posts are stored
+         :base-extension "org"                         ; extension of files you are going to publish
+                                                       ; "org" is a default value, so you can omit it
+         :publishing-directory "~/blog/posts/"         ; directory where to publish your posts
+         :publishing-function org-html-publish-to-html ; function to publish with
+         :html_head "
+<link rel='stylesheet' type='text/js' href='/css/default.css' />
+<script src='/js/script.js'></script>
+"
+         :html-head-include-default-style nil
+        )
+        ("blog-static-files" ... )                     ; configurations for `blog-static-files' project
+        ("blog-pages" ... )                            ; configurations for `blog-pages' project
+        ("blog" ... )))                                ; configurations for `blog' project
+#+END_SRC
+
+**** Code highlighting
+
+When your file is published (exported), by default all code code snippets are exported with some syntax highlighting. It might be handy, but you might want more control over the colors. By default ~org-mode~ inlines ~css~ for code. It uses your font settings, so basically your theme affects generated ~css~. You can make it more generic by setting ~org-html-htmlize-output-type~ to ~css~ (the default is ~inline-css~). It asks ~org-mode~ to export ~css~ selectors only. As far as I know, you can't set it on per-project basis.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-html-htmlize-output-type 'inline-css) ; default
+(setq org-html-htmlize-output-type 'css)
+#+END_SRC
+
+**** Preamble and Postamble
+
+Just a common thing - you want to put some html block before and after generated body in every file in project. For example, you want to see navigation bar and footer with some links on every post page. You really could just insert some ~#+BEGIN_HTML~ in every file, but it will be hell to update something. You also could move it to separate files and just ~#+INCLUDE~ them in every file, but hey. Isn't it bad anyway? And here comes a good thing - you can set configure preamble and postamble globally or on per-project basis. First, make sure that ~org-html-preamble~ and ~org-html-postamble~ are set to ~t~ (this default). Sure, you can set any of them to nil if you don't want it to be included to generated ~html~ files.
+
+Variables you are interested in are ~org-html-preamble-format~ (~:html-preamble~ property) and ~org-html-postamble-format~ (~:html-postamble~ property). This format string can contain these elements:
+
+- ~%t~ – title.
+- ~%a~ – author's name
+- ~%e~ – author's email
+- ~%d~ – date
+- ~%c~ – ~org-html-creator-string~
+- ~%v~ – ~org-html-validation-link~
+- ~%T~ – export time
+- ~%C~ – last modification time
+
+For example, as a postamble I use following string.
+
+#+BEGIN_SRC
+"<p>By %a<\p><p>Created on %d<\p>"
+#+END_SRC
+
+**** Validation link
+
+Probably you already seen that 'validation' link after postamble. And I believe that you really don't need it. Just set ~org-html-validation-link~ to ~nil~ and become happy.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-html-validation-link nil)
+#+END_SRC
+
+**** Site map
+
+/Under construction. Come back in few days./
+
+**** Shrink ~org-publish-project-alist~
+
+/Under construction. Come back in few days./
+
+** Afterwords
+
+I hope that you liked this post and found something useful for yourself. In case you have any questions, objections or suggestions - feel free to write me to d12frosted at icloud dot com.
