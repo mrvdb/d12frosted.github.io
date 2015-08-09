@@ -1,6 +1,5 @@
----
-title: S.P.Q.R.
----
+#+TITLE: S. P. Q. R.
+#+DATE: 2014-10-08
 
 Mauris in lorem nisl. Maecenas tempus facilisis ante, eget viverra nisl
 tincidunt et. Donec turpis lectus, mattis ac malesuada a, accumsan eu libero.
