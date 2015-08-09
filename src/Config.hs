@@ -11,7 +11,7 @@ blogTitle = "d12frosted"
 -- Index page
 
 indexPagePosts :: Int
-indexPagePosts = 2
+indexPagePosts = 8
 
 -- Archive page
 
