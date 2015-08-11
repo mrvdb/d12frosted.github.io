@@ -4,13 +4,11 @@
 #+DATE:         <2015-02-07>
 #+STARTUP:      showeverything
 
-** Preface
-
 I have always been inspired by the people who use (or at least can use) terminal for any kind of activity that is associated with programming. Sure, every task has it's own set of instruments to be solved with. But there are instruments that you can count on in almost any situation. That's why I spend so much time in terminal.
 
 For a long time (like a year and a half) I was using ~zsh~ beefed with ~oh-my-zsh~. It has so much functionality (I wasn't even using), so much colors and great auto completion. And everything comes out of box without the need of writing over 9000 lines of configuration code (because it is done for you by ~oh-my-zsh~. So I was really happy until someone mentioned ~fish~ shell in comments to [[http://www.reddit.com/r/haskell/comments/2u6b8m/use_haskell_for_shell_scripting/][Use Haskell for shell scripting]] thread on reddit. So after few minutes of reading how awesome ~fish~ is, I decided to give it a try.
 
-** Fish: catch it before you cook
+* Fish: catch it before you cook
 
 For installation guide, check [[http://fishshell.com][official site]] or readme file on [[https://github.com/fish-shell/fish-shell][github]]. Currently I prefer installing from sources, because I like features from the 'bleeding edge'. After installation you might want to make ~fish~ your default shell, so you need to use ~chsh~:
 
@@ -26,7 +24,7 @@ $ sudo sh -c 'echo $(which fish) >> /etc/shells'
 
 In case of any other problems - [[http://google.com][may the force be with you]]. Otherwise - you are ready to dive in. I am not going to write tutorial to ~fish~ (mostly because it already has good written one [[http://fishshell.com/docs/current/tutorial.html][here]]). It covers most important aspects of day-to-day ~fish~, but you might also want to read full [[http://fishshell.com/docs/current/index.html][documentation]]. So here are some very subjective thoughts.
 
-** Fish: first impression
+* Fish: first impression
 
 And the first thing to notice - ~fish~ offers really great auto suggestions that are based on completions and history. When I saw this for the first time - I was really impressed.
 
@@ -57,7 +55,7 @@ features/fish  (Branch)  master  (Branch)  origin/master  (Branch)
 
 But yeah, sometimes you command you are using doesn't have it's own ~man~ page. For such cases you also have an option to write your own completions. For more information, check out [[http://fishshell.com/docs/current/index.html#completion-own][this guide]].
 
-** Fish: configurations
+* Fish: configurations
 
 ~Fish~ comes with really great configurations out of box. For most users it might be enough to configure only their prompt and ~PATH~ variable. But before you start writing your own configurations I highly recommend to checkout ~fish_config~ command. This allows you configure ~fish~ from browser (I was amazed). I don't say that you must configure it from browser, but just take a look! Sometimes I use this thing just to check some custom functions and check bindings.
 
@@ -81,11 +79,11 @@ end
 
 Before rushing into creating your own prompt, I recommend to check some prompts that are available from box. Just ~fish_config~ and go to ~Prompt~ tab.
 
-** Fish: one language to script them all
+* Fish: one language to script them all
 
 As you might already know, ~fish~ has it's own scripting language that does not care about POSIX compatibility. And in my opinion this is most controversial point in discussions like 'zsh vs fish'. While it's less verbose and more obvious, I see ~fish~ language as unnecessary drag. Seriously, when I need to write any script that can't be described in one or two lines - I prefer to use ~haskell~ or ~ruby~. And also there are tons of great ~sh~ one-liners that I can't call from ~fish~ shell.
 
-** Conclusion
+* Conclusion
 
 ~Fish~ does not try to be everything but it does try to have a great out of the box experience. You definitely should try ~fish~ to make your own conclusion. Because everyone is unique case. As for myself - I am willing to give it few months to see if ~fish~ really suits my needs.
 
@@ -103,13 +101,13 @@ As you might already know, ~fish~ has it's own scripting language that does not 
 
 I don't name ~fish~ dependency as drawback, because I don't work in environment that I can't change for my needs. And anyway ~haskell~ with all packages I need is far more heavy dependency then ~fish~. So don't be angry.
 
-** Epilogue
+* Epilogue
 
 I am really tired of ~oh-my-zsh~. It's great project, but it's too big for me. It comes with functionality I am not aware of. I don't have time and desire to dig it. And sometimes it's hard to have fixes to it. When I checked it's repository I found 417 unresolved pull requests. Some of them are few years old. Most of them are not paid any attention. I understand why it's so. But I don't like this situation. Yes, you can use ~zsh~ with minimal configurations. And [[https://github.com/jleclanche/dotfiles/blob/master/.zshrc][here]] is example of really great ~zsh~ minimal configurations.
 
 While I am using ~fish~ I experience pleasure of configuring everything step by step. I understand that you can do the same with any shell. But currently I am paying attention to ~fish~. I really want to see it fly.
 
-** My settings
+* My settings
 
 Currently I don't share my fish configurations, because they are far from ready to use version. But in few weeks I will definitely share them on github.
 

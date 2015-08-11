@@ -32,7 +32,7 @@ I need to confess. Sometimes I solve **Cabal Hell** by using this method with ~r
 
 ~Stackage~ is great, but it doesn't work for me very well, because sometimes I need to install 'heavy' packages that are not on ~Stackage~. Also I work on reliably fast computer, so I don't mind to waste thirty seconds more on compilation. Safety is more preferable. As for ~nixos~ – I haven't tried it yet. But I know that it helps to find compilation problems very good. So actually, many thanks for the people that made ~Stackage~ and ~nixos~.
 
-** Sandboxes
+* Sandboxes
 
 I think that sandboxes are really great. Usually I install globally only commonly used packages. Everything else comes via sandboxes. Sometimes the project I am working on has dependencies that can't be installed from hackage. In such cases I use
 

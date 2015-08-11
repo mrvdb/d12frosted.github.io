@@ -11,8 +11,14 @@ So few words about myself. Ehem... Most likely you have heard about typing monke
 
 My interests include coding in Haskell, extending Emacs, solving day to day problems like a programmer, learning math, drinking wine and eating good food, traveling, playing video games and watching anime. To make it all possible, I am working as C# / Unity3d / Objective-C software engineer that doesn't mind to write supporting scripts in bash, ruby, python, perl or haskell. And in this blog I am trying to share some possibly interesting parts of my coding life. Feel free to skip them.
 
-** Recent posts
+* Recent posts
 
 #+BEGIN_HTML
 $partial("templates/post-list.html")$
 #+END_HTML
+
+* Acknowledgements
+
+- [[http://jaspervdj.be/hakyll/][Hakyll]] is used to generate this site.
+- [[https://github.com/fniessen/emacs-leuven-theme][Leuven theme]] is used to convert this site into candy.
+- [[https://github.com/adobe/Source-Code-Pro][Source Code Pro]] is used as a font.
