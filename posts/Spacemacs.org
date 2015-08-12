@@ -6,7 +6,9 @@
 
 Actually I wanted to write about mu4e and some other tools that are required in order to read email right in your emacs, but turned out that this subject is a bit hard to write about, so while the work on that tutorial / post is in progress, I decided to write few words about Spacemacs - a great starter kit for Emacs that I was using for the last two weeks. But to be fair - I am not using it anymore. Why - read further!
 
+#+BEGIN_HTML
 #+TOC: headlines 3
+#+END_HTML
 
 * Intro
 

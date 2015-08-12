@@ -7,7 +7,9 @@
 
 Over the last months I have totally switched to ~org-mode~. I am using it to track things I need to do, to keep a diary and write different kind of notes. I like a lot of things about ~org-mode~, but I am going to tell you only about one nice feature I started to use recently - ~org-mode~ as a static blog generator.
 
+#+BEGIN_HTML
 #+TOC: headlines 3
+#+END_HTML
 
 * Preface
 

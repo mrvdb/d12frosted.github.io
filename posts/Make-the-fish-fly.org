@@ -8,6 +8,10 @@ I have always been inspired by the people who use (or at least can use) terminal
 
 For a long time (like a year and a half) I was using ~zsh~ beefed with ~oh-my-zsh~. It has so much functionality (I wasn't even using), so much colors and great auto completion. And everything comes out of box without the need of writing over 9000 lines of configuration code (because it is done for you by ~oh-my-zsh~. So I was really happy until someone mentioned ~fish~ shell in comments to [[http://www.reddit.com/r/haskell/comments/2u6b8m/use_haskell_for_shell_scripting/][Use Haskell for shell scripting]] thread on reddit. So after few minutes of reading how awesome ~fish~ is, I decided to give it a try.
 
+#+BEGIN_HTML
+#+TOC: headlines 3
+#+END_HTML
+
 * Fish: catch it before you cook
 
 For installation guide, check [[http://fishshell.com][official site]] or readme file on [[https://github.com/fish-shell/fish-shell][github]]. Currently I prefer installing from sources, because I like features from the 'bleeding edge'. After installation you might want to make ~fish~ your default shell, so you need to use ~chsh~:
