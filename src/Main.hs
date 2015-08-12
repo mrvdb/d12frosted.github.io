@@ -6,7 +6,7 @@ module Main (main) where
 import BasicPrelude
 import Config
 import Hakyll
-import Pandoc
+import Compiler.Org
 
 main :: IO ()
 main =
@@ -54,7 +54,7 @@ postsR =
   match "posts/*" $
   do route $ setExtension "html"
      compile $
-       pandocCompilerWithMetadata >>=
+       orgCompiler >>=
          loadAndApplyTemplate "templates/post.html" postCtx >>=
          defaultTemplate postCtx >>=
          relativizeUrls
@@ -78,7 +78,7 @@ indexR =
      compile $
        do posts <- loadPosts
           let indexCtx' = indexCtx posts
-          pandocCompilerWithMetadata >>=
+          orgCompiler >>=
             applyAsTemplate indexCtx' >>=
             defaultTemplate indexCtx' >>=
             relativizeUrls

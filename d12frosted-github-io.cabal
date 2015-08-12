@@ -10,6 +10,7 @@ executable d12frosted-github-io
                   , basic-prelude
                   , containers >= 0.5.6.2
                   , hakyll == 4.7.*
+                  , parsec >= 3.1.9
                   , pandoc >= 1.15.0.6
                   , pandoc-types >= 1.12.4.5
                   , time >= 1.5
