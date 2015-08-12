@@ -19,6 +19,6 @@ $partial("templates/post-list.html")$
 
 * Acknowledgements
 
-- [[http://jaspervdj.be/hakyll/][Hakyll]] is used to generate this site.
-- [[https://github.com/fniessen/emacs-leuven-theme][Leuven theme]] is used to convert this site into candy.
-- [[https://github.com/adobe/Source-Code-Pro][Source Code Pro]] is used as a font.
+- [[http://jaspervdj.be/hakyll/][Hakyll]] - for generating this site.
+- [[https://github.com/fniessen/emacs-leuven-theme][Leuven theme]] - for inspiring css.
+- [[https://github.com/adobe/Source-Code-Pro][Source Code Pro]] - for making text nice.
