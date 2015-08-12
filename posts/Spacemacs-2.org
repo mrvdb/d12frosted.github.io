@@ -1,0 +1,11 @@
+#+TITLE:        Back to Spacemacs
+#+AUTHOR:       Boris Buliga
+#+EMAIL:        d12frosted@icloud.com
+#+DATE:         <2015-08-12>
+#+STARTUP:      showeverything
+
+Alright. Some time ago I have decided to abandon [[https://github.com/syl20bnr/spacemacs][Spacemacs]] in favour of my own configurations that will contain only what I need. This wasn't the only point. For example, I suffered bad performance in =org-mode= and =csharp-mode= compared to my own configurations. Also I was a bit scared by how fast things are being changed. So I made decision and tried to build my own configurations (again).
+
+The result is funny. It is a little triumph! I have learned a lot, I have tried a lot. And most importantly - I have spent a dozen of hours on copying a hundreds of sample configuration snippets and solving things that are already solved by someone. So after another bug and inconsistency problem I've noticed I thought that it's a good point to capitulate. And it was a good timing. Because when I tried Spacemacs again - it was even better than it was before. Performance is incredible. No more lags. And everything I wanted to try (after reading several posts written by tuhdo) was already there. So I felt a bit foolish.
+
+I don't say that Spacemacs doesn't have any problems. Just look at [[https://github.com/syl20bnr/spacemacs/issues][issues]] section on GitHub. But not all of them are critical. And not all critical issues are going to hurt every end user. And because of great architecture (that is being improved) it is so easy to radically configure Spacemacs. So if you haven't moved to Spacemacs - do it now and be happy. Don't waste your time on copying code. Better help to solve some of those issues. 
