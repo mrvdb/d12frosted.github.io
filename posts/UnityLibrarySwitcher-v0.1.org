@@ -1,0 +1,57 @@
+#+TITLE:        Unity Library Switcher v0.1
+#+AUTHOR:       Boris Buliga
+#+EMAIL:        d12frosted@icloud.com
+#+DATE:         <2015-08-12>
+#+STARTUP:      showeverything
+
+#+BEGIN_HTML
+<div class="figure">
+<img src="../images/1439652583-uls-1.png" alt="The face of true Pain">
+<p class="caption">The face of true Pain</p>
+</div>
+#+END_HTML
+
+Unity3d is a great piece of software. And one of it's most important features - the ease with which you develop for different platforms. Most Unity3d developers will agree - the process of assets importing can hit you very hard, especially on big projects. So yes, people do like caching =Library= folders in order to speed up changing build target. There are two common ways - using different tools that allow you to have one copy of project and multiple copies of =Library= folder or having multiple copies of one project. The problem of most tools that allow you to switch =Library= folders is that they work only with build targets, but not with git branches. With usual work flow it is so common when different branches have different set of assets. And when you need to switch between such branches as fast as possible - you might curse everything.
+
+* The story of one script
+
+Every =Library= folder has =EditorUserBuildSettings.asset= file which contains current build target. So when you swap =Library= folder it also potentially swaps build target. Just make sure that Unity3d editor is closed during this swap, otherwise it will go crazy like a Crazy Dave. 
+
+This was main idea of [[https://gist.github.com/d12frosted/a55f93741de50d78924f][shell script]] I implemented to ease my burden. At first I tried to use symlinks in order to avoid using =mv= command, but Unity3d doesn't like when =Library= folder is a symbolic link. 
+
+This script is not perfect and has some rare-case bugs, but it worked for me ideally quite long. The main advantage of this tool is that you select how to name cached library. So yes, this tool allows you to cache =Library= folders for different branches as well.
+
+#+BEGIN_SRC sh
+$ sh library_switcher.sh master_iOS features_X_iOS
+$ git checkout features/X
+#+END_SRC
+
+And here is a catch. In order to change target platform / branch you need to switch to terminal, type these commands manually (several times, because of typos) and then open again Unity3d editor. Unity3d is great in terms that it allows you to write plugins for editor. It's like emacs, but for game developers. Yes, it also doesn't have a decent code editor. So I wanted to have in-editor-tool that would be useful not only for me, but also for other members of my team.
+
+* And here comes the star
+
+#+BEGIN_HTML
+<div class="figure">
+<img src="../images/1439652583-uls-2.png">
+</div>
+#+END_HTML
+
+OK, I must admit. It doesn't look like something you would like to pay for. But as far as it's free and solves your problems - be happy and use it!
+
+* Short description
+
+So this is a plugin for Unity3d that allows you to switch platforms and git branches from one window. It will take all the burden of moving cached library and switching branch when you want it (and will yell at you if it's not possible). I bet you are tired of my chatter, so just watch this gif with perfectly broken loop. 
+
+#+BEGIN_HTML
+<div class="figure">
+<img src="../images/1439652583-uls-3.gif">
+</div>
+#+END_HTML
+
+But be aware that there are some limitations to what you've seen.
+
+1. It doesn't work perfectly on Windows. Seriously.
+2. It allows you to switch only local branches.
+3. If you want to switch git branch and cache =Library= folder you should do it only from the plugin window (or manually cache the folder, but why do you need this then?). 
+
+If you are not scared by these limitations - [[https://github.com/d12frosted/UnityLibrarySwitcher/releases/download/v0.1/UnityLibrarySwitcher.unitypackage][download]] and give it a try. And yes, it is available on [[https://github.com/d12frosted/UnityLibrarySwitcher/releases/download/v0.1/UnityLibrarySwitcher.unitypackage][GitHub]].
