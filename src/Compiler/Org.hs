@@ -4,6 +4,8 @@
 
 module Compiler.Org (orgCompiler) where
 
+import Config
+
 import           BasicPrelude
 import           Compiler.Pandoc
 import           Data.Map.Lazy (mapWithKey)
@@ -18,7 +20,7 @@ import           Text.Read (readEither)
 
 orgCompiler :: Compiler (Item String)
 orgCompiler = pandocMetadataCompilerWith transform
-  where transform = tDateMeta . tTableOfContents . tHeaderIds
+  where transform = tImages . tDateMeta . tTableOfContents . tHeaderIds
 
 --------------------------------------------------------------------------------
 -- Meta transformer
@@ -110,3 +112,30 @@ getHeaders :: Pandoc -> [Block]
 getHeaders = query selectHeader
   where selectHeader h@(Header _ _ _) = [h]
         selectHeader _ = []
+
+--------------------------------------------------------------------------------
+-- Images transform
+--------------------------------------------------------------------------------
+
+-- | Transform #+BEGIN_FIGURE blocks into special divs. First line of block must
+-- contain only name of image to insert as 'figure' (this image must be in
+-- imagesPath folder). All other lines of block are treated as caption
+-- (description).
+tImages :: Pandoc -> Pandoc
+tImages = walk modImgDiv
+
+modImgDiv :: Block -> Block
+modImgDiv (Div attr@("", ["figure"], []) [Para ((Str url'):descr')]) =
+    Div attr [rawHtml $ "<img src=\"" ++ url ++ "\" alt=\"" ++ descr ++ "\">"
+             ,rawHtml $ "<p class=\"caption\">" ++ descr ++ "</p>"]
+  where rawHtml = RawBlock (Format "html")
+        descr = stringify $ Para descr'
+        url = convertUrl postsPath imagesPath url'
+modImgDiv b = b
+
+convertUrl :: String -> String -> String -> String
+convertUrl d1 d2 f = concatify $ convert (partify d1) (partify d2) ++ [f]
+  where partify = splitBy (== '/')
+        concatify = intercalate "/"
+        dots as = replicate (length as) ".."
+        convert as bs = dots as ++ bs
