@@ -4,8 +4,7 @@
 
 module Compiler.Org (orgCompiler) where
 
-import Config
-
+import           Config
 import           BasicPrelude
 import           Compiler.Pandoc
 import           Data.Map.Lazy (mapWithKey)
@@ -20,7 +19,7 @@ import           Text.Read (readEither)
 
 orgCompiler :: Compiler (Item String)
 orgCompiler = pandocMetadataCompilerWith transform
-  where transform = tImages . tDateMeta . tTableOfContents . tHeaderIds
+  where transform = tFixLinks . tImages . tDateMeta . tTableOfContents . tHeaderIds
 
 --------------------------------------------------------------------------------
 -- Meta transformer
@@ -36,9 +35,11 @@ tDateMeta (Pandoc meta body) = Pandoc (walk modMetaDate meta) body
         convertDate _ v = v
         strip = stripLeft "<" . stripRight ">"
 
+-- TODO: move to helpers
 stripLeft :: String -> String -> String
 stripLeft a b = if a `isPrefixOf` b then drop (length a) b else b
 
+-- TODO: move to helpers
 stripRight :: String -> String -> String
 stripRight a b = if a `isSuffixOf` b then take (length b - length a) b else b
 
@@ -139,3 +140,40 @@ convertUrl d1 d2 f = concatify $ convert (partify d1) (partify d2) ++ [f]
         concatify = intercalate "/"
         dots as = replicate (length as) ".."
         convert as bs = dots as ++ bs
+
+
+--------------------------------------------------------------------------------
+-- Fix links to posts transform
+--------------------------------------------------------------------------------
+
+tFixLinks :: Pandoc -> Pandoc
+tFixLinks = walk modLinks
+
+modLinks :: Inline -> Inline
+modLinks (Link content (url', title)) = Link content (url, title)
+  where url = case isPostUrl url' of
+                True -> changeExt "html" url'
+                False -> url'
+        isPostUrl = not . isInfixOf "/"
+modLinks i = i
+
+-- TODO: move to helpers
+dropExt :: String -> String
+dropExt fp = maybe fp (flip take fp) $ lastIndexOf '.' fp
+
+-- TODO: move to helpers
+changeExt :: String -> String -> String
+changeExt ext fp = dropExt fp ++ "." ++ ext
+
+-- TODO: move to helpers
+indexOf :: Eq a => a -> [a] -> Maybe Int
+indexOf = indexOf' 0
+  where indexOf' _ _ [] = Nothing
+        indexOf' i a (x:xs) =
+          if a == x
+             then Just i
+             else indexOf' (i + 1) a xs
+
+-- TODO: move to helpers
+lastIndexOf :: Eq a => a -> [a] -> Maybe Int
+lastIndexOf a as = ((length as - 1) -) <$> indexOf a (reverse as)
