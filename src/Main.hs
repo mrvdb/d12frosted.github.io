@@ -55,7 +55,7 @@ postsR =
   do route $ setExtension "html"
      compile $
        orgCompiler >>=
-         loadAndApplyTemplate "templates/post.html" postCtx >>=
+         loadAndApplyTemplate' "post.html" postCtx >>=
          defaultTemplate postCtx >>=
          relativizeUrls
 
@@ -67,7 +67,7 @@ archiveR =
        do posts <- loadPosts
           let archiveCtx' = archiveCtx posts
           makeItem "" >>=
-            loadAndApplyTemplate "templates/archive.html" archiveCtx' >>=
+            loadAndApplyTemplate' "archive.html" archiveCtx' >>=
             defaultTemplate archiveCtx' >>=
             relativizeUrls
 
@@ -91,8 +91,11 @@ templatesR =
 ---------------- Templates
 
 defaultTemplate :: Context String -> Item String -> Compiler (Item String)
-defaultTemplate = loadAndApplyTemplate "templates/default.html" . (titleCtx <>)
+defaultTemplate = loadAndApplyTemplate' "default.html" . (titleCtx <>)
   where titleCtx = constField "blogTitle" blogTitle
+
+loadAndApplyTemplate' :: String -> Context a -> Item a -> Compiler (Item String)
+loadAndApplyTemplate' t = loadAndApplyTemplate (fromString $ "templates/" ++ t)
 
 ---------------- Contexts
 
