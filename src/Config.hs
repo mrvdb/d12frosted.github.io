@@ -17,3 +17,11 @@ indexPagePosts = 8
 
 archivePageTitle :: String
 archivePageTitle = "Archives"
+
+-- Paths
+
+postsPath :: String
+postsPath = "posts"
+
+imagesPath :: String
+imagesPath = "images"

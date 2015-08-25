@@ -24,7 +24,7 @@ main =
 
 imagesR :: Rules ()
 imagesR =
-  match "images/*" $
+  match (pathPattern imagesPath "/*") $
   do route idRoute
      compile copyFileCompiler
 
@@ -51,7 +51,7 @@ staticPagesR =
 
 postsR :: Rules ()
 postsR =
-  match "posts/*" $
+  match (pathPattern postsPath "/*") $
   do route $ setExtension "html"
      compile $
        orgCompiler >>=
@@ -114,3 +114,10 @@ indexCtx posts =
 
 loadPosts :: Compiler ([Item String])
 loadPosts = loadAll "posts/*" >>= recentFirst
+
+--------------------------------------------------------------------------------
+-- Helpers
+--------------------------------------------------------------------------------
+
+pathPattern :: String -> String -> Pattern
+pathPattern a b = fromString $ a ++ b
