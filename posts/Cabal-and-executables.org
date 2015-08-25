@@ -22,11 +22,9 @@ The main difficulty with Cabal is otherwise known as 'dependency hell', in which
 [[https://wiki.haskell.org/Cabal/Survival][Haskell Wiki]]
 #+END_QUOTE
 
-#+BEGIN_HTML
-<div class="figure">
-<img src="../images/1428233775.png">
-</div>
-#+END_HTML
+#+BEGIN_FIGURE
+1428233775.png
+#+END_FIGURE
 
 I need to confess. Sometimes I solve **Cabal Hell** by using this method with ~rm -rf~. **Cabal Hell** is like a cancer - it's very hard to cure this disease without ruining your environment (in our case - packages database). But with *Cabal Hell* comes one good thing - you can use some tools in order to prevent this bizarre to happen with you. For such purposes you can use cabal sandboxes, [[http://www.stackage.org][Stackage]] or [[http://hydra.nixos.org][nixos]]. Probably there are some other handy solutions or tools, but this is all I know.
 

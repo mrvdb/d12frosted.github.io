@@ -37,12 +37,10 @@ So I checked some tutorials and now I publish my blog from ~org-mode~ without an
 
 * Configurations
 
-#+BEGIN_HTML
-<div class="figure">
-<img src="../images/1431793228-org1.png" alt="Leuven theme is making you jealous">
-<p class="caption">Leuven theme is making you jealous</p>
-</div>
-#+END_HTML
+#+BEGIN_FIGURE
+1431793228-org1.png
+Leuven theme is making you jealous
+#+END_FIGURE
 
 In ~org-mode~ you can export a single file. I bet you have already tried it. But in case you haven't - just press ~C-c C-e~ to run ~org-export-dispatch~. In case you're confused by what you saw - press ~h o~. It will export current ~org~ file as ~html~ file and open it in your default browser. ~org-mode~ also allows you to export several files at the same time. In order to do so you need to configure a project. A project is a pair of files and their exporting configurations. So actually, your blog is also a project. We just need to specify it's files and some exporting rules.
 

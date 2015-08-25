@@ -4,12 +4,12 @@
 #+DATE:         <2015-08-12>
 #+STARTUP:      showeverything
 
-#+BEGIN_HTML
-<div class="figure">
-<img src="../images/1439652583-uls-1.png" alt="The face of true Pain">
-<p class="caption">The face of true Pain</p>
-</div>
-#+END_HTML
+#+BEGIN_FIGURE
+1439652583-uls-1.png
+The face of true Pain
+#+END_FIGURE
+
+[[file:~/Developer/d12frosted/d12frosted.github.io/images/1439652583-uls-1.png][The face of true Pain]]
 
 Unity3d is a great piece of software. And one of it's most important features - the ease with which you develop for different platforms. Most Unity3d developers will agree - the process of assets importing can hit you very hard, especially on big projects. So yes, people do like caching =Library= folders in order to speed up changing build target. There are two common ways - using different tools that allow you to have one copy of project and multiple copies of =Library= folder or having multiple copies of one project. The problem of most tools that allow you to switch =Library= folders is that they work only with build targets, but not with git branches. With usual work flow it is so common when different branches have different set of assets. And when you need to switch between such branches as fast as possible - you might curse everything.
 
@@ -30,11 +30,9 @@ And here is a catch. In order to change target platform / branch you need to swi
 
 * And here comes the star
 
-#+BEGIN_HTML
-<div class="figure">
-<img src="../images/1439652583-uls-2.png">
-</div>
-#+END_HTML
+#+BEGIN_FIGURE
+1439652583-uls-2.png
+#+END_FIGURE
 
 OK, I must admit. It doesn't look like something you would like to pay for. But as far as it's free and solves your problems - be happy and use it!
 
@@ -42,11 +40,9 @@ OK, I must admit. It doesn't look like something you would like to pay for. But 
 
 So this is a plugin for Unity3d that allows you to switch platforms and git branches from one window. It will take all the burden of moving cached library and switching branch when you want it (and will yell at you if it's not possible). I bet you are tired of my chatter, so just watch this gif with perfectly broken loop. 
 
-#+BEGIN_HTML
-<div class="figure">
-<img src="../images/1439652583-uls-3.gif">
-</div>
-#+END_HTML
+#+BEGIN_FIGURE
+1439652583-uls-3.gif
+#+END_FIGURE
 
 But be aware that there are some limitations to what you've seen.
 

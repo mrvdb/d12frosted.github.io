@@ -32,23 +32,19 @@ In case of any other problems - [[http://google.com][may the force be with you]]
 
 And the first thing to notice - ~fish~ offers really great auto suggestions that are based on completions and history. When I saw this for the first time - I was really impressed.
 
-#+BEGIN_HTML
-<div class="figure">
-<img src="../images/1423317607-fish1.png" alt="Fish knows what you did last summer.">
-<p class="caption"><code>Fish</code> knows what you did last summer.</p>
-</div>
-#+END_HTML
+#+BEGIN_FIGURE
+1423317607-fish1.png
+<code>Fish</code> knows what you did last summer
+#+END_FIGURE
 
 You can easily navigate through history. For example, you can navigate through ~ghc~ or ~ghc --make~ history. Or even ~ghc --make -O2~ history. It's just... well, very convenient.
 
 The second thing about ~fish~ completions - they are based on ~man~ pages. In ~bash~ you have ~bash-completion~, in ~oh-my-zsh~ you have plug-ins (and when you have a lot of them, your life becomes kind of laggy). But ~fish~ takes a lot of completions from ~man~ pages. And it works so fast, that it's just amazing. Now I don't need to remove everything I typed just to check ~man~ when I forget which key I need, ~-N~ or ~-n~. All completions are paginated, and you can scroll them to find what you need. Super productive.
 
-#+BEGIN_HTML
-<div class="figure">
-<img src="../images/1423317617-fish2.png" alt="Fish generates them automatically by parsing your installed man pages.">
-<p class="caption"><code>Fish</code> generates them automatically by parsing your installed man pages.</p>
-</div>
-#+END_HTML
+#+BEGIN_FIGURE
+1423317617-fish2.png
+<code>Fish</code> generates them automatically by parsing your installed man pages
+#+END_FIGURE
 
 So you better keep pressing ~<tab>~ in different situations to see what else it can complete for you.
 

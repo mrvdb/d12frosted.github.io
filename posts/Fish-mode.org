@@ -20,11 +20,9 @@ Indentation rules were improved. So now it works even in most esoteric cases. Al
 
 While I was playing with ~fish~, I felt acute shortage of ~fish-mode~ for emacs. My needs are modest - syntax highlighting and indentation. So I searched for existing modes and found one that is also available on MELPA. As usual I installed it from [[https://github.com/wwwjfy/emacs-fish][git]] and found that it works not as I expected. Syntax highlighting worked not as I wanted and most importantly - indentation was buggy. Especially for ~end~ term. So I checked the code to fix it. But you know, my emacs lisp fu is pretty weak, so I couldn't understand where lies the problem (well, definitely the problem is with ~fish-indent-line~ function). So I thought that I could implement my own major mode in educational purposes(yay!).
 
-#+BEGIN_HTML
-<div class="figure">
-<img src="../images/1423468417-fish-mode.png">
-</div>
-#+END_HTML
+#+BEGIN_FIGURE
+1423468417-fish-mode.png
+#+END_FIGURE
 
 My starting point was tutorial on [[http://ergoemacs.org/emacs/elisp_syntax_coloring.html][ergoemacs]] that was describing how to implement major-mode for syntax highlighting. So pretty quickly I conquered this topic and implemented some very simple highlighting rules. And then started working on indentation functions. Fish language is really easy. In this language only blocks change indentation. Block begins with one of block-opening terms (~if~, ~function~, ~while~, ~for~, ~begin~ and ~switch~). Every block is closed by ~end~. There is only one construction that makes indentation implementation a bit harder - ~switch-case~, because ~case~ opens block and closes previous ~case~ block if previous one exists. And there is also another special term ~else~ that closes ~if~ block, but begins new one. So I started pretty straightforward.
 
