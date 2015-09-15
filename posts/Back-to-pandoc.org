@@ -1,0 +1,32 @@
+#+TITLE:        Back to Hakyll (Pandoc)
+#+AUTHOR:       Boris Buliga
+#+EMAIL:        d12frosted@icloud.com
+#+DATE:         <2015-08-25>
+#+STARTUP:      showeverything
+
+Several days ago [[file:Spacemacs.org][I moved back to Spacemacs]] from the custom mess I had in my =.emacs.d= and now I am moving back to [[http://jaspervdj.be/hakyll/][Hakyll]] from =org-publish=. There are several reasons for this move, but the main one is [[https://www.haskell.org][Haskell]][fn:1]. You see, I haven't coded in Haskell for a while and I started to feel sick, so I decided to fix that. While I was moving back to Spacemacs I haven't moved my configurations for blog publishing because of two reasons. Firstly, it looks ugly from my point of view, so I wanted to spent some time improving that. Secnodly, I wanted to add new features that required doing a lot of text transformations. So I asked myself - do I really want to have fun™ coding in Emacs Lisp? It turned out (and you wouldn't expect) that my answer was in favor of Haskell.
+
+So Hakyll, right? Well, at first I was thinking about builing my own The Only True Tool for generating static site[fn:2]. But at this point it's too distracting, so I decided to stick with tool that already works fine (mostly) - Hakyll. I am not saying that this desicion is permanent (as you can see, I like changing them), but currently my focus is on content transformation rather than file manipulation. And [[http://haddock.stackage.org/lts-3.1/pandoc-1.15.0.6/index.html][Pandoc]] is a great tool for that.
+
+OK, let's talk about one of my greatest complains about =Hakyll= – meta information duplication. =Hakyll= parses metadata from special block at the top of file or from separate file (with =.metadata= extension).
+
+#+BEGIN_SRC
+---
+key: value
+title: super post
+---
+#+END_SRC
+
+I like keeping my notes (and blog posts) in org format which has it's own notion of metadata block. I am talking about following block.
+
+#+BEGIN_SRC
+#+key:          value
+#+title:        super post
+#+END_SRC
+
+But in order to make all tools happy you need to use both types of blocks. So you have a option to put Hakyll-block at the very top of file or put it into separate file. If you do it manually - you actually duplicate metadata. It's not a big deal, but... well, it is. Mostly becasue =Pandoc= knows how to get metadata from different types of documents. It also knows, how to get it from =org= files. And since Hakyll comes with =pandocCompiler= it's natural to expect from it to reuse this ability of =Pandoc= readers to parse metadata. But it turns out that =Hakyll= totally ignores it. So my first task was to fix it. I've patched Hakyll and currently I think about sending a pull request. But meanwhile, I am happy user of [[https://github.com/d12frosted/d12frosted.github.io/blob/source/src/Compiler/Pandoc.hs#L13][pandocMetadataCompilerWith]] function. And because of Pandoc I has really great [[https://github.com/d12frosted/d12frosted.github.io/blob/source/src/Compiler/Org.hs][control]] over my content.
+
+So I am very satisfied with =Hakyll= as my blog generator tool. =Haskell= if fun, =Hakyll= and =Pandoc= are incredible tools. I highly encourage you to use them.
+
+[fn:1] Home page was greatly updated. If you haven't seen it yet - go and see it.
+[fn:2] Just as reference: http://two-wrongs.com/static-generation-with-haskell.
