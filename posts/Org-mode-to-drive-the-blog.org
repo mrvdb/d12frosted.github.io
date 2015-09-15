@@ -5,35 +5,11 @@
 #+STARTUP:      showeverything
 #+OPTIONS:      toc:nil
 
-Over the last months I have totally switched to ~org-mode~. I am using it to track things I need to do, to keep a diary and write different kind of notes. I like a lot of things about ~org-mode~, but I am going to tell you only about one nice feature I started to use recently - ~org-mode~ as a static blog generator.
+Over the last months I have totally switched to ~org-mode~. I am using it to track things I need to do, to keep a diary and write different kind of notes. I like a lot of things about ~org-mode~, but I am going to tell you only about one nice feature I started to use recently - ~org-mode~ as a static blog (site) generator. Just a side note - to generate this site I am using ~Hakyll~. But I still use it for other things.
 
 #+BEGIN_HTML
 #+TOC: headlines 3
 #+END_HTML
-
-* Preface
-
-/You can skip this section without any impact on your understanding of the topic./
-
-I am hosting my blog at [[https://pages.github.com][GitHub Pages]] service. It has support of [[http://jekyllrb.com][Jakyll]], but instead of it I wanted to use [[http://jaspervdj.be/hakyll/][Hakyll]] - a [[https://www.haskell.org][Haskell]] library for generating static sites. And for a long time (like 5 posts) I was a happy ~Hakyll~ user. I was until I realized that it's easy to generate my blog using [[http://orgmode.org][Org mode]] - emacs mode for keeping notes, maintaining TODO lists, planning projects and other cool things. It also has great exporting options.
-
-** Why ~org-mode~?
-
-Mostly because of it's features. I mean, features that work like a charm. And even if something doesn't work - you have a lisp for that +(to break everything)+. But for me it never was so simple.
-
-For a long time (even hard to be accurate, but I am sure that for more than 2 years) I was storing all my notes in ~markdown~ files. At the beginning my flow was very stubborn. After some time of learning programming I thought that I could simplify my flow by creating a tool to manage my notes. So I created a really useful tool for my needs that was solving only one thing - note organization. My idea was very simple - all tools I was using before were trying to combine three different tasks in one tool: organization, editing and viewing. And usually at least one of those aspects suffered very much. For me it's usually an editing part. But I also hated that such tools are forcing me to use their understanding of what note is. I don't want to say that I have a special meaning for note, no. Just can't say that it's always the same. So I created ~KitsuneBook~. While I was designing it, I always kept in mind the vision of a big box where I store old letters, notes, photos and some other strange stuff. The primal idea of ~KitsuneBook~ is that the note is an abstract thing.. So for ~KitsuneBook~ a note is just a black box with attached configuration file that is used to decide how to read and how to edit it. Simple.
-
-I was experimenting with ~KitsuneBook~ very much. I even was planning to integrate Evernote (mostly because of it's syncing features) and git for versioning. But at one point I just moved to ~org-mode~. Mostly because ~markdown~ wasn't enough for me. And also because ~org-mode~ offered so much great features that I couldn't resist. At the first month I was trying to use ~KitsuneBook~ but then I realized that despite all the good things it gave me I just don't need it anymore. Damn you emacs. But don't get me wrong. I am not even mad. I am amazed on how good emacs at combining and fusing different tools. And making the result available from few key presses.
-
-So I started to take all my notes in ~org~ files. ~Hakyll~ uses [[http://pandoc.org][pandoc]] to convert different files to ~html~. And ~pandoc~ is capable of converting ~org~ files as well. So the story might end up here. But I wasn't satisfied by three things.
-
-The first one is pretty simple. ~Hakyll~ doesn't know a thing about ~org~ properties. So you need to duplicate some information in a special header (~YAML~ front matter?). It actually don't bother me very much, because I don't use it heavily, but duplicating tittle was pissing me off.
-
-The second one is much more serious. I don't like duplicating content on my computer. For all my notes I have a working directory. Blog posts are nothing more than regular notes. I am just sharing them. So I like having blog posts in my working directory as well. But for ~hakyll~ (and it's not ~hakyll~'s fault) I was copying specific parts of note into the blog post (because almost every note has some reference parts, todos etc - and I don't want to share this data with anyone). But I often update my notes after some time, so every time I update something, I need to remove old blog post and create new one or just move all changes. Just annoying.
-
-So the third thing. When you convert ~org~ file using ~pandoc~ you actually don't have much control over export process. Well, honestly you do, but you need to hack ~pandoc~ sources for this. And why would you do this, when you have ~org-mode~ that offers you a lot of control over this process without much effort? After all, if you want (and you should) checkout ~pandoc~ sources, you don't need to mess with ~org~ files for it, right?
-
-So I checked some tutorials and now I publish my blog from ~org-mode~ without any of mentioned problems. Just keep in mind that this solution worked for, but it doesn't mean that it will work for you. In case something is not clear in my explanations - feel free to ask me!
 
 * Configurations
 
