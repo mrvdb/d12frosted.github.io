@@ -28,59 +28,42 @@
     <div id="content">
       <h1>Org mode to drive the blog</h1>
 
-      <p>Over the last months I have totally switched to <code>org-mode</code>. I am using it to track things I need to do, to keep a diary and write different kind of notes. I like a lot of things about <code>org-mode</code>, but I am going to tell you only about one nice feature I started to use recently - <code>org-mode</code> as a static blog generator.</p>
+      <p>Over the last months I have totally switched to <code>org-mode</code>. I am using it to track things I need to do, to keep a diary and write different kind of notes. I like a lot of things about <code>org-mode</code>, but I am going to tell you only about one nice feature I started to use recently - <code>org-mode</code> as a static blog (site) generator. Just a side note - to generate this site I am using <code>Hakyll</code>. But I still use it for other things.</p>
 <h1>Table of Contents</h1>
 <ul>
-<li><a href="#sec-1">Preface</a>
+<li><a href="#sec-1.html">Configurations</a>
 <ul>
-<li><a href="#sec-1-1">Why <code>org-mode</code>?</a></li>
+<li><a href="#sec-1-1.html">Structure</a></li>
+<li><a href="#sec-2-1.html">Project definition</a></li>
+<li><a href="#sec-3-1.html">Simple implementation</a>
+<ul>
+<li><a href="#sec-1-3-1.html">Posts project</a></li>
+<li><a href="#sec-2-3-1.html">Static files</a></li>
+<li><a href="#sec-3-3-1.html">Index page</a></li>
+<li><a href="#sec-4-3-1.html">The Blog</a></li>
+<li><a href="#sec-5-3-1.html">Next steps</a></li>
 </ul></li>
-<li><a href="#sec-2">Configurations</a>
+<li><a href="#sec-4-1.html">More features</a>
 <ul>
-<li><a href="#sec-1-2">Structure</a></li>
-<li><a href="#sec-2-2">Project definition</a></li>
-<li><a href="#sec-3-2">Simple implementation</a>
-<ul>
-<li><a href="#sec-1-3-2">Posts project</a></li>
-<li><a href="#sec-2-3-2">Static files</a></li>
-<li><a href="#sec-3-3-2">Index page</a></li>
-<li><a href="#sec-4-3-2">The Blog</a></li>
-<li><a href="#sec-5-3-2">Next steps</a></li>
-</ul></li>
-<li><a href="#sec-4-2">More features</a>
-<ul>
-<li><a href="#sec-1-4-2">Recursive property and more static files</a></li>
-<li><a href="#sec-2-4-2">Custom head</a></li>
-<li><a href="#sec-3-4-2">Some default <code>css</code></a></li>
-<li><a href="#sec-4-4-2">Code highlighting</a></li>
-<li><a href="#sec-5-4-2">Preamble and Postamble</a></li>
-<li><a href="#sec-6-4-2">Validation link</a></li>
-<li><a href="#sec-7-4-2">Site map</a></li>
-<li><a href="#sec-8-4-2">Shrink <code>org-publish-project-alist</code></a></li>
+<li><a href="#sec-1-4-1.html">Recursive property and more static files</a></li>
+<li><a href="#sec-2-4-1.html">Custom head</a></li>
+<li><a href="#sec-3-4-1.html">Some default <code>css</code></a></li>
+<li><a href="#sec-4-4-1.html">Code highlighting</a></li>
+<li><a href="#sec-5-4-1.html">Preamble and Postamble</a></li>
+<li><a href="#sec-6-4-1.html">Validation link</a></li>
+<li><a href="#sec-7-4-1.html">Site map</a></li>
+<li><a href="#sec-8-4-1.html">Shrink <code>org-publish-project-alist</code></a></li>
 </ul></li>
 </ul></li>
-<li><a href="#sec-3">Afterwords</a></li>
+<li><a href="#sec-2.html">Afterwords</a></li>
 </ul>
-<h1 id="sec-1">Preface</h1>
-<p><em>You can skip this section without any impact on your understanding of the topic.</em></p>
-<p>I am hosting my blog at <a href="https://pages.github.com">GitHub Pages</a> service. It has support of <a href="http://jekyllrb.com">Jakyll</a>, but instead of it I wanted to use <a href="http://jaspervdj.be/hakyll/">Hakyll</a> - a <a href="https://www.haskell.org">Haskell</a> library for generating static sites. And for a long time (like 5 posts) I was a happy <code>Hakyll</code> user. I was until I realized that it’s easy to generate my blog using <a href="http://orgmode.org">Org mode</a> - emacs mode for keeping notes, maintaining TODO lists, planning projects and other cool things. It also has great exporting options.</p>
-<h2 id="sec-1-1">Why <code>org-mode</code>?</h2>
-<p>Mostly because of it’s features. I mean, features that work like a charm. And even if something doesn’t work - you have a lisp for that <del>(to break everything)</del>. But for me it never was so simple.</p>
-<p>For a long time (even hard to be accurate, but I am sure that for more than 2 years) I was storing all my notes in <code>markdown</code> files. At the beginning my flow was very stubborn. After some time of learning programming I thought that I could simplify my flow by creating a tool to manage my notes. So I created a really useful tool for my needs that was solving only one thing - note organization. My idea was very simple - all tools I was using before were trying to combine three different tasks in one tool: organization, editing and viewing. And usually at least one of those aspects suffered very much. For me it’s usually an editing part. But I also hated that such tools are forcing me to use their understanding of what note is. I don’t want to say that I have a special meaning for note, no. Just can’t say that it’s always the same. So I created <code>KitsuneBook</code>. While I was designing it, I always kept in mind the vision of a big box where I store old letters, notes, photos and some other strange stuff. The primal idea of <code>KitsuneBook</code> is that the note is an abstract thing.. So for <code>KitsuneBook</code> a note is just a black box with attached configuration file that is used to decide how to read and how to edit it. Simple.</p>
-<p>I was experimenting with <code>KitsuneBook</code> very much. I even was planning to integrate Evernote (mostly because of it’s syncing features) and git for versioning. But at one point I just moved to <code>org-mode</code>. Mostly because <code>markdown</code> wasn’t enough for me. And also because <code>org-mode</code> offered so much great features that I couldn’t resist. At the first month I was trying to use <code>KitsuneBook</code> but then I realized that despite all the good things it gave me I just don’t need it anymore. Damn you emacs. But don’t get me wrong. I am not even mad. I am amazed on how good emacs at combining and fusing different tools. And making the result available from few key presses.</p>
-<p>So I started to take all my notes in <code>org</code> files. <code>Hakyll</code> uses <a href="http://pandoc.org">pandoc</a> to convert different files to <code>html</code>. And <code>pandoc</code> is capable of converting <code>org</code> files as well. So the story might end up here. But I wasn’t satisfied by three things.</p>
-<p>The first one is pretty simple. <code>Hakyll</code> doesn’t know a thing about <code>org</code> properties. So you need to duplicate some information in a special header (<code>YAML</code> front matter?). It actually don’t bother me very much, because I don’t use it heavily, but duplicating tittle was pissing me off.</p>
-<p>The second one is much more serious. I don’t like duplicating content on my computer. For all my notes I have a working directory. Blog posts are nothing more than regular notes. I am just sharing them. So I like having blog posts in my working directory as well. But for <code>hakyll</code> (and it’s not <code>hakyll</code>’s fault) I was copying specific parts of note into the blog post (because almost every note has some reference parts, todos etc - and I don’t want to share this data with anyone). But I often update my notes after some time, so every time I update something, I need to remove old blog post and create new one or just move all changes. Just annoying.</p>
-<p>So the third thing. When you convert <code>org</code> file using <code>pandoc</code> you actually don’t have much control over export process. Well, honestly you do, but you need to hack <code>pandoc</code> sources for this. And why would you do this, when you have <code>org-mode</code> that offers you a lot of control over this process without much effort? After all, if you want (and you should) checkout <code>pandoc</code> sources, you don’t need to mess with <code>org</code> files for it, right?</p>
-<p>So I checked some tutorials and now I publish my blog from <code>org-mode</code> without any of mentioned problems. Just keep in mind that this solution worked for, but it doesn’t mean that it will work for you. In case something is not clear in my explanations - feel free to ask me!</p>
-<h1 id="sec-2">Configurations</h1>
+<h1 id="sec-1">Configurations</h1>
 <div class="figure">
-<img src="../images/1431793228-org1.png" alt="Leuven theme is making you jealous">
-<p class="caption">Leuven theme is making you jealous</p>
+<img src="../images/1431793228-org1.png" alt=" Leuven theme is making you jealous">
+<p class="caption"> Leuven theme is making you jealous</p>
 </div>
-
 <p>In <code>org-mode</code> you can export a single file. I bet you have already tried it. But in case you haven’t - just press <code>C-c C-e</code> to run <code>org-export-dispatch</code>. In case you’re confused by what you saw - press <code>h o</code>. It will export current <code>org</code> file as <code>html</code> file and open it in your default browser. <code>org-mode</code> also allows you to export several files at the same time. In order to do so you need to configure a project. A project is a pair of files and their exporting configurations. So actually, your blog is also a project. We just need to specify it’s files and some exporting rules.</p>
-<h2 id="sec-1-2">Structure</h2>
+<h2 id="sec-1-1">Structure</h2>
 <p>My blog has following structure. It’s a bit simplified, but anyway.</p>
 <pre><code>.
 ├── css
@@ -96,7 +79,7 @@
     └── ...
 </code></pre>
 <p>Pretty simple, isn’t it? Looks just like an usual site.</p>
-<h2 id="sec-2-2">Project definition</h2>
+<h2 id="sec-2-1">Project definition</h2>
 <p>Project is defined by specifying it’s name and property values.</p>
 <div class="sourceCode"><pre class="sourceCode commonlisp"><code class="sourceCode commonlisp">(<span class="st">&quot;project-name&quot;</span> :property value :property value ...)</code></pre></div>
 <p>It’s also possible to define project as a composition of other projects.</p>
@@ -114,9 +97,9 @@
 <li>blog - a combination of all previous projects</li>
 </ol>
 <p>If you think about - it makes sense. Static files have different exporting options comparing to posts. As for distinguishing posts and some other pages - it’s not necessary, but you might want to do it as well. Read further to see why.</p>
-<h2 id="sec-3-2">Simple implementation</h2>
+<h2 id="sec-3-1">Simple implementation</h2>
 <p>Let’s start by making things simple. In case you’re interested in full solution - skip this part totally or just checkout my latest <a href="https://github.com/d12frosted/environment/blob/master/emacs/configs/org-configs.el">configurations</a>.</p>
-<h3 id="sec-1-3-2">Posts project</h3>
+<h3 id="sec-1-3-1">Posts project</h3>
 <p>So let’s define a project for posts.</p>
 <div class="sourceCode"><pre class="sourceCode commonlisp"><code class="sourceCode commonlisp">(<span class="kw">setq</span> org-publish-project-alist
       '((<span class="st">&quot;blog-posts&quot;</span>
@@ -127,7 +110,7 @@
          :publishing-function org-html-publish-to-html <span class="co">; function to publish with</span>
        )))</code></pre></div>
 <p>It’s pretty straightforward. <code>org-mode</code> will search for files with <code>:base-extension</code> in a <code>:base-directory</code> and will use <code>:publishing-function</code> to publish them in <code>:publishing-directory</code>. You can try it right now, by calling <code>org-publish</code> and picking up <code>blog-posts</code> project. <code>org-html-publish-to-html</code> is a function you use to convert <code>org</code> files into <code>html</code> files.</p>
-<h3 id="sec-2-3-2">Static files</h3>
+<h3 id="sec-2-3-1">Static files</h3>
 <p>Probably you have some images in your posts. So let’s publish them as well. Just remember that you should link them from posts by using relative links like <code>../images/img-name.png</code> or absolute links. My point is - beware of broken links!</p>
 <div class="sourceCode"><pre class="sourceCode commonlisp"><code class="sourceCode commonlisp">(<span class="kw">setq</span> org-publish-project-alist
       '((<span class="st">&quot;blog-posts&quot;</span> ... )                          <span class="co">; configurations for `blog-posts' project</span>
@@ -139,7 +122,7 @@
         )))</code></pre></div>
 <p>So we see few differences. Firstly, <code>:base-extension</code> is actually regular expression, so you can specify a lot of different extensions. Just don’t forget to omit the dot! Secondly, we are using <code>org-publish-attachment</code> to publish matched files. This function just moves matched files to <code>:publishing-directory</code>.</p>
 <p>So now you can publish this project as well. What about css and js files? Let’s delay until we start using them. Then we’ll just update these configurations.</p>
-<h3 id="sec-3-3-2">Index page</h3>
+<h3 id="sec-3-3-1">Index page</h3>
 <p>Every blog needs an index page. At least for the list of all posts, right? <code>Org-mode</code> can generate this list for you automatically, but let’s start with something very simple. Just create an <code>index.org</code> file in <code>\~/blog-sources</code>. You can use whatever content you want. If you wish, add some links to your posts (<code>org</code> files) and they will be converted into right links to <code>html</code> files automatically.</p>
 <p>So let’s create a project for this one simple file.</p>
 <div class="sourceCode"><pre class="sourceCode commonlisp"><code class="sourceCode commonlisp">(<span class="kw">setq</span> org-publish-project-alist
@@ -151,7 +134,7 @@
          :publishing-directory <span class="st">&quot;~/blog/&quot;</span>
         )))</code></pre></div>
 <p>As you can see, at this point is pretty similar to <code>blog-posts</code> project. Just other directories and omitted extension (because <code>org</code> is the default value for <code>:base-extension</code>).</p>
-<h3 id="sec-4-3-2">The Blog</h3>
+<h3 id="sec-4-3-1">The Blog</h3>
 <p>And the last project is our blog itself.</p>
 <div class="sourceCode"><pre class="sourceCode commonlisp"><code class="sourceCode commonlisp">(<span class="kw">setq</span> org-publish-project-alist
       '((<span class="st">&quot;blog-posts&quot;</span> ... )        <span class="co">; configurations for `blog-posts' project</span>
@@ -162,11 +145,11 @@
                       <span class="st">&quot;blog-static-files&quot;</span>
                       <span class="st">&quot;blog-pages&quot;</span>))))</code></pre></div>
 <p>Now you can <code>M-x &lt;return&gt; org-publish</code> and chose <code>blog</code> to publish all projects. Actually, you don’t need to define the last project if you are going to publish it via <code>C-c C-e P a</code> because it will publish all your projects. But knowing this way of defining projects will not hurt.</p>
-<h3 id="sec-5-3-2">Next steps</h3>
+<h3 id="sec-5-3-1">Next steps</h3>
 <p>At this point you are familiar with some publishing basics and you are free to sail. The good link to follow up from this point is the <a href="http://orgmode.org/manual/Publishing.html">official manual on publishing</a>. Also a good thing to do is to read the documentation for <code>org-publish-project-alist</code> to find more properties to setup.</p>
 <p>But in case you are interested in more complicated (and real-life) examples, keep reading!</p>
-<h2 id="sec-4-2">More features</h2>
-<h3 id="sec-1-4-2">Recursive property and more static files</h3>
+<h2 id="sec-4-1">More features</h2>
+<h3 id="sec-1-4-1">Recursive property and more static files</h3>
 <p>As we discussed before - your site might contain different static files (like images, css and js files). Previously we already defined a project for static files, but it was publishing only images from <code>images</code> folder. So you might thought that you need to define several projects for different kind of static files even despite the fact that <code>:base-extensions</code> is actually a regexp. I mean, in case you want to store different kind of static files in different directories. But a good thing - you can use <code>:recursive</code> property. So let’s update our <code>blog-static-files</code> project configurations.</p>
 <div class="sourceCode"><pre class="sourceCode commonlisp"><code class="sourceCode commonlisp">(<span class="kw">setq</span> org-publish-project-alist
       '((<span class="st">&quot;blog-posts&quot;</span> ... )                           <span class="co">; configurations for `blog-posts' project</span>
@@ -180,7 +163,7 @@
         (<span class="st">&quot;blog-pages&quot;</span> ... )                           <span class="co">; configurations for `blog-pages' project</span>
         (<span class="st">&quot;blog&quot;</span> ... )))                               <span class="co">; configurations for `blog' project</span></code></pre></div>
 <p>So now we ask to search for files with <code>:base-extension</code> in blog sources root directory (<code>:base-directory</code>) instead of images directory, we add <code>css</code> and <code>js</code> extensions to <code>:base-extension</code> regexp, change <code>:publishing-directory</code> to blog root. And it all should be done recursively. So basically it will move all matched files to the blog root preserving their relative path. I mean, <code>~/blog-sources/css/default.css</code> will be moved to <code>~/blog/css/default.css</code>.</p>
-<h3 id="sec-2-4-2">Custom head</h3>
+<h3 id="sec-2-4-1">Custom head</h3>
 <p>OK, we know how to publish css files. But how can one attach them? Suppose you have a file <code>default.css</code> in <code>css</code> directory. And you want it to be loaded for all post pages. You have two options. First is to add html head property to all org files.</p>
 <pre class="org"><code>#+HTML_HEAD: &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;/css/default.css&quot; /&gt;
 </code></pre>
@@ -236,7 +219,7 @@ app <span class="fu">=</span> staticApp <span class="fu">$</span> defaultFileSer
 <pre class="org"><code>#+HTML_HEAD_EXTRA: &lt;script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'&gt;&lt;/script&gt;
 </code></pre>
 <p>Use the same property when you want to override the default one!.</p>
-<h3 id="sec-3-4-2">Some default <code>css</code></h3>
+<h3 id="sec-3-4-1">Some default <code>css</code></h3>
 <p>Probably you already have noticed that <code>org-mode</code> attaches some <code>css</code> to published files. But for some of you it might be undesirable. To get rid off those <code>css</code> you need to configure <code>org-html-head-include-default-style</code> variable, or set <code>:html-head-include-default-style</code> property for projects you wish to come clean. The default value is <code>t</code>, so just change that to <code>nil</code>.</p>
 <div class="sourceCode"><pre class="sourceCode commonlisp"><code class="sourceCode commonlisp">(<span class="kw">setq</span> org-publish-project-alist
       '((<span class="st">&quot;blog-posts&quot;</span>
@@ -254,11 +237,11 @@ app <span class="fu">=</span> staticApp <span class="fu">$</span> defaultFileSer
         (<span class="st">&quot;blog-static-files&quot;</span> ... )                     <span class="co">; configurations for `blog-static-files' project</span>
         (<span class="st">&quot;blog-pages&quot;</span> ... )                            <span class="co">; configurations for `blog-pages' project</span>
         (<span class="st">&quot;blog&quot;</span> ... )))                                <span class="co">; configurations for `blog' project</span></code></pre></div>
-<h3 id="sec-4-4-2">Code highlighting</h3>
+<h3 id="sec-4-4-1">Code highlighting</h3>
 <p>When your file is published (exported), by default all code code snippets are exported with some syntax highlighting. It might be handy, but you might want more control over the colors. By default <code>org-mode</code> inlines <code>css</code> for code. It uses your font settings, so basically your theme affects generated <code>css</code>. You can make it more generic by setting <code>org-html-htmlize-output-type</code> to <code>css</code> (the default is <code>inline-css</code>). It asks <code>org-mode</code> to export <code>css</code> selectors only. As far as I know, you can’t set it on per-project basis.</p>
 <div class="sourceCode"><pre class="sourceCode commonlisp"><code class="sourceCode commonlisp">(<span class="kw">setq</span> org-html-htmlize-output-type 'inline-css) <span class="co">; default</span>
 (<span class="kw">setq</span> org-html-htmlize-output-type 'css)</code></pre></div>
-<h3 id="sec-5-4-2">Preamble and Postamble</h3>
+<h3 id="sec-5-4-1">Preamble and Postamble</h3>
 <p>Just a common thing - you want to put some html block before and after generated body in every file in project. For example, you want to see navigation bar and footer with some links on every post page. You really could just insert some <code>#+BEGIN_HTML</code> in every file, but it will be hell to update something. You also could move it to separate files and just <code>#+INCLUDE</code> them in every file, but hey. Isn’t it bad anyway? And here comes a good thing - you can set configure preamble and postamble globally or on per-project basis. First, make sure that <code>org-html-preamble</code> and <code>org-html-postamble</code> are set to <code>t</code> (this default). Sure, you can set any of them to nil if you don’t want it to be included to generated <code>html</code> files.</p>
 <p>Variables you are interested in are <code>org-html-preamble-format</code> (<code>:html-preamble</code> property) and <code>org-html-postamble-format</code> (<code>:html-postamble</code> property). This format string can contain these elements:</p>
 <ul>
@@ -274,14 +257,14 @@ app <span class="fu">=</span> staticApp <span class="fu">$</span> defaultFileSer
 <p>For example, as a postamble I use following string.</p>
 <pre><code>&quot;&lt;p&gt;By %a&lt;\p&gt;&lt;p&gt;Created on %d&lt;\p&gt;&quot;
 </code></pre>
-<h3 id="sec-6-4-2">Validation link</h3>
+<h3 id="sec-6-4-1">Validation link</h3>
 <p>Probably you already seen that ‘validation’ link after postamble. And I believe that you really don’t need it. Just set <code>org-html-validation-link</code> to <code>nil</code> and become happy.</p>
 <div class="sourceCode"><pre class="sourceCode commonlisp"><code class="sourceCode commonlisp">(<span class="kw">setq</span> org-html-validation-link <span class="kw">nil</span>)</code></pre></div>
-<h3 id="sec-7-4-2">Site map</h3>
+<h3 id="sec-7-4-1">Site map</h3>
 <p><em>Under construction. Come back in few days.</em></p>
-<h3 id="sec-8-4-2">Shrink <code>org-publish-project-alist</code></h3>
+<h3 id="sec-8-4-1">Shrink <code>org-publish-project-alist</code></h3>
 <p><em>Under construction. Come back in few days.</em></p>
-<h1 id="sec-3">Afterwords</h1>
+<h1 id="sec-2">Afterwords</h1>
 <p>I hope that you liked this post and found something useful for yourself. In case you have any questions, objections or suggestions - feel free to write me to d12frosted at icloud dot com.</p>
 
 <div id="info">
@@ -290,6 +273,9 @@ app <span class="fu">=</span> staticApp <span class="fu">$</span> defaultFileSer
     
       by Boris Buliga
     
+  </p>
+  <p>
+    Source: <a href="https://github.com/d12frosted/d12frosted.github.io/blob/source/posts/Org-mode-to-drive-the-blog.org">Org mode to drive the blog</a>
   </p>
 </div>
 

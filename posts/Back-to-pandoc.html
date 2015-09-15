@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>d12frosted - Back to Hakyll (Pandoc)</title>
+    <link rel="stylesheet" type="text/css" href="../css/default.css" />
+    <link rel="stylesheet" type="text/css" href="../css/font-awesome.css" />
+  </head>
+  <header>
+    <ul class="nav-list">
+      <li class="nav-elem nav-left nav-head">
+        <a href="../"><i class="fa fa-home"></i> d12frosted</a>
+      </li>
+      <li class="nav-elem nav-left nav-head">
+        <a href="../archive.html"><i class="fa fa-archive"></i> Archive</a>
+      </li>
+      <li class="nav-elem nav-right">
+        <a href="http://stackoverflow.com/users/3086454/d12frosted"><i class="fa fa-stack-overflow"></i> StackOverflow</a>
+      </li>
+      <li class="nav-elem nav-right">
+        <a href="https://github.com/d12frosted"><i class="fa fa-github"></i> GitHub</a>
+      </li>
+    </ul>
+  </header>
+
+  <body>
+    <div id="content">
+      <h1>Back to Hakyll (Pandoc)</h1>
+
+      <p>Several days ago <a href="Spacemacs.html">I moved back to Spacemacs</a> from the custom mess I had in my <code>.emacs.d</code> and now I am moving back to <a href="http://jaspervdj.be/hakyll/">Hakyll</a> from <code>org-publish</code>. There are several reasons for this move, but the main one is <a href="https://www.haskell.org">Haskell</a><a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>. You see, I haven’t coded in Haskell for a while and I started to feel sick, so I decided to fix that. While I was moving back to Spacemacs I haven’t moved my configurations for blog publishing because of two reasons. Firstly, it looks ugly from my point of view, so I wanted to spent some time improving that. Secnodly, I wanted to add new features that required doing a lot of text transformations. So I asked myself - do I really want to have fun™ coding in Emacs Lisp? It turned out (and you wouldn’t expect) that my answer was in favor of Haskell.</p>
+<p>So Hakyll, right? Well, at first I was thinking about builing my own The Only True Tool for generating static site<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>. But at this point it’s too distracting, so I decided to stick with tool that already works fine (mostly) - Hakyll. I am not saying that this desicion is permanent (as you can see, I like changing them), but currently my focus is on content transformation rather than file manipulation. And <a href="http://haddock.stackage.org/lts-3.1/pandoc-1.15.0.6/index.html">Pandoc</a> is a great tool for that.</p>
+<p>OK, let’s talk about one of my greatest complains about <code>Hakyll</code> – meta information duplication. <code>Hakyll</code> parses metadata from special block at the top of file or from separate file (with <code>.metadata</code> extension).</p>
+<pre><code>---
+key: value
+title: super post
+---
+</code></pre>
+<p>I like keeping my notes (and blog posts) in org format which has it’s own notion of metadata block. I am talking about following block.</p>
+<pre><code>#+key:          value
+#+title:        super post
+</code></pre>
+<p>But in order to make all tools happy you need to use both types of blocks. So you have a option to put Hakyll-block at the very top of file or put it into separate file. If you do it manually - you actually duplicate metadata. It’s not a big deal, but… well, it is. Mostly becasue <code>Pandoc</code> knows how to get metadata from different types of documents. It also knows, how to get it from <code>org</code> files. And since Hakyll comes with <code>pandocCompiler</code> it’s natural to expect from it to reuse this ability of <code>Pandoc</code> readers to parse metadata. But it turns out that <code>Hakyll</code> totally ignores it. So my first task was to fix it. I’ve patched Hakyll and currently I think about sending a pull request. But meanwhile, I am happy user of <a href="https://github.com/d12frosted/d12frosted.github.io/blob/source/src/Compiler/Pandoc.hs#L13">pandocMetadataCompilerWith</a> function. And because of Pandoc I has really great <a href="https://github.com/d12frosted/d12frosted.github.io/blob/source/src/Compiler/Org.hs">control</a> over my content.</p>
+<p>So I am very satisfied with <code>Hakyll</code> as my blog generator tool. <code>Haskell</code> if fun, <code>Hakyll</code> and <code>Pandoc</code> are incredible tools. I highly encourage you to use them.</p>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Home page was greatly updated. If you haven’t seen it yet - go and see it.<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>Just as reference: <a href="http://two-wrongs.com/static-generation-with-haskell" class="uri">http://two-wrongs.com/static-generation-with-haskell</a>.<a href="#fnref2">↩</a></p></li>
+</ol>
+</div>
+
+<div id="info">
+  <p>
+    Posted on August 25, 2015
+    
+      by Boris Buliga
+    
+  </p>
+  <p>
+    Source: <a href="https://github.com/d12frosted/d12frosted.github.io/blob/source/posts/Back-to-pandoc.org">Back to Hakyll (Pandoc)</a>
+  </p>
+</div>
+
+    </div>
+  </body>
+</html>

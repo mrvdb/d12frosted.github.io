@@ -29,10 +29,10 @@
       <h1>Unity Library Switcher v0.1</h1>
 
       <div class="figure">
-<img src="../images/1439652583-uls-1.png" alt="The face of true Pain">
-<p class="caption">The face of true Pain</p>
+<img src="../images/1439652583-uls-1.png" alt=" The face of true Pain">
+<p class="caption"> The face of true Pain</p>
 </div>
-
+<p><img src="file:~/Developer/d12frosted/d12frosted.github.io/images/1439652583-uls-1.png" alt /></p>
 <p>Unity3d is a great piece of software. And one of it’s most important features - the ease with which you develop for different platforms. Most Unity3d developers will agree - the process of assets importing can hit you very hard, especially on big projects. So yes, people do like caching <code>Library</code> folders in order to speed up changing build target. There are two common ways - using different tools that allow you to have one copy of project and multiple copies of <code>Library</code> folder or having multiple copies of one project. The problem of most tools that allow you to switch <code>Library</code> folders is that they work only with build targets, but not with git branches. With usual work flow it is so common when different branches have different set of assets. And when you need to switch between such branches as fast as possible - you might curse everything.</p>
 <h1 id="sec-1">The story of one script</h1>
 <p>Every <code>Library</code> folder has <code>EditorUserBuildSettings.asset</code> file which contains current build target. So when you swap <code>Library</code> folder it also potentially swaps build target. Just make sure that Unity3d editor is closed during this swap, otherwise it will go crazy like a Crazy Dave.</p>
@@ -43,16 +43,16 @@ $ <span class="kw">git</span> checkout features/X</code></pre></div>
 <p>And here is a catch. In order to change target platform / branch you need to switch to terminal, type these commands manually (several times, because of typos) and then open again Unity3d editor. Unity3d is great in terms that it allows you to write plugins for editor. It’s like emacs, but for game developers. Yes, it also doesn’t have a decent code editor. So I wanted to have in-editor-tool that would be useful not only for me, but also for other members of my team.</p>
 <h1 id="sec-2">And here comes the star</h1>
 <div class="figure">
-<img src="../images/1439652583-uls-2.png">
+<img src="../images/1439652583-uls-2.png" alt>
+<p class="caption"></p>
 </div>
-
 <p>OK, I must admit. It doesn’t look like something you would like to pay for. But as far as it’s free and solves your problems - be happy and use it!</p>
 <h1 id="sec-3">Short description</h1>
 <p>So this is a plugin for Unity3d that allows you to switch platforms and git branches from one window. It will take all the burden of moving cached library and switching branch when you want it (and will yell at you if it’s not possible). I bet you are tired of my chatter, so just watch this gif with perfectly broken loop.</p>
 <div class="figure">
-<img src="../images/1439652583-uls-3.gif">
+<img src="../images/1439652583-uls-3.gif" alt>
+<p class="caption"></p>
 </div>
-
 <p>But be aware that there are some limitations to what you’ve seen.</p>
 <ol>
 <li>It doesn’t work perfectly on Windows. Seriously.</li>
@@ -67,6 +67,9 @@ $ <span class="kw">git</span> checkout features/X</code></pre></div>
     
       by Boris Buliga
     
+  </p>
+  <p>
+    Source: <a href="https://github.com/d12frosted/d12frosted.github.io/blob/source/posts/UnityLibrarySwitcher-v0.1.org">Unity Library Switcher v0.1</a>
   </p>
 </div>
 

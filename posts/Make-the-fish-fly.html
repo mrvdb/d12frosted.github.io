@@ -32,13 +32,13 @@
 <p>For a long time (like a year and a half) I was using <code>zsh</code> beefed with <code>oh-my-zsh</code>. It has so much functionality (I wasn’t even using), so much colors and great auto completion. And everything comes out of box without the need of writing over 9000 lines of configuration code (because it is done for you by <code>oh-my-zsh</code>. So I was really happy until someone mentioned <code>fish</code> shell in comments to <a href="http://www.reddit.com/r/haskell/comments/2u6b8m/use_haskell_for_shell_scripting/">Use Haskell for shell scripting</a> thread on reddit. So after few minutes of reading how awesome <code>fish</code> is, I decided to give it a try.</p>
 <h1>Table of Contents</h1>
 <ul>
-<li><a href="#sec-1">Fish: catch it before you cook</a></li>
-<li><a href="#sec-2">Fish: first impression</a></li>
-<li><a href="#sec-3">Fish: configurations</a></li>
-<li><a href="#sec-4">Fish: one language to script them all</a></li>
-<li><a href="#sec-5">Conclusion</a></li>
-<li><a href="#sec-6">Epilogue</a></li>
-<li><a href="#sec-7">My settings</a></li>
+<li><a href="#sec-1.html">Fish: catch it before you cook</a></li>
+<li><a href="#sec-2.html">Fish: first impression</a></li>
+<li><a href="#sec-3.html">Fish: configurations</a></li>
+<li><a href="#sec-4.html">Fish: one language to script them all</a></li>
+<li><a href="#sec-5.html">Conclusion</a></li>
+<li><a href="#sec-6.html">Epilogue</a></li>
+<li><a href="#sec-7.html">My settings</a></li>
 </ul>
 <h1 id="sec-1">Fish: catch it before you cook</h1>
 <p>For installation guide, check <a href="http://fishshell.com">official site</a> or readme file on <a href="https://github.com/fish-shell/fish-shell">github</a>. Currently I prefer installing from sources, because I like features from the ‘bleeding edge’. After installation you might want to make <code>fish</code> your default shell, so you need to use <code>chsh</code>:</p>
@@ -49,17 +49,15 @@
 <h1 id="sec-2">Fish: first impression</h1>
 <p>And the first thing to notice - <code>fish</code> offers really great auto suggestions that are based on completions and history. When I saw this for the first time - I was really impressed.</p>
 <div class="figure">
-<img src="../images/1423317607-fish1.png" alt="Fish knows what you did last summer.">
-<p class="caption"><code>Fish</code> knows what you did last summer.</p>
+<img src="../images/1423317607-fish1.png" alt=" <code>Fish</code> knows what you did last summer">
+<p class="caption"> <code>Fish</code> knows what you did last summer</p>
 </div>
-
 <p>You can easily navigate through history. For example, you can navigate through <code>ghc</code> or <code>ghc --make</code> history. Or even <code>ghc --make -O2</code> history. It’s just… well, very convenient.</p>
 <p>The second thing about <code>fish</code> completions - they are based on <code>man</code> pages. In <code>bash</code> you have <code>bash-completion</code>, in <code>oh-my-zsh</code> you have plug-ins (and when you have a lot of them, your life becomes kind of laggy). But <code>fish</code> takes a lot of completions from <code>man</code> pages. And it works so fast, that it’s just amazing. Now I don’t need to remove everything I typed just to check <code>man</code> when I forget which key I need, <code>-N</code> or <code>-n</code>. All completions are paginated, and you can scroll them to find what you need. Super productive.</p>
 <div class="figure">
-<img src="../images/1423317617-fish2.png" alt="Fish generates them automatically by parsing your installed man pages.">
-<p class="caption"><code>Fish</code> generates them automatically by parsing your installed man pages.</p>
+<img src="../images/1423317617-fish2.png" alt=" <code>Fish</code> generates them automatically by parsing your installed man pages">
+<p class="caption"> <code>Fish</code> generates them automatically by parsing your installed man pages</p>
 </div>
-
 <p>So you better keep pressing <code>&lt;tab&gt;</code> in different situations to see what else it can complete for you.</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">λ <span class="kw">git</span> checkout <span class="kw">&lt;</span>tab<span class="kw">&gt;</span>
 <span class="kw">features/fish</span>  (Branch)  <span class="kw">master</span>  (Branch)  <span class="kw">origin/master</span>  (Branch)</code></pre></div>
@@ -106,6 +104,9 @@ end
     
       by Boris Buliga
     
+  </p>
+  <p>
+    Source: <a href="https://github.com/d12frosted/d12frosted.github.io/blob/source/posts/Make-the-fish-fly.org">Make the fish fly</a>
   </p>
 </div>
 
