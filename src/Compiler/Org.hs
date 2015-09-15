@@ -62,7 +62,8 @@ generateToc p (TOCHeadLines level) = [tocHeader, tableOfContents level hs]
         tocHeader = Header 1 ("", [], []) . toList . str $ "Table of Contents"
 
 tableOfContents :: Int -> [Block] -> Block
-tableOfContents level headers = BulletList $ map (elementToListItem level) $ hierarchicalize headers
+tableOfContents level headers = BulletList $ map (elementToListItem level)
+  $ hierarchicalize headers
 
 elementToListItem :: Int -> Element -> [Block]
 elementToListItem level (Sec lev nums _ headerText subsecs)
