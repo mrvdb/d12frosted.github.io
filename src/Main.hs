@@ -115,7 +115,7 @@ indexCtx posts =
   listField "posts" postCtx (return $ take indexPagePosts posts) <>
   defaultContext
 
-loadPosts :: Compiler ([Item String])
+loadPosts :: Compiler [Item String]
 loadPosts = loadAll "posts/*" >>= recentFirst
 
 --------------------------------------------------------------------------------

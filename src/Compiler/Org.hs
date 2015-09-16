@@ -7,6 +7,7 @@ module Compiler.Org (orgCompiler) where
 import           Config
 import           BasicPrelude
 import           Compiler.Pandoc
+import           Control.Monad ()
 import           Data.Map.Lazy (mapWithKey)
 import           Hakyll
 import           Text.Pandoc
@@ -28,7 +29,7 @@ orgCompiler = pandocMetadataCompilerWith transform
 tDateMeta :: Pandoc -> Pandoc
 tDateMeta (Pandoc meta body) = Pandoc (walk modMetaDate meta) body
   where modMetaDate = Meta . mapWithKey convertDate . unMeta
-        convertDate k r@(MetaInlines [(Str v)]) =
+        convertDate k r@(MetaInlines [Str v]) =
           if k == "date"
             then MetaInlines . toList . str . strip $ v
             else r
@@ -49,7 +50,7 @@ stripRight a b = if a `isSuffixOf` b then take (length b - length a) b else b
 
 -- | replace all toc marks by table of contents
 tTableOfContents :: Pandoc -> Pandoc
-tTableOfContents p@(Pandoc m bs) = Pandoc m . concat . map modToc $ bs
+tTableOfContents p@(Pandoc m bs) = Pandoc m . concatMap modToc $ bs
   where modToc :: Block -> [Block]
         modToc b@(RawBlock _ s) = maybe [b] (generateToc p) . parseTOCConfig $ s
         modToc b = [b]
@@ -83,16 +84,12 @@ parseTOCConfig = either (const Nothing) Just . P.parse tocParser ""
 
 tocParser :: Parser TOC
 tocParser =
-  do P.spaces >>
-       P.string "#+TOC:" >>
-       P.spaces >>
-       P.string "headlines" >>
-       P.spaces >>
-       P.many1 P.digit >>=
-       return . readEither >>=
-       \case
-         Right level -> return $ TOCHeadLines level
-         Left e      -> P.parserFail e
+  liftM readEither
+        (P.spaces >> P.string "#+TOC:" >> P.spaces >> P.string "headlines" >>
+         P.spaces >> P.many1 P.digit) >>=
+  \case
+    Right level -> return $ TOCHeadLines level
+    Left e -> P.parserFail e
 
 --------------------------------------------------------------------------------
 -- Headers
@@ -104,15 +101,15 @@ tHeaderIds (Pandoc m bs) = Pandoc m . convert . hierarchicalize $ bs
   where mark :: Element -> [Block]
         mark (Blk b) = [b]
         mark (Sec lvl nums (_, cs, kvps) lbl ctns) =
-          (Header lvl (headerId nums, cs, kvps) lbl) : convert ctns
-        convert = concat . map mark
+          Header lvl (headerId nums, cs, kvps) lbl : convert ctns
+        convert = concatMap mark
 
 headerId :: [Int] -> String
 headerId = ("sec" ++) . foldMap (("-" ++) . textToString . show) . reverse
 
 getHeaders :: Pandoc -> [Block]
 getHeaders = query selectHeader
-  where selectHeader h@(Header _ _ _) = [h]
+  where selectHeader h@(Header{}) = [h]
         selectHeader _ = []
 
 --------------------------------------------------------------------------------
@@ -127,7 +124,7 @@ tImages :: Pandoc -> Pandoc
 tImages = walk modImgDiv
 
 modImgDiv :: Block -> Block
-modImgDiv (Div attr@("", ["figure"], []) [Para ((Str url'):descr')]) =
+modImgDiv (Div attr@("", ["figure"], []) [Para (Str url' : descr')]) =
     Div attr [rawHtml $ "<img src=\"" ++ url ++ "\" alt=\"" ++ descr ++ "\">"
              ,rawHtml $ "<p class=\"caption\">" ++ descr ++ "</p>"]
   where rawHtml = RawBlock (Format "html")
@@ -152,15 +149,15 @@ tFixLinks = walk modLinks
 
 modLinks :: Inline -> Inline
 modLinks (Link content (url', title)) = Link content (url, title)
-  where url = case isPostUrl url' of
-                True -> changeExt "html" url'
-                False -> url'
+  where url = if isPostUrl url'
+                 then changeExt "html" url'
+                 else url'
         isPostUrl = not . isInfixOf "/"
 modLinks i = i
 
 -- TODO: move to helpers
 dropExt :: String -> String
-dropExt fp = maybe fp (flip take fp) $ lastIndexOf '.' fp
+dropExt fp = maybe fp (`take` fp) $ lastIndexOf '.' fp
 
 -- TODO: move to helpers
 changeExt :: String -> String -> String
