@@ -4,4 +4,4 @@ packages:
 - ../hakyll
 extra-deps:
 - fsnotify-0.2.1
-resolver: lts-3.1
+resolver: lts-3.4

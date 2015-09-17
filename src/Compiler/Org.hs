@@ -2,11 +2,11 @@
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE LambdaCase #-}
 
-module Compiler.Org (orgCompiler) where
+module Compiler.Org (orgCompiler, orgTransform) where
 
-import           Config
 import           BasicPrelude
 import           Compiler.Pandoc
+import           Config
 import           Control.Monad ()
 import           Data.Map.Lazy (mapWithKey)
 import           Hakyll
@@ -19,8 +19,10 @@ import           Text.Parsec.String (Parser)
 import           Text.Read (readEither)
 
 orgCompiler :: Compiler (Item String)
-orgCompiler = pandocMetadataCompilerWith transform
-  where transform = tFixLinks . tImages . tDateMeta . tTableOfContents . tHeaderIds
+orgCompiler = pandocMetadataCompiler orgTransform
+
+orgTransform :: Pandoc -> Pandoc
+orgTransform = tFixLinks . tImages . tDateMeta . tTableOfContents . tHeaderIds
 
 --------------------------------------------------------------------------------
 -- Meta transformer

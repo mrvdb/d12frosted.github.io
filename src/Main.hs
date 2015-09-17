@@ -4,9 +4,10 @@
 module Main (main) where
 
 import BasicPrelude
+import Compiler.Org
+import Compiler.Pandoc
 import Config
 import Hakyll
-import Compiler.Org
 
 main :: IO ()
 main =
@@ -15,12 +16,16 @@ main =
      cssR
      fontsR
      staticPagesR
+     {-postsMetaCreateR-}
      postsR
      archiveR
+     {-indexMetaCreateR-}
      indexR
      templatesR
 
----------------- Rules
+--------------------------------------------------------------------------------
+-- Rules
+--------------------------------------------------------------------------------
 
 imagesR :: Rules ()
 imagesR =
@@ -51,13 +56,22 @@ staticPagesR =
 
 postsR :: Rules ()
 postsR =
-  match (pathPattern postsPath "/*") $
+  match (pathPattern postsPath "/*.org") $
   do route $ setExtension "html"
+     compile orgCompiler
      compile $
        orgCompiler >>=
          loadAndApplyTemplate' "post.html" postCtx >>=
          defaultTemplate postCtx >>=
          relativizeUrls
+
+postsMetaCreateR :: Rules ()
+postsMetaCreateR =
+  match (pathPattern postsPath "/*.org") $ compile (pandocMetaCompiler orgTransform)
+
+indexMetaCreateR :: Rules ()
+indexMetaCreateR =
+  match "index.org" $ compile (pandocMetaCompiler orgTransform)
 
 archiveR :: Rules ()
 archiveR =
@@ -88,7 +102,9 @@ templatesR =
   match "templates/*" $
   compile templateCompiler
 
----------------- Templates
+--------------------------------------------------------------------------------
+-- Templates
+--------------------------------------------------------------------------------
 
 defaultTemplate :: Context String -> Item String -> Compiler (Item String)
 defaultTemplate = loadAndApplyTemplate' "default.html" . (titleCtx <>)
@@ -97,7 +113,9 @@ defaultTemplate = loadAndApplyTemplate' "default.html" . (titleCtx <>)
 loadAndApplyTemplate' :: String -> Context a -> Item a -> Compiler (Item String)
 loadAndApplyTemplate' t = loadAndApplyTemplate (fromString $ "templates/" ++ t)
 
----------------- Contexts
+--------------------------------------------------------------------------------
+-- Contexts
+--------------------------------------------------------------------------------
 
 postCtx :: Context String
 postCtx =
@@ -116,7 +134,7 @@ indexCtx posts =
   defaultContext
 
 loadPosts :: Compiler [Item String]
-loadPosts = loadAll "posts/*" >>= recentFirst
+loadPosts = loadAll (pathPattern postsPath "/*.org") >>= recentFirst
 
 --------------------------------------------------------------------------------
 -- Helpers
