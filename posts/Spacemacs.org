@@ -4,7 +4,12 @@
 #+DATE:         <2015-05-04>
 #+STARTUP:      showeverything
 
-Actually I wanted to write about mu4e and some other tools that are required in order to read email right in your emacs, but turned out that this subject is a bit hard to write about, so while the work on that tutorial / post is in progress, I decided to write few words about Spacemacs - a great starter kit for Emacs that I was using for the last two weeks. But to be fair - I am not using it anymore. Why - read further!
+Actually I wanted to write about mu4e and some other tools that are required in
+order to read email right in your emacs, but turned out that this subject is a
+bit hard to write about, so while the work on that tutorial / post is in
+progress, I decided to write few words about Spacemacs - a great starter kit for
+Emacs that I was using for the last two weeks. But to be fair - I am not using
+it anymore. Why - read further!
 
 #+BEGIN_HTML
 #+TOC: headlines 3
@@ -12,9 +17,20 @@ Actually I wanted to write about mu4e and some other tools that are required in 
 
 * Intro
 
-Time to time I am looking for something new to try in Emacs. Actually, almost always I find something really exciting. Something I want to give a try as soon as possible. So when I found someone mentioning Spacemacs on the internet I followed the link to Spacemacs repository on github. I checked it's description and thought that this is the thing I should install and use. And so I did.
+Time to time I am looking for something new to try in Emacs. Actually, almost
+always I find something really exciting. Something I want to give a try as soon
+as possible. So when I found someone mentioning Spacemacs on the internet I
+followed the link to Spacemacs repository on github. I checked it's description
+and thought that this is the thing I should install and use. And so I did.
 
-Spacemacs is trying to bring best from emacs and vim to one editor – emacs. That's great, but honestly, I never liked vim (probably because I never truly used it). But the authors of this project assured me that it's OK if I never will use the 'vim' part. So basically from my point of view, spacemacs is a beefed version of emacs. I remember trying ~Prelude~ project just to see a big and complicated starter pack. I don't have anything against ~Prelude~ but for me it was too hard and too restrictive. Plus a bit slow. So when I saw Spacemacs I thought that I should try it, but I did it without any big expectations.
+Spacemacs is trying to bring best from emacs and vim to one editor – emacs.
+That's great, but honestly, I never liked vim (probably because I never truly
+used it). But the authors of this project assured me that it's OK if I never
+will use the 'vim' part. So basically from my point of view, spacemacs is a
+beefed version of emacs. I remember trying ~Prelude~ project just to see a big
+and complicated starter pack. I don't have anything against ~Prelude~ but for me
+it was too hard and too restrictive. Plus a bit slow. So when I saw Spacemacs I
+thought that I should try it, but I did it without any big expectations.
 
 * First impression
 
@@ -28,17 +44,37 @@ My first impression after I installed it (without any problems, I must admit) wa
 - it's very easy to extend configurations or even dramatically change them
 - great community
 
-I never tried a lot if things before I used Spacemacs. For example, I was amazed on how fast the startup time is. Then I found that it's because of ~use-package~ macro (big thanks to author). Also I never tried ~helm~. Still can't say that I really like it, but it was a great experience to see it greatly configured and use it for a bit. Also I found so much cool configurations and key bindings that I was really shocked and ashamed that I never had such configurations and consistent key bindings. I've found some new things about org mode (indentation mode, fancy bullets and some other modes). Also I found some great configurations for emacs-lisp mode, company-mode, csharp/omnisharp. I tried some great configurations for editing xml files, python sources. I found myself switching files and projects very fast because of recentf, projectile and sometimes of some ag magic. So I need to say that I learned very much new things about Emacs from Spacemacs. It was a good boost for me.
+I never tried a lot if things before I used Spacemacs. For example, I was amazed
+on how fast the startup time is. Then I found that it's because of ~use-package~
+macro (big thanks to author). Also I never tried ~helm~. Still can't say that I
+really like it, but it was a great experience to see it greatly configured and
+use it for a bit. Also I found so much cool configurations and key bindings that
+I was really shocked and ashamed that I never had such configurations and
+consistent key bindings. I've found some new things about org mode (indentation
+mode, fancy bullets and some other modes). Also I found some great
+configurations for emacs-lisp mode, company-mode, csharp/omnisharp. I tried some
+great configurations for editing xml files, python sources. I found myself
+switching files and projects very fast because of recentf, projectile and
+sometimes of some ag magic. So I need to say that I learned very much new things
+about Emacs from Spacemacs. It was a good boost for me.
 
 * So why abandon it?
 
-It's the same as with ~oh-my-zsh~. It might be very cool. But firstly, it's not you who makes decisions and changes. And secondly, it has so much stuff you never need. I find it much more pleasant to improve my own configurations. It gives me much more space for experimenting.
+It's the same as with ~oh-my-zsh~. It might be very cool. But firstly, it's not
+you who makes decisions and changes. And secondly, it has so much stuff you
+never need. I find it much more pleasant to improve my own configurations. It
+gives me much more space for experimenting.
 
-But I found a lot of great things in sources of Spacemacs. So now I am just improving my own configurations by stealing from Spacemacs some good ideas and lines of code (sorry).
+But I found a lot of great things in sources of Spacemacs. So now I am just
+improving my own configurations by stealing from Spacemacs some good ideas and
+lines of code (sorry).
 
 * And what about the Evil part?
 
-Sorry, but I haven't used it very much. As I said, I am not the 'vim' guy. It just doesn't work for me (at least now). But I keep hearing from vi users that they like Spacemacs very much. So if you are a vi or evil user - you should try it as well.
+Sorry, but I haven't used it very much. As I said, I am not the 'vim' guy. It
+just doesn't work for me (at least now). But I keep hearing from vi users that
+they like Spacemacs very much. So if you are a vi or evil user - you should try
+it as well.
 
 * And the link
 
