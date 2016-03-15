@@ -29,7 +29,7 @@
       <h1>Make the fish fly</h1>
 
       <p>I have always been inspired by the people who use (or at least can use) terminal for any kind of activity that is associated with programming. Sure, every task has it’s own set of instruments to be solved with. But there are instruments that you can count on in almost any situation. That’s why I spend so much time in terminal.</p>
-<p>For a long time (like a year and a half) I was using <code>zsh</code> beefed with <code>oh-my-zsh</code>. It has so much functionality (I wasn’t even using), so much colors and great auto completion. And everything comes out of box without the need of writing over 9000 lines of configuration code (because it is done for you by <code>oh-my-zsh</code>. So I was really happy until someone mentioned <code>fish</code> shell in comments to <a href="http://www.reddit.com/r/haskell/comments/2u6b8m/use_haskell_for_shell_scripting/">Use Haskell for shell scripting</a> thread on reddit. So after few minutes of reading how awesome <code>fish</code> is, I decided to give it a try.</p>
+<p>For a long time (like a year and a half) I was using <code>zsh</code> beefed with <code>oh-my-zsh</code>. It has so much functionality (I wasn’t even using), so much colors and great auto completion. And everything right out of box without the need of writing (or copying) over 9000 lines of configuration code. So I was really happy until someone mentioned <code>fish</code> shell in comments to <a href="http://www.reddit.com/r/haskell/comments/2u6b8m/use_haskell_for_shell_scripting/">Use Haskell for shell scripting</a> thread on reddit. So after few minutes of reading how awesome <code>fish</code> is, I decided to give it a try.</p>
 <h1>Table of Contents</h1>
 <ul>
 <li><a href="#sec-1.html">Fish: catch it before you cook</a></li>
@@ -43,7 +43,8 @@
 <h1 id="sec-1">Fish: catch it before you cook</h1>
 <p>For installation guide, check <a href="http://fishshell.com">official site</a> or readme file on <a href="https://github.com/fish-shell/fish-shell">github</a>. Currently I prefer installing from sources, because I like features from the ‘bleeding edge’. After installation you might want to make <code>fish</code> your default shell, so you need to use <code>chsh</code>:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">chsh</span> -s <span class="ot">$(</span><span class="kw">which</span> fish<span class="ot">)</span></code></pre></div>
-<p>On OS X (and some other systems) you might face an error saying <code>chsh: /path/to/fish: non-standard shell</code>. In this case you need to modify <code>/etc/shells</code> file by adding path to your fish.</p>
+<p>On OS X (and some other systems) you might face an error saying <code>chsh:
+/path/to/fish: non-standard shell</code>. In this case you need to modify <code>/etc/shells</code> file by adding path to your fish.</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">sudo</span> sh -c <span class="st">'echo $(which fish) &gt;&gt; /etc/shells'</span></code></pre></div>
 <p>In case of any other problems - <a href="http://google.com">may the force be with you</a>. Otherwise - you are ready to dive in. I am not going to write tutorial to <code>fish</code> (mostly because it already has good written one <a href="http://fishshell.com/docs/current/tutorial.html">here</a>). It covers most important aspects of day-to-day <code>fish</code>, but you might also want to read full <a href="http://fishshell.com/docs/current/index.html">documentation</a>. So here are some very subjective thoughts.</p>
 <h1 id="sec-2">Fish: first impression</h1>
@@ -61,21 +62,22 @@
 <p>So you better keep pressing <code>&lt;tab&gt;</code> in different situations to see what else it can complete for you.</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">λ <span class="kw">git</span> checkout <span class="kw">&lt;</span>tab<span class="kw">&gt;</span>
 <span class="kw">features/fish</span>  (Branch)  <span class="kw">master</span>  (Branch)  <span class="kw">origin/master</span>  (Branch)</code></pre></div>
-<p>But yeah, sometimes you command you are using doesn’t have it’s own <code>man</code> page. For such cases you also have an option to write your own completions. For more information, check out <a href="http://fishshell.com/docs/current/index.html#completion-own">this guide</a>.</p>
+<p>But yeah, sometimes command you are executing doesn’t have it’s own <code>man</code> page. For such cases you also have an option to write your own completions. For more information, check out <a href="http://fishshell.com/docs/current/index.html#completion-own">this guide</a>.</p>
 <h1 id="sec-3">Fish: configurations</h1>
 <p><code>Fish</code> comes with really great configurations out of box. For most users it might be enough to configure only their prompt and <code>PATH</code> variable. But before you start writing your own configurations I highly recommend to checkout <code>fish_config</code> command. This allows you configure <code>fish</code> from browser (I was amazed). I don’t say that you must configure it from browser, but just take a look! Sometimes I use this thing just to check some custom functions and check bindings.</p>
-<p>On startup, <code>fish</code> evaluates files <code>/path/to/fish/config.fish</code>, <code>/etc/fish/config.fish</code> and <code>~/.config/fish/config.fish</code> in specified order. If you want to change <code>fish</code> configurations, you should modify only <code>/etc/fish/config.fish</code> file for system wide configurations and <code>~/.config/fish/config.fish</code> file for user only configurations.</p>
+<p>On startup, <code>fish</code> evaluates files <code>/path/to/fish/config.fish</code>, <code>/etc/fish/config.fish</code> and <code>$HOME/.config/fish/config.fish</code> in specified order. If you want to change <code>fish</code> configurations, you should modify only <code>/etc/fish/config.fish</code> file for system wide configurations and <code>$HOME/.config/fish/config.fish</code> file for user only configurations.</p>
 <p>Actually, <code>fish</code> supports pretty cool <code>$XDG_CONFIG_HOME</code> variable for specifying path to user only configurations directory. You need to set this variable to path of directory that contains <code>fish</code> directory. I do use it because I like to have all dot files in one repository. You can change it’s value by using <code>set</code> function:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">set</span> <span class="kw">-U</span> XDG_CONFIG_HOME ~/.environment</code></pre></div>
 <p>We use <code>-U</code> flag here, because we need to give <code>XDG_CONFIG_HOME</code> universal scope (it will be shared between all the current users fish instances on the current computer, and will be preserved across restarts of the shell).</p>
 <p>If you want to configure your prompt, you need to define <code>fish_prompt</code> function in file <code>/path/to/configuration/fish/fish_prompt.fish</code>. A simple example from documentation:</p>
 <pre class="fish"><code>function fish_prompt -d &quot;Write out the prompt&quot;
-        printf '%s@%s%s%s%s&gt; ' (whoami) (hostname|cut -d . -f 1) (set_color $fish_color_cwd) (prompt_pwd) (set_color normal)
+  printf '%s@%s%s%s%s&gt; ' (whoami) (hostname|cut -d . -f 1) (set_color $fish_color_cwd) (prompt_pwd) (set_color normal)
 end
 </code></pre>
 <p>Before rushing into creating your own prompt, I recommend to check some prompts that are available from box. Just <code>fish_config</code> and go to <code>Prompt</code> tab.</p>
 <h1 id="sec-4">Fish: one language to script them all</h1>
-<p>As you might already know, <code>fish</code> has it’s own scripting language that does not care about POSIX compatibility. And in my opinion this is most controversial point in discussions like ‘zsh vs fish’. While it’s less verbose and more obvious, I see <code>fish</code> language as unnecessary drag. Seriously, when I need to write any script that can’t be described in one or two lines - I prefer to use <code>haskell</code> or <code>ruby</code>. And also there are tons of great <code>sh</code> one-liners that I can’t call from <code>fish</code> shell.</p>
+<p>As you might already know, <code>fish</code> has it’s own scripting language that does not care about POSIX compatibility. And in my opinion this is most controversial point in discussions like ‘zsh vs fish’. While it’s less verbose and more obvious, I see <code>fish</code> language as unnecessary drag. Seriously, when I need to write any script that can’t be described in one or two lines - I prefer to use <code>haskell</code> or <code>ruby</code>. And also there are tons of great <code>sh</code> one-liners that I can’t call from <code>fish</code> shell. And <code>git cat-file -p branch^{tree}</code> becomes <code>git
+cat-file -p branch^\{tree\}</code>.</p>
 <h1 id="sec-5">Conclusion</h1>
 <p><code>Fish</code> does not try to be everything but it does try to have a great out of the box experience. You definitely should try <code>fish</code> to make your own conclusion. Because everyone is unique case. As for myself - I am willing to give it few months to see if <code>fish</code> really suits my needs.</p>
 <p><strong>Cons:</strong></p>
@@ -95,7 +97,7 @@ end
 <p>I am really tired of <code>oh-my-zsh</code>. It’s great project, but it’s too big for me. It comes with functionality I am not aware of. I don’t have time and desire to dig it. And sometimes it’s hard to have fixes to it. When I checked it’s repository I found 417 unresolved pull requests. Some of them are few years old. Most of them are not paid any attention. I understand why it’s so. But I don’t like this situation. Yes, you can use <code>zsh</code> with minimal configurations. And <a href="https://github.com/jleclanche/dotfiles/blob/master/.zshrc">here</a> is example of really great <code>zsh</code> minimal configurations.</p>
 <p>While I am using <code>fish</code> I experience pleasure of configuring everything step by step. I understand that you can do the same with any shell. But currently I am paying attention to <code>fish</code>. I really want to see it fly.</p>
 <h1 id="sec-7">My settings</h1>
-<p>Currently I don’t share my fish configurations, because they are far from ready to use version. But in few weeks I will definitely share them on github.</p>
+<p>Currently I don’t share my fish configurations, because they are far from ready to use version. But in few weeks I will definitely share them on <a href="https://github.com/d12frosted/environment">GitHub</a>.</p>
 <p><strong>Have a nice shell-time!</strong></p>
 
 <div id="info">

@@ -29,9 +29,9 @@
       <h1>Fish mode for emacs (v2)</h1>
 
       <p>In educational purposes I implemented <code>fish-mode</code> for emacs. It is very simple and still has some problems with indenting complex stuff. But it works in most cases very well. You can grab it <a href="https://github.com/d12frosted/fish-mode">here</a>.</p>
-<p>In case you have nothing else to do, read further for some details.</p>
+<p>In case you have nothing else to do, read further for some details. But don’t expect anything hard-core from this post.</p>
 <h2 id="sec-1-0">Update on 20 May 2015, Wednesday</h2>
-<p>Good news everyone, we merged my changes to main package, so go and install latest version from <a href="http://melpa.org/#/fish-mode">MELPA</a>.</p>
+<p>Good news everyone, we merged my changes to main package, so go and install latest version from <a href="http://melpa.org/#/fish-mode">MELPA</a>. This version still has several bugs with indentation, and if someone is willing to help - just let us know.</p>
 <h2 id="sec-2-0">Update on 01 May 2015, Friday</h2>
 <p>Indentation rules were improved. So now it works even in most esoteric cases. Also I have stolen syntax highlighting rules from the package that is available on MELPA. Currently working om merging my changes with the default package.</p>
 <h1 id="sec-1">Long story</h1>
@@ -154,7 +154,8 @@ end # closes 'if' block
        <span class="co">;; nothing interesting found, so seek further</span>
        (<span class="kw">t</span>)))
     cur-indent))</code></pre></div>
-<p>This function searches for matching block opening term and returns it’s indentation level. For this purpose we use <code>count-of-ends</code> variable that stores how much <code>end~s are looking for their match. And when this function finds any block opening term, it reduces value of ~count-of-ends</code> by 1. And when this value is <code>0</code> - we found matching pair for <code>end</code> that we want to indent. Also be aware that we don’t count <code>else</code> as block opening term, because then we also need to count it as block closing term. Actually you can’t be sure if it will improve performance, so that’s why I leave <code>else</code> ignored.</p>
+<p>This function searches for matching block opening term and returns it’s indentation level. For this purpose we use <code>count-of-ends</code> variable that stores how much <code>end~s are looking for their match. And when this function finds any
+block opening term, it reduces value of ~count-of-ends</code> by 1. And when this value is <code>0</code> - we found matching pair for <code>end</code> that we want to indent. Also be aware that we don’t count <code>else</code> as block opening term, because then we also need to count it as block closing term. Actually you can’t be sure if it will improve performance, so that’s why I leave <code>else</code> ignored.</p>
 <p>So <code>fish-get-end-indent</code> function is a bit complicated. Here is a good example that makes it clear.</p>
 <pre class="fish"><code>if test $ARG # open if block
   do_something1
