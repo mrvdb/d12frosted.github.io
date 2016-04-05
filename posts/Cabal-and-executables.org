@@ -4,43 +4,69 @@
 #+DATE:         <2015-04-05>
 #+STARTUP:      showeverything
 
-I am the person that runs into *Cabal Hell* very frequently. And most often it happens when I need to install specific package very urgently.
+I am the person that runs into *Cabal Hell* very frequently. And most often it
+happens when I need to install specific package very urgently.
 
-#+BEGIN_QUOTE
-*Cabal Hell*
+*Update on 2016-03-15 Tue*
 
-The feeling of powerlessness one has when Cabal does not do what one wanted and one does not know how to fix it.
+Since =stack= is out - forget about my solution. Long live great solutions!
 
-[[http://www.well-typed.com/blog/2014/09/how-we-might-abolish-cabal-hell-part-1/][Well Typed]]
-#+END_QUOTE
+ #+BEGIN_QUOTE
+ *Cabal Hell*
 
-#+BEGIN_QUOTE
-*What is the difficulty caused by Cabal-install?*
+ The feeling of powerlessness one has when Cabal does not do what one wanted and
+ one does not know how to fix it.
 
-The main difficulty with Cabal is otherwise known as 'dependency hell', in which the cabal-install does not manage to install a desired package for a reason or another, leading to large amount of manual work. As an example of this difficulty, consider a case where the user wishes to install packages A and B. Both of these work with package C, but not with the same version of C.
+ [[http://www.well-typed.com/blog/2014/09/how-we-might-abolish-cabal-hell-part-1/][Well Typed]]
+ #+END_QUOTE
 
-[[https://wiki.haskell.org/Cabal/Survival][Haskell Wiki]]
-#+END_QUOTE
+ #+BEGIN_QUOTE
+ *What is the difficulty caused by Cabal-install?*
 
-#+BEGIN_FIGURE
-1428233775.png
-#+END_FIGURE
+ The main difficulty with Cabal is otherwise known as 'dependency hell', in
+ which the cabal-install does not manage to install a desired package for a
+ reason or another, leading to large amount of manual work. As an example of
+ this difficulty, consider a case where the user wishes to install packages A
+ and B. Both of these work with package C, but not with the same version of C.
 
-I need to confess. Sometimes I solve **Cabal Hell** by using this method with ~rm -rf~. **Cabal Hell** is like a cancer - it's very hard to cure this disease without ruining your environment (in our case - packages database). But with *Cabal Hell* comes one good thing - you can use some tools in order to prevent this bizarre to happen with you. For such purposes you can use cabal sandboxes, [[http://www.stackage.org][Stackage]] or [[http://hydra.nixos.org][nixos]]. Probably there are some other handy solutions or tools, but this is all I know.
+ [[https://wiki.haskell.org/Cabal/Survival][Haskell Wiki]]
+ #+END_QUOTE
 
-~Stackage~ is great, but it doesn't work for me very well, because sometimes I need to install 'heavy' packages that are not on ~Stackage~. Also I work on reliably fast computer, so I don't mind to waste thirty seconds more on compilation. Safety is more preferable. As for ~nixos~ – I haven't tried it yet. But I know that it helps to find compilation problems very good. So actually, many thanks for the people that made ~Stackage~ and ~nixos~.
+ #+BEGIN_FIGURE
+ 1428233775.png
+ #+END_FIGURE
+
+ I need to confess. Sometimes I solve **Cabal Hell** by using this method with
+ ~rm -rf~. **Cabal Hell** is like a cancer - it's very hard to cure this disease
+ without ruining your environment (in our case - packages database). But with
+ *Cabal Hell* comes one good thing - you can use some tools in order to prevent
+ this bizarre to happen with you. For such purposes you can use cabal sandboxes,
+ [[http://www.stackage.org][Stackage]] or [[http://hydra.nixos.org][nixos]]. Probably there are some other handy solutions or tools, but
+ this is all I know.
+
+ ~Stackage~ is great, but it doesn't work for me very well, because sometimes I
+ need to install 'heavy' packages that are not on ~Stackage~. Also I work on
+ reliably fast computer, so I don't mind to waste thirty seconds more on
+ compilation. Safety is more preferable. As for ~nixos~ – I haven't tried it
+ yet. But I know that it helps to find compilation problems very good. So
+ actually, many thanks for the people that made ~Stackage~ and ~nixos~.
 
 * Sandboxes
 
-I think that sandboxes are really great. Usually I install globally only commonly used packages. Everything else comes via sandboxes. Sometimes the project I am working on has dependencies that can't be installed from hackage. In such cases I use
+I think that sandboxes are really great. Usually I install globally only
+commonly used packages. Everything else comes via sandboxes. Sometimes the
+project I am working on has dependencies that can't be installed from hackage.
+In such cases I use
 
 #+BEGIN_SRC bash
 $ cabal sandbox add-source path/to/non-hackage/dependency
 #+END_SRC
 
-So I don't need to install such dependencies globally. And if this dependency is very heavy and problem-bringing, then it can save my global packages database.
+So I don't need to install such dependencies globally. And if this dependency is
+very heavy and problem-bringing, then it can save my global packages database.
 
-But you use haskell not only for writing libraries (funny, isn't it?). Sometimes you need to install some executables. So here comes the 'executables' part.
+But you use haskell not only for writing libraries (funny, isn't it?). Sometimes
+you need to install some executables. So here comes the 'executables' part.
 
 Usually I install executables by using following sequence of commands:
 
@@ -52,9 +78,16 @@ $ cabal install
 $ cp .cabal-sandbox/bin/executable ~/.bin/executable
 #+END_SRC
 
-This works because, executables are usually completely stand-alone, so you can build them in a sandbox and then move them to any location of your choice. This approach helps to keep system (or user) wide packages database clean and free from conflicts. I move executable into ~~/.bin~ (but make sure that ~~/.bin~ is in ~$PATH~), because when something breaks in my packages database I want to keep this executables (they made nothing bad!).
+This works because, executables are usually completely stand-alone, so you can
+build them in a sandbox and then move them to any location of your choice. This
+approach helps to keep system (or user) wide packages database clean and free
+from conflicts. I move executable into ~~/.bin~ (but make sure that ~~/.bin~ is
+in ~$PATH~), because when something breaks in my packages database I want to
+keep this executables (they made nothing bad!).
 
-But it's very boring to call this commands every time I want to install any executables, so I wrote a simple ~fish~ function that installs executable from ~.cabal~ file in current directory for you.
+But it's very boring to call this commands every time I want to install any
+executables, so I wrote a simple ~fish~ function that installs executable from
+~.cabal~ file in current directory for you.
 
 #+BEGIN_SRC fish
 function cabal-install-bin -d "Install executables from .cabal file in current directory"
@@ -134,7 +167,8 @@ function cabal-install-bin -d "Install executables from .cabal file in current d
 end
 #+END_SRC
 
-But for situations when I don't care about package sources and it's available on hackage, I wrote another function (that reuses ~cabal-install-bin~).
+But for situations when I don't care about package sources and it's available on
+hackage, I wrote another function (that reuses ~cabal-install-bin~).
 
 #+BEGIN_SRC fish
 function cabal-unpack-and-install-bin -a package -d "Unpack and install specified executable package from cabal."
@@ -169,7 +203,10 @@ function cabal-unpack-and-install-bin -a package -d "Unpack and install specifie
 end
 #+END_SRC
 
-It just downloads sources of single package to the ~$TMPDIR~ (you might want to change this to something different, depending on your system), then installs executable (using ~cabal-install-bin~ function) and removes sources dir. Useful, isn't it?
+It just downloads sources of single package to the ~$TMPDIR~ (you might want to
+change this to something different, depending on your system), then installs
+executable (using ~cabal-install-bin~ function) and removes sources dir. Useful,
+isn't it?
 
 You can grab the latest version of these function on [[https://github.com/d12frosted/environment/tree/master/fish/functions][github]].
 

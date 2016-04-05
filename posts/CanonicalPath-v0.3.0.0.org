@@ -6,17 +6,25 @@
 
 [[https://github.com/d12frosted/CanonicalPath][Github]] | [[https://hackage.haskell.org/package/system-canonicalpath][Hackage]] | [[https://www.stackage.org/package/system-canonicalpath][Stackage]]
 
-You wouldn't expect that, but in this post I announce third major release of ~CanonicalPath~ library. It should help you to canonicalize paths on your computer. And here is a funny fact about myself: I like to surround version numbers with zeros (one zero goes to the very left and another one to the very right).
+You wouldn't expect that, but by this post I announce third major release of
+~CanonicalPath~ library. It should help you to canonicalize paths on your
+computer. And here is a funny fact about myself: I like to surround version
+numbers with zeros (one zero goes to the very left and another one to the very
+right).
 
-I am making major release instead of minor because I have broken API (just a little bit). But I hope that you will like it. OK, so what's new?
+I am making major release instead of minor because I have broken API (just a
+little bit). But I hope that you will like it. OK, so what's new?
 
-- Remove ~UnsafePath~ data type. It was synonym to ~FilePath~ and was confusing me sometimes, so I decided to cut it off.
+- Remove ~UnsafePath~ data type. It was synonym to ~FilePath~ and was confusing
+  me sometimes, so I decided to cut it off.
 - Rename ~cpathToText~ to ~toText~'.
 - Remove ~pathToText~ and ~textToPath~.
 - Export ~toText~ and ~fromText~ from ~Filesystem.Path.CurrentOS~.
 - Export ~fromPrelude~ and ~toPrelude~ functions.
-- Improve performance (path canonicalization now is performed 1.6x faster than before).
-- Improve ~canonicalPath~ error messages. Most important - now it respects errors from ~System.Directory.canonicalizePath~.
+- Improve performance (path canonicalization now is performed 1.6x faster than
+  before).
+- Improve ~canonicalPath~ error messages. Most important - now it respects
+  errors from ~System.Directory.canonicalizePath~.
 - Add tests.
 - Add travis support.
 - Update documentation.
