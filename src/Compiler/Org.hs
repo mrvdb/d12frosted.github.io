@@ -68,7 +68,7 @@ tableOfContents level headers = BulletList $ map (elementToListItem level)
 
 elementToListItem :: Int -> Element -> [Block]
 elementToListItem level (Sec lev nums _ headerText subsecs)
-  = Plain [Link headerText ("#" ++ headerId nums, "")] :
+  = Plain [Link nullAttr headerText ("#" ++ headerId nums, "")] :
     [ BulletList (map (elementToListItem level) subsecs) |
       not (null subsecs) && lev <= level ]
 elementToListItem _ (Blk _) = []
@@ -148,7 +148,7 @@ tFixLinks :: Pandoc -> Pandoc
 tFixLinks = walk modLinks
 
 modLinks :: Inline -> Inline
-modLinks (Link content (url', title)) = Link content (url, title)
+modLinks (Link nullAttr content (url', title)) = Link nullAttr content (url, title)
   where url = if isPostUrl url'
                  then changeExt "html" url'
                  else url'
